@@ -1,0 +1,170 @@
+{
+    "nav": {
+      "home": "Accueil",
+      "about": "À propos",
+      "projects": "Projets",
+      "services": "Services",
+      "contact": "Contact"
+    },
+    "hero": {
+      "greeting": "Salut, je suis",
+      "name": "Bike Cedric",
+      "title": "Développeur Web & Passionné de Blockchain",
+      "subtitle": "Création d'applications web modernes et de solutions décentralisées",
+      "cta": "Voir Mon Travail",
+      "downloadCV": "Télécharger CV"
+    },
+    "about": {
+      "title": "À Propos de Moi",
+      "description": "Je suis un développeur Web & Mobile passionné, spécialisé dans la création d'applications de haute qualité avec des frameworks JavaScript modernes et des technologies backend. Avec 2 ans d'expérience, j'ai travaillé sur divers projets allant d'applications web responsive aux intégrations blockchain.",
+      "highlight": "Je suis également passionné de blockchain avec une expérience dans l'intégration de paiements USDT et la création de fonctionnalités décentralisées.",
+      "stats": {
+        "experience": "Années d'Expérience",
+        "projects": "Projets Complétés",
+        "clients": "Clients Satisfaits"
+      }
+    },
+    "skills": {
+      "title": "Compétences & Expertise",
+      "subtitle": "Technologies avec lesquelles je travaille",
+      "categories": {
+        "frontend": "Frontend",
+        "backend": "Backend",
+        "mobile": "Mobile",
+        "database": "Base de données",
+        "blockchain": "Blockchain",
+        "other": "Autres"
+      }
+    },
+    "services": {
+      "title": "Services",
+      "subtitle": "Ce que je peux faire pour vous",
+      "list": {
+        "web": {
+          "title": "Développement d'Applications Web",
+          "description": "Création d'applications web responsive et performantes avec React, Next.js et TypeScript"
+        },
+        "mobile": {
+          "title": "Développement d'Applications Mobile",
+          "description": "Création d'applications mobiles multiplateformes avec React Native"
+        },
+        "backend": {
+          "title": "Développement API & Backend",
+          "description": "Conception et implémentation d'APIs RESTful avec NestJS et Laravel"
+        },
+        "web3": {
+          "title": "Intégrations Web3",
+          "description": "Intégration de fonctionnalités blockchain, paiements USDT et smart contracts"
+        },
+        "integrations": {
+          "title": "Intégrations Tierces",
+          "description": "Connexion de votre application avec Notion, CRMs et APIs externes"
+        },
+        "architecture": {
+          "title": "Architecture Propre",
+          "description": "Implémentation d'architectures de code évolutives et maintenables"
+        }
+      }
+    },
+    "projects": {
+      "title": "Projets en Vedette",
+      "subtitle": "Travaux récents dont je suis fier",
+      "viewProject": "Voir le Projet",
+      "list": {
+        "ecommerce": {
+          "title": "Plateforme E-Commerce",
+          "description": "Solution e-commerce complète avec intégration de paiement et tableau de bord admin"
+        },
+        "defi": {
+          "title": "Tableau de Bord DeFi",
+          "description": "Suivi de portefeuille crypto avec données en temps réel et intégration Web3"
+        },
+        "mobile": {
+          "title": "Application Fitness Mobile",
+          "description": "Application de suivi fitness multiplateforme avec fonctionnalités sociales"
+        },
+        "api": {
+          "title": "Système d'Intégration CRM",
+          "description": "Intégration API personnalisée connectant plusieurs outils métier"
+        },
+        "notion": {
+          "title": "Outil d'Automation Notion",
+          "description": "Outil d'automatisation de workflow pour espaces Notion"
+        },
+        "payment": {
+          "title": "Passerelle de Paiement Crypto",
+          "description": "Intégration de paiement USDT pour entreprises en ligne"
+        }
+      }
+    },
+    "experience": {
+      "title": "Expérience & Éducation",
+      "work": "Expérience Professionnelle",
+      "education": "Éducation",
+      "timeline": {
+        "current": {
+          "title": "Développeur Freelance",
+          "company": "Indépendant",
+          "period": "2022 - Présent",
+          "description": "Création d'applications web personnalisées et solutions blockchain pour clients internationaux"
+        },
+        "junior": {
+          "title": "Développeur Web Junior",
+          "company": "Startup Tech",
+          "period": "2021 - 2022",
+          "description": "Développement d'interfaces web responsive et intégration d'APIs tierces"
+        },
+        "degree": {
+          "title": "Informatique",
+          "school": "Université",
+          "period": "2019 - 2022",
+          "description": "Spécialisé en développement web, algorithmes et ingénierie logicielle"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Témoignages Clients",
+      "subtitle": "Ce que les gens disent de mon travail",
+      "list": {
+        "client1": {
+          "name": "John Smith",
+          "position": "PDG, TechCorp",
+          "text": "Cedric a livré une application web exceptionnelle qui a dépassé nos attentes. Son attention aux détails et son expertise technique sont impressionnantes."
+        },
+        "client2": {
+          "name": "Sarah Johnson",
+          "position": "Fondatrice, StartupHub",
+          "text": "Travailler avec Cedric était un plaisir. Il a parfaitement compris nos exigences et livré un produit de haute qualité à temps."
+        },
+        "client3": {
+          "name": "Michael Brown",
+          "position": "Chef de Projet",
+          "text": "Ses compétences en intégration blockchain sont exceptionnelles. Le système de paiement USDT qu'il a créé fonctionne parfaitement."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contactez-Moi",
+      "subtitle": "Travaillons ensemble",
+      "form": {
+        "name": "Votre Nom",
+        "email": "Votre Email",
+        "message": "Votre Message",
+        "send": "Envoyer le Message",
+        "sending": "Envoi en cours...",
+        "success": "Message envoyé avec succès!",
+        "error": "Échec de l'envoi. Veuillez réessayer."
+      },
+      "info": {
+        "location": "Localisation",
+        "email": "Email",
+        "social": "Suivez-Moi"
+      }
+    },
+    "footer": {
+      "tagline": "Développeur Web & Passionné de Blockchain",
+      "copyright": "© 2024 Bike Cedric. Tous droits réservés.",
+      "built": "Créé avec React & TypeScript"
+    }
+  }
+  
