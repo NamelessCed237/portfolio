@@ -1,35 +1,31 @@
-import { Languages } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useTranslation } from "react-i18next";
 
 export const LanguageToggle = () => {
   const { i18n } = useTranslation();
+  const current = i18n.language?.startsWith("fr") ? "fr" : "en";
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    localStorage.setItem("lang", lng);
+    document.documentElement.lang = lng;
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Languages className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => changeLanguage("en")}>
-          English
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage("fr")}>
-          Français
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center rounded-lg border border-border/70 bg-card/40 p-0.5 font-mono text-xs">
+      {(["fr", "en"] as const).map((lng) => (
+        <button
+          key={lng}
+          onClick={() => changeLanguage(lng)}
+          className={`rounded-md px-2.5 py-1 uppercase transition-colors ${
+            current === lng
+              ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+          aria-label={`Switch to ${lng.toUpperCase()}`}
+        >
+          {lng}
+        </button>
+      ))}
+    </div>
   );
 };

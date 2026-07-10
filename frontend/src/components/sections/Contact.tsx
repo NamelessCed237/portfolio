@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
 
 export const Contact = () => {
   const { t } = useTranslation();
@@ -28,110 +29,142 @@ export const Contact = () => {
   };
 
   return (
-    <section className="section-padding">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="section-padding relative overflow-hidden">
+      <div className="grid-bg absolute inset-0 opacity-30" />
+      <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/20" />
+
+      <div className="relative mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl font-bold mb-4">{t("contact.title")}</h2>
-          <p className="text-muted-foreground text-lg">{t("contact.subtitle")}</p>
+          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// contact</p>
+          <h2 className="mb-4 text-4xl font-bold">
+            {t("contact.title")}<span className="text-primary">.</span>
+          </h2>
+          <p className="text-lg text-muted-foreground">{t("contact.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
+          {/* Left: description + contact code card + socials */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            className="space-y-6"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Input
-                  type="text"
-                  placeholder={t("contact.form.name")}
-                  required
-                  className="glass-card"
-                />
-              </div>
-              <div>
-                <Input
-                  type="email"
-                  placeholder={t("contact.form.email")}
-                  required
-                  className="glass-card"
-                />
-              </div>
-              <div>
-                <Textarea
-                  placeholder={t("contact.form.message")}
-                  rows={6}
-                  required
-                  className="glass-card"
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? t("contact.form.sending") : t("contact.form.send")}
-              </Button>
-            </form>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              Disponible pour des opportunités Fullstack, SaaS, Mobile, Backend, FinTech
+              ou développement de produits Web3 & blockchain.
+            </p>
+
+            <CodeEditor tabs={["contact.ts"]}>
+              <K>const</K> <P>contact</P> <Pn>= {"{"}</Pn>{"\n"}
+              {"  "}<P>email</P>    <Pn>:</Pn> <S>"cedric@example.com"</S><Pn>,</Pn>{"\n"}
+              {"  "}<P>location</P> <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S><Pn>,</Pn>{"\n"}
+              {"  "}<P>chains</P>   <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Polygon"</S><Pn>,</Pn> <S>"ICP"</S><Pn>],</Pn>{"\n"}
+              {"  "}<P>timezone</P> <Pn>:</Pn> <S>"GMT+1"</S><Pn>,</Pn>{"\n"}
+              <Pn>{"}"}</Pn><Pn>;</Pn>
+            </CodeEditor>
+
+            <div className="flex gap-3">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
+              >
+                <Github className="h-4 w-4" /> GitHub
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
+              >
+                <Linkedin className="h-4 w-4" /> LinkedIn
+              </a>
+            </div>
           </motion.div>
 
+          {/* Right: code-editor styled form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="overflow-hidden rounded-xl border border-border/70 bg-card/60 shadow-2xl backdrop-blur"
           >
-            <div className="glass-card p-6 rounded-xl">
-              <div className="flex items-center gap-4 mb-4">
-                <MapPin className="h-6 w-6 text-primary" />
-                <div>
-                  <h3 className="font-semibold">{t("contact.info.location")}</h3>
-                  <p className="text-muted-foreground">Cameroon</p>
-                </div>
-              </div>
+            <div className="flex items-center gap-2 border-b border-border/60 bg-[hsl(200_30%_9%)]/80 px-4 py-2.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+              <span className="font-mono text-xs text-foreground">sendMessage.ts</span>
+              <span className="ml-auto font-mono text-[11px] text-muted-foreground">Ctrl+Enter to send</span>
             </div>
 
-            <div className="glass-card p-6 rounded-xl">
-              <div className="flex items-center gap-4 mb-4">
-                <Mail className="h-6 w-6 text-primary" />
-                <div>
-                  <h3 className="font-semibold">{t("contact.info.email")}</h3>
-                  <p className="text-muted-foreground">nzeagnicedric@gmail.com</p>
-                </div>
-              </div>
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-5 p-6">
+              <p className="font-mono text-sm">
+                <span className="text-secondary">await</span>{" "}
+                <span className="text-[#7aa2f7]">sendMessage</span>
+                <span className="text-muted-foreground">({"{"}</span>
+              </p>
 
-            <div className="glass-card p-6 rounded-xl">
-              <h3 className="font-semibold mb-4">{t("contact.info.social")}</h3>
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 glass-card rounded-full hover-glow"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 glass-card rounded-full hover-glow"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 glass-card rounded-full hover-glow"
-                >
-                  <Twitter className="h-5 w-5" />
-                </a>
+              <div className="space-y-2 pl-4">
+                <label className="font-mono text-sm text-muted-foreground">
+                  name <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder={t("contact.form.name")}
+                  required
+                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
+                />
               </div>
-            </div>
+
+              <div className="space-y-2 pl-4">
+                <label className="font-mono text-sm text-muted-foreground">
+                  email <span className="text-destructive">*</span>
+                </label>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder={t("contact.form.email")}
+                  required
+                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
+                />
+              </div>
+
+              <div className="space-y-2 pl-4">
+                <label className="font-mono text-sm text-muted-foreground">
+                  message <span className="text-destructive">*</span>
+                </label>
+                <Textarea
+                  name="message"
+                  placeholder={t("contact.form.message")}
+                  rows={5}
+                  required
+                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
+                />
+              </div>
+
+              <p className="font-mono text-sm text-muted-foreground">{"});"}</p>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90"
+              >
+                {isSubmitting ? (
+                  t("contact.form.sending")
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" />
+                    {t("contact.form.send")}
+                  </>
+                )}
+              </Button>
+            </form>
           </motion.div>
         </div>
       </div>

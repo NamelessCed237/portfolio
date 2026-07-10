@@ -3,6 +3,10 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import fr from './locales/fr.json';
 
+const savedLang =
+  typeof localStorage !== 'undefined' ? localStorage.getItem('lang') : null;
+const initialLang = savedLang || 'fr';
+
 i18n
   .use(initReactI18next)
   .init({
@@ -10,11 +14,15 @@ i18n
       en: { translation: en },
       fr: { translation: fr },
     },
-    lng: 'en',
+    lng: initialLang,
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },
   });
+
+if (typeof document !== 'undefined') {
+  document.documentElement.lang = initialLang;
+}
 
 export default i18n;

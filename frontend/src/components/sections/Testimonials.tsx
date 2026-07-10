@@ -24,35 +24,42 @@ export const Testimonials = () => {
   ];
 
   return (
-    <section className="section-padding bg-muted/30">
-      <div className="max-w-7xl mx-auto">
+    <section id="testimonials" className="section-padding relative overflow-hidden">
+      <div className="grid-bg absolute inset-0 opacity-40" />
+      <div className="relative mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl font-bold mb-4">{t("testimonials.title")}</h2>
-          <p className="text-muted-foreground text-lg">{t("testimonials.subtitle")}</p>
+          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// testimonials</p>
+          <h2 className="mb-4 text-4xl font-bold">{t("testimonials.title")}</h2>
+          <p className="text-lg text-muted-foreground">{t("testimonials.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.nameKey}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card p-8 rounded-xl"
+              className="glow-card p-8"
             >
-              <Quote className="h-10 w-10 text-primary mb-4" />
-              <p className="text-muted-foreground mb-6 italic">
+              <Quote className="mb-4 h-10 w-10 text-primary/60" />
+              <p className="mb-6 italic text-muted-foreground">
                 "{t(testimonial.textKey)}"
               </p>
-              <div>
-                <p className="font-semibold">{t(testimonial.nameKey)}</p>
-                <p className="text-sm text-muted-foreground">{t(testimonial.positionKey)}</p>
+              <div className="flex items-center gap-3">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-primary to-secondary text-sm font-bold text-primary-foreground">
+                  {t(testimonial.nameKey).slice(0, 1)}
+                </div>
+                <div>
+                  <p className="font-semibold">{t(testimonial.nameKey)}</p>
+                  <p className="text-sm text-muted-foreground">{t(testimonial.positionKey)}</p>
+                </div>
               </div>
             </motion.div>
           ))}

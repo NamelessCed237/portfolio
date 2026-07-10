@@ -11,18 +11,27 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig(({ command, mode }) => {
   console.log(`Vite command: ${command}, mode: ${mode}`);
   return {
-    plugins: [react(), mode === 'development',tailwindcss()],
+    plugins: [react(), tailwindcss()],
     resolve:{
       alias: {
         '@': path.resolve(__dirname, "./src"),
       },
     },
     server: {
-      port: 3000,
-      open: true,
+      port: Number(process.env.PORT) || 3000,
+      open: !process.env.PORT,
     },
     build: {
       outDir: 'dist',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+            'motion': ['framer-motion'],
+            'i18n': ['i18next', 'react-i18next'],
+          },
+        },
+      },
     },
   }
 })

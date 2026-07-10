@@ -46,19 +46,21 @@ export const Projects = () => {
   ];
 
   return (
-    <section className="section-padding bg-muted/30">
-      <div className="max-w-7xl mx-auto">
+    <section id="projects" className="section-padding relative overflow-hidden">
+      <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/25" />
+      <div className="relative mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl font-bold mb-4">{t("projects.title")}</h2>
-          <p className="text-muted-foreground text-lg">{t("projects.subtitle")}</p>
+          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// featured work</p>
+          <h2 className="mb-4 text-4xl font-bold">{t("projects.title")}</h2>
+          <p className="text-lg text-muted-foreground">{t("projects.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <motion.div
               key={project.titleKey}
@@ -66,29 +68,30 @@ export const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card rounded-xl overflow-hidden hover-glow"
+              className="glow-card group overflow-hidden"
             >
-              <div className="aspect-video overflow-hidden">
+              <div className="relative aspect-video overflow-hidden">
                 <img
                   src={project.image}
                   alt={t(project.titleKey)}
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent opacity-80" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{t(project.titleKey)}</h3>
-                <p className="text-muted-foreground mb-4">{t(project.descKey)}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
+                <h3 className="mb-2 text-xl font-semibold">{t(project.titleKey)}</h3>
+                <p className="mb-4 text-muted-foreground">{t(project.descKey)}</p>
+                <div className="mb-4 flex flex-wrap gap-2">
                   {project.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-1 bg-primary/10 text-primary rounded text-sm"
+                      className="rounded border border-primary/20 bg-primary/10 px-2 py-1 text-xs font-medium text-primary"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <Button variant="outline" className="w-full gap-2">
+                <Button variant="outline" className="w-full gap-2 border-primary/30 hover:bg-primary/10 hover:text-primary">
                   {t("projects.viewProject")}
                   <ExternalLink className="h-4 w-4" />
                 </Button>

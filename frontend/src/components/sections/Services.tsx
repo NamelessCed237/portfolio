@@ -39,30 +39,33 @@ export const Services = () => {
   ];
 
   return (
-    <section className="section-padding">
-      <div className="max-w-7xl mx-auto">
+    <section id="services" className="section-padding">
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="mb-16 text-center"
         >
-          <h2 className="text-4xl font-bold mb-4">{t("services.title")}</h2>
-          <p className="text-muted-foreground text-lg">{t("services.subtitle")}</p>
+          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// what i do</p>
+          <h2 className="mb-4 text-4xl font-bold">{t("services.title")}</h2>
+          <p className="text-lg text-muted-foreground">{t("services.subtitle")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <motion.div
               key={service.titleKey}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card p-8 rounded-xl hover-glow"
+              className="glow-card group p-8"
             >
-              <service.icon className="h-12 w-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-3">{t(service.titleKey)}</h3>
+              <div className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/15 transition-transform group-hover:scale-110">
+                <service.icon className="h-7 w-7 text-primary" />
+              </div>
+              <h3 className="mb-3 text-xl font-semibold">{t(service.titleKey)}</h3>
               <p className="text-muted-foreground">{t(service.descKey)}</p>
             </motion.div>
           ))}

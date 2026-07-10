@@ -37,12 +37,15 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <NavLink to="/" className="flex items-center gap-3">
-            {/* Profile picture placeholder - replace with actual image */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-bold text-primary-foreground">
-              BC
-            </div>
-            <span className="text-xl font-bold gradient-text hidden sm:block">
-              Bike Cedric
+            <img
+              src="/logo.png"
+              alt="Bike Cedric logo"
+              className="h-10 w-10 rounded-lg object-cover ring-1 ring-border/60"
+            />
+            <span className="hidden font-mono text-xl font-bold sm:block">
+              <span className="text-muted-foreground">&lt;</span>
+              <span className="gradient-text">Cedric</span>
+              <span className="text-muted-foreground">/&gt;</span>
             </span>
           </NavLink>
 
