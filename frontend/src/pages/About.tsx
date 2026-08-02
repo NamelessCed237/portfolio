@@ -1,17 +1,21 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { About as AboutSection } from "@/components/sections/About";
+import { AboutIntro } from "@/components/sections/AboutIntro";
+import { Strengths } from "@/components/sections/Strengths";
+import { Process } from "@/components/sections/Process";
 import { Skills } from "@/components/sections/Skills";
-import { Timeline } from "@/components/sections/Timeline";
+import { FAQ } from "@/components/sections/FAQ";
 
 const About = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-16">
-        <AboutSection />
+      <main>
+        <AboutIntro />
+        <Strengths />
+        <Process />
         <Skills />
-        <Timeline />
+        <FAQ />
       </main>
       <Footer />
     </div>

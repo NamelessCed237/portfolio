@@ -1,60 +1,7 @@
 import type { ReactNode } from "react";
 
 /* ------------------------------------------------------------------ */
-/* Window chrome shared by Terminal + CodeEditor (jodemi.dev style)   */
-/* ------------------------------------------------------------------ */
-const TrafficLights = () => (
-  <div className="flex items-center gap-2">
-    <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
-    <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
-    <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-  </div>
-);
-
-interface TerminalProps {
-  title?: string;
-  children: ReactNode;
-  className?: string;
-}
-
-/** macOS-style terminal window. */
-export const Terminal = ({ title = "portfolio — bash", children, className = "" }: TerminalProps) => (
-  <div className={`overflow-hidden rounded-xl border border-border/70 bg-[hsl(200_35%_6%)]/95 shadow-2xl backdrop-blur ${className}`}>
-    <div className="flex items-center justify-between border-b border-border/60 bg-card/60 px-4 py-3">
-      <TrafficLights />
-      <span className="font-mono text-xs text-muted-foreground">{title}</span>
-      <span className="w-10" />
-    </div>
-    <div className="space-y-1.5 p-4 font-mono text-[13px] leading-relaxed">{children}</div>
-  </div>
-);
-
-/** A single terminal command line with the green prompt arrow. */
-export const Line = ({ children }: { children: ReactNode }) => (
-  <div className="flex gap-2">
-    <span className="select-none text-primary">→</span>
-    <span className="select-none text-muted-foreground">~</span>
-    <span className="text-foreground/90">{children}</span>
-  </div>
-);
-
-/** Indented command output. */
-export const Out = ({ children, tone = "muted" }: { children: ReactNode; tone?: "muted" | "green" | "cyan" }) => {
-  const color = tone === "green" ? "text-primary" : tone === "cyan" ? "text-secondary" : "text-muted-foreground";
-  return <div className={`pl-6 ${color}`}>{children}</div>;
-};
-
-/** Blinking cursor block. */
-export const Cursor = () => (
-  <div className="flex gap-2">
-    <span className="text-primary">→</span>
-    <span className="text-muted-foreground">~</span>
-    <span className="inline-block h-4 w-2 animate-pulse bg-primary" />
-  </div>
-);
-
-/* ------------------------------------------------------------------ */
-/* Code editor window with tabs                                       */
+/* Code editor window with tabs (macOS-style chrome)                  */
 /* ------------------------------------------------------------------ */
 interface CodeEditorProps {
   tabs: string[];
@@ -66,14 +13,17 @@ interface CodeEditorProps {
 
 export const CodeEditor = ({ tabs, activeTab = 0, children, className = "", hint }: CodeEditorProps) => (
   <div className={`overflow-hidden rounded-xl border border-border/70 bg-card/60 shadow-2xl backdrop-blur ${className}`}>
-    <div className="flex items-center gap-1 border-b border-border/60 bg-[hsl(200_30%_9%)]/80 px-3 py-2">
+    <div className="flex items-center gap-1 border-b border-border/60 bg-[hsl(200_30%_9%)]/80 px-3 py-2 dark:bg-[hsl(200_30%_9%)]/80">
+      <div className="mr-2 flex items-center gap-1.5">
+        <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+        <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+        <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
+      </div>
       {tabs.map((tab, i) => (
         <span
           key={tab}
           className={`flex items-center gap-2 rounded-t-md px-3 py-1.5 font-mono text-xs ${
-            i === activeTab
-              ? "bg-card text-foreground"
-              : "text-muted-foreground"
+            i === activeTab ? "bg-card text-foreground" : "text-muted-foreground"
           }`}
         >
           <span className={`h-2 w-2 rounded-full ${i === activeTab ? "bg-primary" : "bg-muted-foreground/40"}`} />
