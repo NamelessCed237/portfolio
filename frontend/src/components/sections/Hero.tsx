@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Twitter, Mail, CheckCircle2, Hexagon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { NetworkBackground } from "@/components/NetworkBackground";
-import { Terminal, Line, Out, Cursor, CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
+import { CodeEditor, C, K, S, P, N, Pn, Fn } from "@/components/ui/code-window";
 
 export const Hero = () => {
   const { t } = useTranslation();
@@ -71,7 +71,7 @@ export const Hero = () => {
               transition={{ delay: 0.5 }}
               className="text-xl font-medium text-muted-foreground md:text-2xl"
             >
-              <span className="gradient-text font-semibold">Web3 & Full-Stack Engineer</span> — Blockchain, DeFi, Mobile & Backend
+              <span className="gradient-text font-semibold">{t("hero.title")}</span>
             </motion.h2>
 
             <motion.p
@@ -124,35 +124,74 @@ export const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right: terminal + code editor */}
+        {/* Right: Solidity contract + on-chain deployment card */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="space-y-5"
+          className="relative space-y-5"
         >
-          <Terminal>
-            <Line>whoami</Line>
-            <Out>Bike Cedric</Out>
-            <Line>cat role.txt</Line>
-            <Out>Web3 &amp; Full-Stack Engineer — Blockchain, DeFi, Backend</Out>
-            <Line>ls skills/</Line>
-            <Out tone="cyan">React TypeScript Solidity Web3.js NestJS Motoko</Out>
-            <Line>./run --deploy-contract</Line>
-            <Out tone="green">✔ Smart contract deployed — ready to build dApps</Out>
-            <Cursor />
-          </Terminal>
-
-          <CodeEditor tabs={["developer.tsx", "about.md"]}>
-            <C>{"// on-chain builder"}</C>{"\n"}
-            <K>const</K> <P>developer</P> <Pn>= {"{"}</Pn>{"\n"}
-            {"  "}<P>name</P><Pn>:</Pn> <S>"Bike Cedric"</S><Pn>,</Pn>{"\n"}
-            {"  "}<P>role</P><Pn>:</Pn> <S>"Web3 &amp; Full-Stack Engineer"</S><Pn>,</Pn>{"\n"}
-            {"  "}<P>stack</P><Pn>:</Pn> <Pn>[</Pn><S>"React"</S><Pn>,</Pn> <S>"Solidity"</S><Pn>,</Pn> <S>"NestJS"</S><Pn>],</Pn>{"\n"}
-            {"  "}<P>chains</P><Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Polygon"</S><Pn>,</Pn> <S>"ICP"</S><Pn>],</Pn>{"\n"}
-            {"  "}<P>status</P><Pn>:</Pn> <S>"open_to_work"</S><Pn>,</Pn>{"\n"}
-            <Pn>{"}"}</Pn><Pn>;</Pn>
+          <CodeEditor tabs={["Developer.sol"]} hint="solidity ^0.8.24">
+            <C>{"// SPDX-License-Identifier: MIT"}</C>{"\n"}
+            <K>pragma</K> <K>solidity</K> <N>^0.8.24</N><Pn>;</Pn>{"\n\n"}
+            <K>contract</K> <Fn>Developer</Fn> <Pn>{"{"}</Pn>{"\n"}
+            {"  "}<K>string</K> <K>public</K> <P>name</P>  <Pn>=</Pn> <S>"Bike Cedric"</S><Pn>;</Pn>{"\n"}
+            {"  "}<K>string</K> <K>public</K> <P>role</P>  <Pn>=</Pn> <S>"Full-Stack & Blockchain"</S><Pn>;</Pn>{"\n"}
+            {"  "}<K>string</K><Pn>[]</Pn> <K>public</K> <P>stack</P> <Pn>=</Pn> <Pn>[</Pn><S>"React"</S><Pn>,</Pn> <S>"NestJS"</S><Pn>,</Pn> <S>"Solidity"</S><Pn>];</Pn>{"\n\n"}
+            {"  "}<K>function</K> <Fn>hire</Fn><Pn>()</Pn> <K>external</K> <K>payable</K> <K>returns</K> <Pn>(</Pn><K>bool</K><Pn>)</Pn> <Pn>{"{"}</Pn>{"\n"}
+            {"    "}<Fn>require</Fn><Pn>(</Pn><P>msg.value</P> <Pn>&gt;</Pn> <N>0</N><Pn>,</Pn> <S>"let's build"</S><Pn>);</Pn>{"\n"}
+            {"    "}<K>return</K> <N>true</N><Pn>;</Pn>{"\n"}
+            {"  "}<Pn>{"}"}</Pn>{"\n"}
+            <Pn>{"}"}</Pn>
           </CodeEditor>
+
+          {/* Distinctive on-chain deployment receipt */}
+          <div className="glow-card relative overflow-hidden p-5">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="relative grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-primary/20 to-secondary/20">
+                  <Hexagon className="h-5 w-5 text-primary" />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold leading-tight">Contract deployed</p>
+                  <p className="font-mono text-[11px] text-muted-foreground">Developer.sol</p>
+                </div>
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                Confirmed
+              </span>
+            </div>
+
+            <div className="space-y-2 font-mono text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">tx hash</span>
+                <span className="gradient-text font-semibold">0x9f3a…B1KE</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">network</span>
+                <span className="flex gap-1.5">
+                  <span className="rounded border border-border/70 bg-card/50 px-1.5 py-0.5 text-foreground/80">Ethereum</span>
+                  <span className="rounded border border-border/70 bg-card/50 px-1.5 py-0.5 text-foreground/80">Tron</span>
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">block</span>
+                <span className="text-foreground/80">#19_872_301</span>
+              </div>
+            </div>
+
+            {/* animated confirmations bar */}
+            <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-muted">
+              <motion.div
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+                className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+              />
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

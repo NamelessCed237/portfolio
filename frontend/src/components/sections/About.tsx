@@ -9,7 +9,7 @@ export const About = () => {
 
   const stats = [
     { value: "2+", label: t("about.stats.experience") },
-    { value: "20+", label: t("about.stats.projects") },
+    { value: "10+", label: t("about.stats.projects") },
     { value: "15+", label: t("about.stats.clients") },
     { value: "3+", label: "Blockchains" },
   ];
@@ -47,7 +47,7 @@ export const About = () => {
               <C>{"// contact.config.ts"}</C>{"\n"}
               <P>location</P>  <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S>{"\n"}
               <P>email</P>     <Pn>:</Pn> <S>"cedric@example.com"</S>{"\n"}
-              <P>chains</P>    <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Polygon"</S><Pn>,</Pn> <S>"ICP"</S><Pn>]</Pn>{"\n"}
+              <P>chains</P>    <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Tron"</S><Pn>]</Pn>{"\n"}
               <P>available</P> <Pn>:</Pn> <K>true</K>
             </CodeEditor>
 
