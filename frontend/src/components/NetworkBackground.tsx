@@ -51,6 +51,10 @@ export const NetworkBackground = ({ className = "" }: { className?: string }) =>
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
       const maxDist = 140;
+      const isLight = document.documentElement.classList.contains("light");
+      // Softer, lower-contrast palette in light mode
+      const nodeAlpha = isLight ? 0.45 : 0.9;
+      const lineBase = isLight ? 0.22 : 0.5;
 
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
@@ -62,7 +66,9 @@ export const NetworkBackground = ({ className = "" }: { className?: string }) =>
         // node dot
         ctx.beginPath();
         ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(45, 212, 160, 0.9)";
+        ctx.fillStyle = isLight
+          ? `rgba(24, 140, 110, ${nodeAlpha})`
+          : `rgba(45, 212, 160, ${nodeAlpha})`;
         ctx.fill();
 
         for (let j = i + 1; j < nodes.length; j++) {
@@ -71,12 +77,11 @@ export const NetworkBackground = ({ className = "" }: { className?: string }) =>
           const dy = n.y - m.y;
           const dist = Math.hypot(dx, dy);
           if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.5;
-            // interpolate green -> cyan across the screen
+            const alpha = (1 - dist / maxDist) * lineBase;
             const t = n.x / width;
-            const r = Math.round(34 + t * 4);
-            const g = Math.round(211 - t * 20);
-            const b = Math.round(160 + t * 80);
+            const r = isLight ? Math.round(22 + t * 6) : Math.round(34 + t * 4);
+            const g = isLight ? Math.round(140 - t * 20) : Math.round(211 - t * 20);
+            const b = isLight ? Math.round(110 + t * 40) : Math.round(160 + t * 80);
             ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
             ctx.lineWidth = 0.7;
             ctx.beginPath();

@@ -1,6 +1,41 @@
+import type { ComponentType, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Code2, Server, Smartphone, Database, Blocks, Settings } from "lucide-react";
+import { Code2, Server, Smartphone, Database, Blocks, Settings, Coins, Boxes, Network, Plug } from "lucide-react";
+import {
+  SiReact,
+  SiTypescript,
+  SiNextdotjs,
+  SiNestjs,
+  SiLaravel,
+  SiMysql,
+  SiPostgresql,
+  SiSolidity,
+  SiWeb3Dotjs,
+  SiTether,
+} from "react-icons/si";
+
+type SkillIcon = ComponentType<{ className?: string; style?: CSSProperties }>;
+
+// Single source of truth for skill logos (DRY). `color` is the brand color;
+// omit it to inherit the theme text color (e.g. dark-on-dark brands).
+const skillMeta: Record<string, { Icon: SkillIcon; color?: string }> = {
+  React: { Icon: SiReact, color: "#61DAFB" },
+  TypeScript: { Icon: SiTypescript, color: "#3178C6" },
+  "Next.js": { Icon: SiNextdotjs },
+  NestJS: { Icon: SiNestjs, color: "#E0234E" },
+  Laravel: { Icon: SiLaravel, color: "#FF2D20" },
+  "React Native": { Icon: SiReact, color: "#61DAFB" },
+  MySQL: { Icon: SiMysql, color: "#4479A1" },
+  PostgreSQL: { Icon: SiPostgresql, color: "#4169E1" },
+  Solidity: { Icon: SiSolidity },
+  "Web3.js": { Icon: SiWeb3Dotjs, color: "#F16822" },
+  "USDT/USDC": { Icon: SiTether, color: "#26A17B" },
+  Tron: { Icon: Coins, color: "#EF060A" },
+  "Clean Architecture": { Icon: Boxes },
+  "REST APIs": { Icon: Network },
+  Integrations: { Icon: Plug },
+};
 
 export const Skills = () => {
   const { t } = useTranslation();
@@ -37,7 +72,7 @@ export const Skills = () => {
     {
       icon: Blocks,
       category: t("skills.categories.blockchain"),
-      skills: ["Solidity", "Web3.js", "Motoko"],
+      skills: ["Solidity", "Web3.js", "USDT/USDC", "Tron"],
       level: "Avancé",
       percent: 80,
     },
@@ -67,16 +102,16 @@ export const Skills = () => {
           <p className="text-lg text-muted-foreground">{t("skills.subtitle")}</p>
         </motion.div>
 
-        {/* npm install terminal line */}
+        {/* Solidity import line */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10 overflow-x-auto rounded-lg border border-border/70 bg-[hsl(200_35%_6%)]/90 px-4 py-3 font-mono text-sm"
+          className="mb-10 overflow-x-auto rounded-lg border border-border/70 bg-card/50 px-4 py-3 font-mono text-sm"
         >
-          <span className="text-primary">$</span>{" "}
-          <span className="text-muted-foreground">npm install</span>{" "}
-          <span className="text-foreground/90">react solidity web3 nestjs hardhat tailwind</span>
+          <span className="text-secondary">import</span>{" "}
+          <span className="text-primary">"@bikecedric/stack/FullStack.sol"</span>
+          <span className="text-muted-foreground">;</span>
           <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-primary align-middle" />
         </motion.div>
 
@@ -114,14 +149,24 @@ export const Skills = () => {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm text-primary"
-                  >
-                    {skill}
-                  </span>
-                ))}
+                {category.skills.map((skill) => {
+                  const meta = skillMeta[skill];
+                  const Icon = meta?.Icon;
+                  return (
+                    <span
+                      key={skill}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-card/40 px-2.5 py-1 text-sm text-foreground/80"
+                    >
+                      {Icon && (
+                        <Icon
+                          className="h-4 w-4"
+                          style={meta.color ? { color: meta.color } : undefined}
+                        />
+                      )}
+                      {skill}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
           ))}

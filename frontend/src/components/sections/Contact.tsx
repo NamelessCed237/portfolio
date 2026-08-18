@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Github, Linkedin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
+import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
 
 export const Contact = () => {
   const { t } = useTranslation();
@@ -15,17 +16,26 @@ export const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    const form = e.currentTarget;
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    if (!isEmailConfigured) {
       toast({
-        title: t("contact.form.success"),
-        description: "I'll get back to you soon!",
+        title: t("contact.form.error"),
+        description: "EmailJS n'est pas configuré (voir .env.example).",
       });
-      (e.target as HTMLFormElement).reset();
-    }, 1500);
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await sendContactEmail(form);
+      toast({ title: t("contact.form.success") });
+      form.reset();
+    } catch {
+      toast({ title: t("contact.form.error") });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -64,7 +74,7 @@ export const Contact = () => {
               <K>const</K> <P>contact</P> <Pn>= {"{"}</Pn>{"\n"}
               {"  "}<P>email</P>    <Pn>:</Pn> <S>"cedric@example.com"</S><Pn>,</Pn>{"\n"}
               {"  "}<P>location</P> <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S><Pn>,</Pn>{"\n"}
-              {"  "}<P>chains</P>   <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Polygon"</S><Pn>,</Pn> <S>"ICP"</S><Pn>],</Pn>{"\n"}
+              {"  "}<P>chains</P>   <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Tron"</S><Pn>],</Pn>{"\n"}
               {"  "}<P>timezone</P> <Pn>:</Pn> <S>"GMT+1"</S><Pn>,</Pn>{"\n"}
               <Pn>{"}"}</Pn><Pn>;</Pn>
             </CodeEditor>

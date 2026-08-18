@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NetworkBackground } from "@/components/NetworkBackground";
-import { Terminal, Line, Out } from "@/components/ui/code-window";
+import { CodeEditor, C, K, S, P, Pn, Fn } from "@/components/ui/code-window";
 
 const NotFound = () => {
   const location = useLocation();
@@ -18,15 +18,16 @@ const NotFound = () => {
       <div className="grid-bg absolute inset-0" />
       <div className="glow-blob left-1/4 top-1/3 h-72 w-72 bg-primary/25" />
 
-      <div className="relative z-10 w-full max-w-lg space-y-6 text-center">
+      <div className="relative z-10 w-full max-w-xl space-y-6 text-center">
         <h1 className="gradient-text text-8xl font-bold">404</h1>
 
-        <Terminal title="error — bash" className="text-left">
-          <Line>cat {location.pathname}</Line>
-          <Out tone="muted">bash: route not found</Out>
-          <Line>cd /home</Line>
-          <Out tone="green">✔ redirecting to a safe block...</Out>
-        </Terminal>
+        <CodeEditor tabs={["Router.sol"]} className="text-left">
+          <C>{"// requested route reverted"}</C>{"\n"}
+          <K>function</K> <Fn>resolve</Fn><Pn>(</Pn><K>string</K> <P>path</P><Pn>)</Pn> <K>external</K> <Pn>{"{"}</Pn>{"\n"}
+          {"  "}<Fn>require</Fn><Pn>(</Pn><P>exists</P><Pn>[</Pn><P>path</P><Pn>],</Pn> <S>"404: route not found"</S><Pn>);</Pn>{"\n"}
+          {"  "}<K>revert</K> <Fn>RouteNotFound</Fn><Pn>(</Pn><S>"{location.pathname}"</S><Pn>);</Pn>{"\n"}
+          <Pn>{"}"}</Pn>
+        </CodeEditor>
 
         <Link to="/">
           <Button className="gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90">
