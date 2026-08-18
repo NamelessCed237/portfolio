@@ -1,48 +1,36 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
+import { fadeUpAt } from "@/lib/motion";
 
 export const Process = () => {
   const { t } = useTranslation();
   const steps = ["s1", "s2", "s3", "s4", "s5"];
 
   return (
-    <section className="section-padding relative overflow-hidden">
-      <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/30" />
-      <div className="relative mx-auto max-w-4xl">
+    <section className="section border-t border-border">
+      <div className="mx-auto max-w-3xl">
         <SectionHeading
           eyebrow="workflow"
           title={t("aboutPage.process.title")}
           subtitle={t("aboutPage.process.subtitle")}
-          dot
         />
 
-        <div className="relative pl-8 md:pl-12">
-          <div className="absolute left-2 top-2 h-full w-px bg-gradient-to-b from-primary via-secondary/50 to-transparent md:left-4" />
-
+        <ol className="space-y-8">
           {steps.map((step, index) => (
-            <motion.div
-              key={step}
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="relative mb-8 last:mb-0"
-            >
-              <div className="absolute -left-[26px] top-1 grid h-7 w-7 place-items-center rounded-full border-2 border-background bg-gradient-to-br from-primary to-secondary font-mono text-xs font-bold text-primary-foreground md:-left-[38px]">
+            <motion.li key={step} {...fadeUpAt(index)} className="flex gap-5">
+              <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border text-sm font-medium text-muted-foreground">
                 {index + 1}
-              </div>
-              <div className="glow-card p-6">
-                <h3 className="mb-2 text-lg font-semibold">
-                  {t(`aboutPage.process.steps.${step}.title`)}
-                </h3>
-                <p className="leading-relaxed text-muted-foreground">
+              </span>
+              <div>
+                <h3 className="font-medium">{t(`aboutPage.process.steps.${step}.title`)}</h3>
+                <p className="mt-1.5 leading-relaxed text-muted-foreground">
                   {t(`aboutPage.process.steps.${step}.description`)}
                 </p>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

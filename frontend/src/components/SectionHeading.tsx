@@ -1,15 +1,14 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { fadeUp } from "@/lib/motion";
 
 interface SectionHeadingProps {
-  /** Monospace label above the title, rendered as a code comment. */
+  /** Small uppercase label above the title. */
   eyebrow: string;
   title: string;
   subtitle?: string;
-  /** Accent dot after the title. */
-  dot?: boolean;
   className?: string;
-  /** Extra line below the title, for sections with their own subtitle style. */
+  /** Extra content below the title. */
   children?: ReactNode;
 }
 
@@ -18,22 +17,15 @@ export const SectionHeading = ({
   eyebrow,
   title,
   subtitle,
-  dot = false,
-  className = "mb-16",
+  className = "mb-12",
   children,
 }: SectionHeadingProps) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    className={`${className} text-center`}
-  >
-    <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// {eyebrow}</p>
-    <h2 className={`text-4xl font-bold${subtitle ? " mb-4" : ""}`}>
-      {title}
-      {dot && <span className="text-primary">.</span>}
-    </h2>
-    {subtitle && <p className="text-lg text-muted-foreground">{subtitle}</p>}
+  <motion.div {...fadeUp} className={`${className} text-center`}>
+    <p className="eyebrow mb-3">{eyebrow}</p>
+    <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{title}</h2>
+    {subtitle && (
+      <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">{subtitle}</p>
+    )}
     {children}
   </motion.div>
 );

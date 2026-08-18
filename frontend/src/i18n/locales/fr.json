@@ -1,236 +1,242 @@
 {
-    "nav": {
-      "home": "Accueil",
-      "about": "À propos",
-      "projects": "Projets",
-      "services": "Services",
-      "contact": "Contact"
-    },
-    "hero": {
-      "greeting": "Salut, je suis",
-      "name": "Bike Cedric",
-      "title": "Développeur Full-Stack & Blockchain",
-      "subtitle": "Je conçois des applications web, mobiles et des solutions blockchain robustes — transferts d'argent, paiements USDT/USDC et intégrations Mobile Money.",
-      "cta": "Voir mes projets",
-      "downloadCV": "Télécharger le CV"
-    },
-    "about": {
-      "title": "À Propos de Moi",
-      "description": "Développeur Full-Stack basé à Bafoussam, au Cameroun, spécialisé dans les applications web, mobiles et les solutions blockchain. Je construis des produits utiles, robustes et prêts pour un usage réel — des transferts d'argent aux paiements en stablecoins (USDT/USDC).",
-      "highlight": "Mon approche : une architecture propre, des intégrations fiables (Mobile Money, blockchain) et une livraison jusqu'en production.",
-      "stats": {
-        "experience": "Années d'expérience",
-        "projects": "Projets réalisés",
-        "clients": "Technologies"
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Salut, je suis",
+    "name": "Bike Cedric",
+    "title": "Développeur Full-Stack & Blockchain",
+    "subtitle": "Je conçois des applications web, mobiles et des solutions blockchain robustes — transferts d'argent, paiements USDT/USDC et intégrations Mobile Money.",
+    "cta": "Voir mes projets",
+    "downloadCV": "Télécharger le CV"
+  },
+  "about": {
+    "title": "À Propos de Moi",
+    "description": "Développeur Full-Stack basé à Bafoussam, au Cameroun, spécialisé dans les applications web, mobiles et les solutions blockchain. Je construis des produits utiles, robustes et prêts pour un usage réel — des transferts d'argent aux paiements en stablecoins (USDT/USDC).",
+    "highlight": "Mon approche : une architecture propre, des intégrations fiables (Mobile Money, blockchain) et une livraison jusqu'en production.",
+    "stats": {
+      "experience": "Années d'expérience",
+      "projects": "Projets réalisés",
+      "clients": "Technologies"
+    }
+  },
+  "skills": {
+    "title": "Compétences & Expertise",
+    "subtitle": "Les technologies avec lesquelles je travaille",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "database": "Base de données",
+      "blockchain": "Blockchain",
+      "other": "Autres"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Ce que je peux faire pour vous",
+    "list": {
+      "web": {
+        "title": "Développement Web",
+        "description": "Applications web responsive et performantes avec React, Next.js et TypeScript"
+      },
+      "mobile": {
+        "title": "Développement Mobile",
+        "description": "Applications mobiles multiplateformes avec React Native"
+      },
+      "backend": {
+        "title": "API & Backend",
+        "description": "Conception et implémentation d'APIs RESTful avec NestJS et Laravel"
+      },
+      "web3": {
+        "title": "Blockchain & Web3",
+        "description": "Paiements USDT/USDC (ETH, Tron), smart contracts et intégrations décentralisées"
+      },
+      "integrations": {
+        "title": "Intégrations & Paiements",
+        "description": "Mobile Money (MTN, Orange), passerelles de paiement et APIs tierces"
+      },
+      "architecture": {
+        "title": "Architecture & Déploiement",
+        "description": "Code maintenable, mise en production (VPS, Docker, Nginx) et suivi"
       }
-    },
-    "skills": {
-      "title": "Compétences & Expertise",
-      "subtitle": "Les technologies avec lesquelles je travaille",
-      "categories": {
-        "frontend": "Frontend",
-        "backend": "Backend",
-        "mobile": "Mobile",
-        "database": "Base de données",
-        "blockchain": "Blockchain",
-        "other": "Autres"
+    }
+  },
+  "projects": {
+    "title": "Projets en Vedette",
+    "subtitle": "Une sélection de mes réalisations",
+    "viewProject": "Voir le projet",
+    "list": {
+      "transfergratis": {
+        "title": "Transfergratis",
+        "description": "Plateforme de transfert d'argent vers l'Afrique, avec intégration Mobile Money et une expérience simple et rapide."
+      },
+      "portfolio": {
+        "title": "BikeCedric.dev",
+        "description": "Ce portfolio — vitrine de mes compétences, projets et de mon univers de développeur Full-Stack & Blockchain."
+      },
+      "tulivu": {
+        "title": "Tulivu",
+        "description": "Application de gestion P2P de USDT et USDC (Ethereum & Tron) avec intégration de modems pour l'automatisation des transactions."
       }
+    }
+  },
+  "experience": {
+    "title": "Expérience",
+    "subtitle": "Mon parcours professionnel",
+    "timeline": {
+      "lazer": {
+        "title": "Développeur Full-Stack",
+        "company": "Lazer SARL",
+        "period": "Déc. 2023 — Présent",
+        "location": "Bafoussam, Cameroun",
+        "description": "Conception et développement d'applications web et mobiles complètes : front, back, intégrations de paiement et déploiement en production."
+      },
+      "hackathon": {
+        "title": "Hackathon Blockchain BAM",
+        "company": "Blockchain Africa Movement",
+        "period": "Mai 2025",
+        "location": "Cameroun",
+        "description": "Participation au hackathon blockchain BAM : conception d'une solution décentralisée en équipe, sous contrainte de temps."
+      }
+    }
+  },
+  "formation": {
+    "title": "Formation",
+    "subtitle": "Mon parcours académique",
+    "list": {
+      "licence": {
+        "title": "Licence en Informatique",
+        "school": "Université",
+        "period": "2023",
+        "description": "Diplôme de licence en informatique — développement logiciel, algorithmique et bases de données."
+      },
+      "gce": {
+        "title": "GCE Advanced Level — Science",
+        "school": "GCE Board",
+        "period": "2019",
+        "description": "Baccalauréat scientifique (GCE A Level, série Science)."
+      }
+    }
+  },
+  "aboutPage": {
+    "intro": {
+      "eyebrow": "À propos",
+      "title": "Qui suis-je",
+      "lead": "Développeur Full-Stack & Blockchain basé à Bafoussam, au Cameroun.",
+      "p1": "Je conçois et développe des applications web, mobiles et des solutions blockchain de bout en bout. J'aime transformer des besoins concrets en produits fiables : transferts d'argent, paiements en stablecoins (USDT/USDC), intégrations Mobile Money et outils métier.",
+      "p2": "Chez Lazer SARL, je travaille comme développeur Full-Stack depuis décembre 2023, où je livre des applications complètes — du front au déploiement. Curieux et rigoureux, je vise toujours un code propre, maintenable et prêt pour la production."
     },
-    "services": {
-      "title": "Services",
-      "subtitle": "Ce que je peux faire pour vous",
+    "strengths": {
+      "title": "Ce que je fais bien",
+      "subtitle": "Mes domaines de prédilection",
       "list": {
-        "web": {
-          "title": "Développement Web",
-          "description": "Applications web responsive et performantes avec React, Next.js et TypeScript"
+        "fullstack": {
+          "title": "Développement Full-Stack",
+          "description": "Applications complètes avec React/TypeScript côté front et NestJS/Laravel côté back."
         },
         "mobile": {
-          "title": "Développement Mobile",
-          "description": "Applications mobiles multiplateformes avec React Native"
+          "title": "Applications mobiles",
+          "description": "Apps multiplateformes performantes avec React Native."
         },
-        "backend": {
-          "title": "API & Backend",
-          "description": "Conception et implémentation d'APIs RESTful avec NestJS et Laravel"
-        },
-        "web3": {
-          "title": "Blockchain & Web3",
-          "description": "Paiements USDT/USDC (ETH, Tron), smart contracts et intégrations décentralisées"
+        "blockchain": {
+          "title": "Blockchain & paiements crypto",
+          "description": "Paiements USDT/USDC sur Ethereum & Tron, gestion P2P et intégrations Web3."
         },
         "integrations": {
-          "title": "Intégrations & Paiements",
-          "description": "Mobile Money (MTN, Orange), passerelles de paiement et APIs tierces"
+          "title": "Intégrations & Mobile Money",
+          "description": "MTN MoMo, Orange Money, passerelles de paiement et APIs tierces."
         },
         "architecture": {
-          "title": "Architecture & Déploiement",
-          "description": "Code maintenable, mise en production (VPS, Docker, Nginx) et suivi"
-        }
-      }
-    },
-    "projects": {
-      "title": "Projets en Vedette",
-      "subtitle": "Une sélection de mes réalisations",
-      "viewProject": "Voir le projet",
-      "list": {
-        "transfergratis": {
-          "title": "Transfergratis",
-          "description": "Plateforme de transfert d'argent vers l'Afrique, avec intégration Mobile Money et une expérience simple et rapide."
+          "title": "Architecture propre",
+          "description": "Code structuré, évolutif et facile à maintenir dans le temps."
         },
-        "portfolio": {
-          "title": "BikeCedric.dev",
-          "description": "Ce portfolio — vitrine de mes compétences, projets et de mon univers de développeur Full-Stack & Blockchain."
+        "deployment": {
+          "title": "Déploiement en production",
+          "description": "Mise en ligne complète : VPS, Docker, Nginx, domaine et HTTPS."
+        }
+      }
+    },
+    "process": {
+      "title": "Comment je travaille",
+      "subtitle": "Une méthode simple, claire et transparente",
+      "steps": {
+        "s1": {
+          "title": "Écoute & cadrage",
+          "description": "Je commence par comprendre votre besoin réel et vos objectifs avant d'écrire la moindre ligne de code."
         },
-        "tulivu": {
-          "title": "Tulivu",
-          "description": "Application de gestion P2P de USDT et USDC (Ethereum & Tron) avec intégration de modems pour l'automatisation des transactions."
-        }
-      }
-    },
-    "experience": {
-      "title": "Expérience",
-      "subtitle": "Mon parcours professionnel",
-      "timeline": {
-        "lazer": {
-          "title": "Développeur Full-Stack",
-          "company": "Lazer SARL",
-          "period": "Déc. 2023 — Présent",
-          "location": "Bafoussam, Cameroun",
-          "description": "Conception et développement d'applications web et mobiles complètes : front, back, intégrations de paiement et déploiement en production."
+        "s2": {
+          "title": "Conception",
+          "description": "Je définis une architecture claire et évolutive, adaptée au budget et aux contraintes."
         },
-        "hackathon": {
-          "title": "Hackathon Blockchain BAM",
-          "company": "Blockchain Africa Movement",
-          "period": "Mai 2025",
-          "location": "Cameroun",
-          "description": "Participation au hackathon blockchain BAM : conception d'une solution décentralisée en équipe, sous contrainte de temps."
-        }
-      }
-    },
-    "formation": {
-      "title": "Formation",
-      "subtitle": "Mon parcours académique",
-      "list": {
-        "licence": {
-          "title": "Licence en Informatique",
-          "school": "Université",
-          "period": "2023",
-          "description": "Diplôme de licence en informatique — développement logiciel, algorithmique et bases de données."
+        "s3": {
+          "title": "Développement itératif",
+          "description": "Je livre par petites étapes, avec des démos régulières pour rester alignés."
         },
-        "gce": {
-          "title": "GCE Advanced Level — Science",
-          "school": "GCE Board",
-          "period": "2019",
-          "description": "Baccalauréat scientifique (GCE A Level, série Science)."
+        "s4": {
+          "title": "Tests & qualité",
+          "description": "Je m'assure que le code est fiable, maintenable et bien documenté."
+        },
+        "s5": {
+          "title": "Déploiement & suivi",
+          "description": "Je mets en production et j'assure un suivi pour que tout fonctionne durablement."
         }
       }
     },
-    "aboutPage": {
-      "intro": {
-        "eyebrow": "À propos",
-        "title": "Qui suis-je",
-        "lead": "Développeur Full-Stack & Blockchain basé à Bafoussam, au Cameroun.",
-        "p1": "Je conçois et développe des applications web, mobiles et des solutions blockchain de bout en bout. J'aime transformer des besoins concrets en produits fiables : transferts d'argent, paiements en stablecoins (USDT/USDC), intégrations Mobile Money et outils métier.",
-        "p2": "Chez Lazer SARL, je travaille comme développeur Full-Stack depuis décembre 2023, où je livre des applications complètes — du front au déploiement. Curieux et rigoureux, je vise toujours un code propre, maintenable et prêt pour la production."
-      },
-      "strengths": {
-        "title": "Ce que je fais bien",
-        "subtitle": "Mes domaines de prédilection",
-        "list": {
-          "fullstack": {
-            "title": "Développement Full-Stack",
-            "description": "Applications complètes avec React/TypeScript côté front et NestJS/Laravel côté back."
-          },
-          "mobile": {
-            "title": "Applications mobiles",
-            "description": "Apps multiplateformes performantes avec React Native."
-          },
-          "blockchain": {
-            "title": "Blockchain & paiements crypto",
-            "description": "Paiements USDT/USDC sur Ethereum & Tron, gestion P2P et intégrations Web3."
-          },
-          "integrations": {
-            "title": "Intégrations & Mobile Money",
-            "description": "MTN MoMo, Orange Money, passerelles de paiement et APIs tierces."
-          },
-          "architecture": {
-            "title": "Architecture propre",
-            "description": "Code structuré, évolutif et facile à maintenir dans le temps."
-          },
-          "deployment": {
-            "title": "Déploiement en production",
-            "description": "Mise en ligne complète : VPS, Docker, Nginx, domaine et HTTPS."
-          }
-        }
-      },
-      "process": {
-        "title": "Comment je travaille",
-        "subtitle": "Une méthode simple, claire et transparente",
-        "steps": {
-          "s1": {
-            "title": "Écoute & cadrage",
-            "description": "Je commence par comprendre votre besoin réel et vos objectifs avant d'écrire la moindre ligne de code."
-          },
-          "s2": {
-            "title": "Conception",
-            "description": "Je définis une architecture claire et évolutive, adaptée au budget et aux contraintes."
-          },
-          "s3": {
-            "title": "Développement itératif",
-            "description": "Je livre par petites étapes, avec des démos régulières pour rester alignés."
-          },
-          "s4": {
-            "title": "Tests & qualité",
-            "description": "Je m'assure que le code est fiable, maintenable et bien documenté."
-          },
-          "s5": {
-            "title": "Déploiement & suivi",
-            "description": "Je mets en production et j'assure un suivi pour que tout fonctionne durablement."
-          }
-        }
-      },
-      "faq": {
-        "title": "Questions fréquentes",
-        "subtitle": "Les réponses aux questions que l'on me pose le plus",
-        "items": {
-          "q1": {
-            "question": "Travaillez-vous avec des clients hors du Cameroun ?",
-            "answer": "Oui, absolument. Je collabore à distance avec des clients partout dans le monde. Grâce à une communication claire, des points réguliers et une gestion de projet transparente (Git, démos, documentation), la distance n'est jamais un obstacle. Je m'adapte aux fuseaux horaires et je livre un travail structuré, suivi et fiable."
-          },
-          "q2": {
-            "question": "Pouvez-vous faire des intégrations (Mobile Money et autres apps) ?",
-            "answer": "Oui. J'intègre les API Mobile Money (MTN MoMo, Orange Money), les passerelles de paiement, les stablecoins (USDT/USDC sur Ethereum et Tron) ainsi que des services tiers (CRM, Notion, APIs REST). Je gère aussi bien la partie front que la partie back de ces intégrations."
-          },
-          "q3": {
-            "question": "Pouvez-vous reprendre un projet déjà commencé ?",
-            "answer": "Oui. Je peux reprendre une base de code existante. J'analyse d'abord l'architecture et la dette technique, puis je stabilise, documente et fais évoluer le projet proprement — sans tout réécrire inutilement."
-          },
-          "q4": {
-            "question": "Livrez-vous aussi le déploiement ?",
-            "answer": "Oui. Je livre jusqu'en production : configuration serveur (VPS, Docker, Nginx), CI/CD, nom de domaine, HTTPS et supervision. Vous recevez une application en ligne et opérationnelle, pas seulement du code."
-          }
+    "faq": {
+      "title": "Questions fréquentes",
+      "subtitle": "Les réponses aux questions que l'on me pose le plus",
+      "items": {
+        "q1": {
+          "question": "Travaillez-vous avec des clients hors du Cameroun ?",
+          "answer": "Oui, absolument. Je collabore à distance avec des clients partout dans le monde. Grâce à une communication claire, des points réguliers et une gestion de projet transparente (Git, démos, documentation), la distance n'est jamais un obstacle. Je m'adapte aux fuseaux horaires et je livre un travail structuré, suivi et fiable."
+        },
+        "q2": {
+          "question": "Pouvez-vous faire des intégrations (Mobile Money et autres apps) ?",
+          "answer": "Oui. J'intègre les API Mobile Money (MTN MoMo, Orange Money), les passerelles de paiement, les stablecoins (USDT/USDC sur Ethereum et Tron) ainsi que des services tiers (CRM, Notion, APIs REST). Je gère aussi bien la partie front que la partie back de ces intégrations."
+        },
+        "q3": {
+          "question": "Pouvez-vous reprendre un projet déjà commencé ?",
+          "answer": "Oui. Je peux reprendre une base de code existante. J'analyse d'abord l'architecture et la dette technique, puis je stabilise, documente et fais évoluer le projet proprement — sans tout réécrire inutilement."
+        },
+        "q4": {
+          "question": "Livrez-vous aussi le déploiement ?",
+          "answer": "Oui. Je livre jusqu'en production : configuration serveur (VPS, Docker, Nginx), CI/CD, nom de domaine, HTTPS et supervision. Vous recevez une application en ligne et opérationnelle, pas seulement du code."
         }
       }
-    },
-    "contact": {
-      "title": "Contactez-Moi",
-      "subtitle": "Travaillons ensemble sur votre projet",
-      "form": {
-        "name": "Votre nom",
-        "email": "Votre email",
-        "message": "Votre message",
-        "send": "Envoyer le message",
-        "sending": "Envoi en cours...",
-        "success": "Message envoyé avec succès !",
-        "error": "Échec de l'envoi. Veuillez réessayer."
-      },
-      "info": {
-        "location": "Localisation",
-        "email": "Email",
-        "social": "Suivez-moi"
-      }
-    },
-    "footer": {
-      "tagline": "Développeur Full-Stack & Blockchain — Bafoussam, Cameroun",
-      "copyright": "© 2025 Bike Cedric. Tous droits réservés.",
-      "built": "Créé avec React & TypeScript"
     }
+  },
+  "contact": {
+    "title": "Contactez-Moi",
+    "subtitle": "Travaillons ensemble sur votre projet",
+    "form": {
+      "name": "Votre nom",
+      "email": "Votre email",
+      "message": "Votre message",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "success": "Message envoyé avec succès !",
+      "error": "Échec de l'envoi. Veuillez réessayer.",
+      "notConfigured": "Le formulaire n’est pas encore configuré — écrivez-moi directement."
+    },
+    "info": {
+      "location": "Localisation",
+      "email": "Email",
+      "social": "Suivez-moi"
+    }
+  },
+  "footer": {
+    "tagline": "Développeur Full-Stack & Blockchain — Bafoussam, Cameroun",
+    "copyright": "© 2025 Bike Cedric. Tous droits réservés.",
+    "built": "Créé avec React & TypeScript"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "Cette page n’existe pas ou a été déplacée.",
+    "back": "Retour à l’accueil"
   }
+}

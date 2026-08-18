@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
-import { HelpCircle } from "lucide-react";
+import { fadeUp } from "@/lib/motion";
 import {
   Accordion,
   AccordionItem,
@@ -14,36 +14,22 @@ export const FAQ = () => {
   const items = ["q1", "q2", "q3", "q4"];
 
   return (
-    <section id="faq" className="section-padding relative overflow-hidden">
-      <div className="grid-bg absolute inset-0 opacity-30" />
-      <div className="relative mx-auto max-w-3xl">
+    <section id="faq" className="section border-t border-border">
+      <div className="mx-auto max-w-3xl">
         <SectionHeading
           eyebrow="faq"
           title={t("aboutPage.faq.title")}
           subtitle={t("aboutPage.faq.subtitle")}
-          dot
-          className="mb-12"
         />
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <Accordion type="single" collapsible className="space-y-4">
+        <motion.div {...fadeUp}>
+          <Accordion type="single" collapsible className="border-t border-border">
             {items.map((item) => (
-              <AccordionItem
-                key={item}
-                value={item}
-                className="glow-card overflow-hidden border-b-0 px-6"
-              >
-                <AccordionTrigger className="gap-3 py-5 text-left text-base font-semibold hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <HelpCircle className="h-5 w-5 shrink-0 text-primary" />
-                    {t(`aboutPage.faq.items.${item}.question`)}
-                  </span>
+              <AccordionItem key={item} value={item}>
+                <AccordionTrigger className="py-5 text-left text-base font-medium hover:no-underline">
+                  {t(`aboutPage.faq.items.${item}.question`)}
                 </AccordionTrigger>
-                <AccordionContent className="pl-8 text-base leading-relaxed text-muted-foreground">
+                <AccordionContent className="pb-5 text-base leading-relaxed text-muted-foreground">
                   {t(`aboutPage.faq.items.${item}.answer`)}
                 </AccordionContent>
               </AccordionItem>

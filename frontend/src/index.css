@@ -1,97 +1,71 @@
 @import "tailwindcss";
 
 /* ============================================== */
-/* Default theme = Dark crypto (green + cyan)     */
-/* "légèrement sombre" — deep teal-navy base      */
+/* Minimal theme — neutral greys + one blue accent */
+/* Light is the default; .dark is the opt-in.      */
 /* ============================================== */
 :root,
-.dark {
-  --background: 200 33% 7%;
-  --foreground: 180 25% 95%;
-
-  --card: 200 30% 10%;
-  --card-foreground: 180 20% 96%;
-
-  --popover: 200 30% 9%;
-  --popover-foreground: 180 20% 96%;
-
-  /* Emerald green */
-  --primary: 152 76% 45%;
-  --primary-foreground: 200 40% 6%;
-
-  /* Cyan */
-  --secondary: 184 85% 47%;
-  --secondary-foreground: 200 40% 6%;
-
-  --muted: 200 20% 15%;
-  --muted-foreground: 190 14% 64%;
-
-  /* Teal accent (between green & cyan) */
-  --accent: 172 80% 46%;
-  --accent-foreground: 200 40% 6%;
-
-  --destructive: 0 72% 51%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 190 25% 17%;
-  --input: 190 25% 15%;
-  --ring: 172 80% 46%;
-
-  --radius: 0.85rem;
-
-  /* Green -> Cyan gradient system */
-  --gradient-start: 152 76% 45%;
-  --gradient-mid: 170 82% 47%;
-  --gradient-end: 188 90% 52%;
-
-  --glow-primary: 0 12px 40px -12px hsl(var(--primary) / 0.25);
-
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ------------------------------ */
-/* Light mode (opt-in)            */
-/* ------------------------------ */
 .light {
-  /* Soft, low-glare light theme — muted mint-slate, no pure white */
-  --background: 200 24% 95%;
-  --foreground: 205 30% 20%;
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
 
-  --card: 200 30% 98%;
-  --card-foreground: 205 30% 22%;
+  --card: 210 40% 99%;
+  --card-foreground: 222 47% 11%;
 
-  --popover: 200 30% 98%;
-  --popover-foreground: 205 30% 22%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
 
-  --primary: 158 58% 34%;
+  --primary: 221 83% 45%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 192 60% 38%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
 
-  --muted: 200 20% 90%;
-  --muted-foreground: 205 12% 42%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 42%;
 
-  --accent: 172 52% 36%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
 
-  --destructive: 0 68% 50%;
+  --destructive: 0 72% 45%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 200 16% 86%;
-  --input: 200 16% 88%;
-  --ring: 172 52% 40%;
+  --border: 214 20% 89%;
+  --input: 214 20% 89%;
+  --ring: 221 83% 45%;
 
-  --gradient-start: 158 56% 36%;
-  --gradient-mid: 172 54% 38%;
-  --gradient-end: 192 60% 42%;
-
-  --glow-primary: 0 10px 30px -14px hsl(var(--primary) / 0.25);
+  --radius: 0.625rem;
 }
 
-/* Softer decorative layers in light mode (less glare) */
-.light .glow-blob { opacity: 0.14; }
-.light .grid-bg { opacity: 0.5; }
+.dark {
+  --background: 222 47% 8%;
+  --foreground: 210 40% 96%;
+
+  --card: 222 40% 11%;
+  --card-foreground: 210 40% 96%;
+
+  --popover: 222 40% 11%;
+  --popover-foreground: 210 40% 96%;
+
+  --primary: 217 91% 62%;
+  --primary-foreground: 222 47% 8%;
+
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 96%;
+
+  --muted: 217 33% 16%;
+  --muted-foreground: 215 20% 68%;
+
+  --accent: 217 33% 17%;
+  --accent-foreground: 210 40% 96%;
+
+  --destructive: 0 63% 55%;
+  --destructive-foreground: 210 40% 96%;
+
+  --border: 217 30% 20%;
+  --input: 217 30% 20%;
+  --ring: 217 91% 62%;
+}
 
 /* ------------------------------ */
 /* Theme Variables (Tailwind)     */
@@ -128,8 +102,6 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
-  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
-
   /* Animations */
   @keyframes accordion-down {
     from { height: 0; }
@@ -142,12 +114,6 @@
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
-}
-
-/* Keyframes used by the utility classes below */
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* ------------------------------ */
@@ -168,88 +134,51 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar (crypto feel) */
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: hsl(var(--background)); }
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(hsl(var(--primary)), hsl(var(--secondary)));
-  border-radius: 8px;
+::selection {
+  background: hsl(var(--primary) / 0.15);
 }
 
 /* ------------------------------ */
-/* Utility classes                */
+/* Layout primitives              */
 /* ------------------------------ */
-.gradient-text {
-  background: linear-gradient(120deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+
+/* Vertical rhythm shared by every section. */
+.section {
+  padding: 5rem 1.5rem;
+}
+@media (min-width: 768px) {
+  .section {
+    padding: 6rem 1.5rem;
+  }
 }
 
-.glass-card {
-  background: hsl(var(--card) / 0.6);
-  backdrop-filter: blur(14px);
-  border: 1px solid hsl(var(--border) / 0.8);
-}
-
-/* Gradient-bordered card (blockchain "node" look) */
-.glow-card {
-  position: relative;
-  background: hsl(var(--card) / 0.55);
-  backdrop-filter: blur(14px);
-  border: 1px solid hsl(var(--border) / 0.7);
+/* The single surface style used across the site. */
+.card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: var(--radius);
-  transition: var(--transition-smooth);
 }
-.glow-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, hsl(var(--primary) / 0.6), transparent 40%, transparent 60%, hsl(var(--secondary) / 0.6));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  pointer-events: none;
+.card-hover {
+  transition: box-shadow 0.2s ease;
 }
-.glow-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--glow-primary);
-  border-color: hsl(var(--primary) / 0.3);
-}
-.glow-card:hover::before {
-  opacity: 0.6;
+.card-hover:hover {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 8px 24px -12px rgb(0 0 0 / 0.18);
 }
 
-/* Subtle blockchain grid background */
-.grid-bg {
-  background-image:
-    linear-gradient(hsl(var(--border) / 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(var(--border) / 0.35) 1px, transparent 1px);
-  background-size: 48px 48px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+/* Every colour comes from a custom property, and a transitioned property keeps
+   its previous resolved value when only the variable changes. Suppress
+   transitions for the frame in which the theme class is swapped. */
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
 }
 
-/* Glowing radial blobs */
-.glow-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.28;
-  pointer-events: none;
-}
-
-.section-padding {
-  padding: 6rem 1rem;
-}
-
-/* Pill / chip */
-.chip {
-  border: 1px solid hsl(var(--primary) / 0.3);
-  background: hsl(var(--primary) / 0.08);
-  color: hsl(var(--primary));
+/* Small uppercase label above a section title. */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
 }

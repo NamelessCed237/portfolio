@@ -2,6 +2,7 @@ import type { ComponentType, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
+import { fadeUpAt } from "@/lib/motion";
 import { Code2, Server, Smartphone, Database, Blocks, Settings, Coins, Boxes, Network, Plug } from "lucide-react";
 import {
   SiReact,
@@ -46,112 +47,63 @@ export const Skills = () => {
       icon: Code2,
       category: t("skills.categories.frontend"),
       skills: ["React", "TypeScript", "Next.js"],
-      level: "Expert",
-      percent: 95,
     },
     {
       icon: Server,
       category: t("skills.categories.backend"),
       skills: ["NestJS", "Laravel"],
-      level: "Avancé",
-      percent: 88,
     },
     {
       icon: Smartphone,
       category: t("skills.categories.mobile"),
       skills: ["React Native"],
-      level: "Avancé",
-      percent: 82,
     },
     {
       icon: Database,
       category: t("skills.categories.database"),
       skills: ["MySQL", "PostgreSQL"],
-      level: "Avancé",
-      percent: 85,
     },
     {
       icon: Blocks,
       category: t("skills.categories.blockchain"),
       skills: ["Solidity", "Web3.js", "USDT/USDC", "Tron"],
-      level: "Avancé",
-      percent: 80,
     },
     {
       icon: Settings,
       category: t("skills.categories.other"),
       skills: ["Clean Architecture", "REST APIs", "Integrations"],
-      level: "Expert",
-      percent: 90,
     },
   ];
 
   return (
-    <section id="skills" className="section-padding relative overflow-hidden">
-      <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="relative mx-auto max-w-7xl">
+    <section id="skills" className="section border-t border-border">
+      <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="tech stack"
           title={t("skills.title")}
           subtitle={t("skills.subtitle")}
-          dot
-          className="mb-10"
         />
 
-        {/* Solidity import line */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-10 overflow-x-auto rounded-lg border border-border/70 bg-card/50 px-4 py-3 font-mono text-sm"
-        >
-          <span className="text-secondary">import</span>{" "}
-          <span className="text-primary">"@bikecedric/stack/FullStack.sol"</span>
-          <span className="text-muted-foreground">;</span>
-          <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-primary align-middle" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className="glow-card p-6"
+              {...fadeUpAt(index)}
+              className="card card-hover p-6"
             >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
-                  <category.icon className="h-6 w-6 text-primary" />
-                </div>
-                <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  {category.level}
-                </span>
-              </div>
-              <h3 className="mb-3 text-xl font-semibold">{category.category}</h3>
-
-              {/* progress bar */}
-              <div className="mb-4">
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${category.percent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: index * 0.08 }}
-                    className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
-                  />
-                </div>
+              <div className="flex items-center gap-3">
+                <category.icon className="h-5 w-5 text-primary" />
+                <h3 className="font-medium">{category.category}</h3>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {category.skills.map((skill) => {
                   const meta = skillMeta[skill];
                   const Icon = meta?.Icon;
                   return (
                     <span
                       key={skill}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-card/40 px-2.5 py-1 text-sm text-foreground/80"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-sm text-muted-foreground"
                     >
                       {Icon && (
                         <Icon
