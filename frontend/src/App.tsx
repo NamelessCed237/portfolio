@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
+import { MotionConfig } from "framer-motion";
 import { PageLayout } from "@/components/PageLayout";
 
 // Home is eager (first paint); the rest are code-split into their own chunks.
@@ -36,6 +37,7 @@ const PageLoader = () => (
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      <MotionConfig reducedMotion="user">
       <TooltipProvider>
         <Sonner />
         <BrowserRouter>
@@ -55,6 +57,7 @@ const App = () => {
           </Suspense>
         </BrowserRouter>
       </TooltipProvider>
+      </MotionConfig>
     </QueryClientProvider>
   );
 };

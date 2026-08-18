@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { SectionHeading } from "@/components/SectionHeading";
+import { Section } from "@/components/Section";
+import { Tag } from "@/components/ui/tag";
 import { fadeUpAt } from "@/lib/motion";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
@@ -27,54 +27,52 @@ export const Projects = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="projects" className="section border-t border-border">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeading
-          eyebrow="featured work"
-          title={t("projects.title")}
-          subtitle={t("projects.subtitle")}
-        />
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.key}
-              {...fadeUpAt(index)}
-              className="card card-hover flex flex-col overflow-hidden"
-            >
+    <Section
+      id="projects"
+      eyebrow="featured work"
+      title={t("projects.title")}
+      subtitle={t("projects.subtitle")}
+      tinted
+    >
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map(({ key, tech, image }, index) => (
+          <motion.article
+            key={key}
+            {...fadeUpAt(index)}
+            className="card card-interactive group flex flex-col overflow-hidden"
+          >
+            <div className="overflow-hidden border-b border-border">
               <img
-                src={project.image}
+                src={image}
                 alt=""
                 loading="lazy"
-                className="aspect-video w-full border-b border-border object-cover"
+                className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
+            </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="font-medium">{t(`projects.list.${project.key}.title`)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {t(`projects.list.${project.key}.description`)}
-                </p>
+            <div className="flex flex-1 flex-col p-6">
+              <h3 className="text-lg font-semibold">{t(`projects.list.${key}.title`)}</h3>
+              <p className="mt-2.5 leading-7 text-muted-foreground">
+                {t(`projects.list.${key}.description`)}
+              </p>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <Button variant="outline" size="sm" className="mt-6 w-full">
-                  {t("projects.viewProject")}
-                  <ExternalLink className="h-4 w-4" />
-                </Button>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {tech.map((item) => (
+                  <Tag key={item}>{item}</Tag>
+                ))}
               </div>
-            </motion.article>
-          ))}
-        </div>
+
+              <button
+                type="button"
+                className="mt-6 inline-flex items-center gap-1.5 self-start rounded-sm text-sm font-medium text-primary transition-colors hover:text-foreground"
+              >
+                {t("projects.viewProject")}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </div>
+          </motion.article>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 };

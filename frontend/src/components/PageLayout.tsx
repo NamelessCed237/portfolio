@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 export const PageLayout = () => (
   <div className="flex min-h-screen flex-col bg-background">
     <Navbar />
+    {/* pt-16 clears the fixed header. */}
     <main className="flex-1 pt-16">
       <Outlet />
     </main>
