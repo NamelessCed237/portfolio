@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Send, Globe, Coins } from "lucide-react";
 
@@ -37,18 +38,12 @@ export const Projects = () => {
     <section id="projects" className="section-padding relative overflow-hidden">
       <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/30" />
       <div className="relative mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// featured work</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("projects.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("projects.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="featured work"
+          title={t("projects.title")}
+          subtitle={t("projects.subtitle")}
+          dot
+        />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (

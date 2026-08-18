@@ -1,6 +1,7 @@
 import type { ComponentType, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Code2, Server, Smartphone, Database, Blocks, Settings, Coins, Boxes, Network, Plug } from "lucide-react";
 import {
   SiReact,
@@ -89,18 +90,13 @@ export const Skills = () => {
     <section id="skills" className="section-padding relative overflow-hidden">
       <div className="grid-bg absolute inset-0 opacity-40" />
       <div className="relative mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-10 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// tech stack</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("skills.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("skills.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="tech stack"
+          title={t("skills.title")}
+          subtitle={t("skills.subtitle")}
+          dot
+          className="mb-10"
+        />
 
         {/* Solidity import line */}
         <motion.div
