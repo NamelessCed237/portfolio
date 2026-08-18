@@ -1,20 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, Linkedin, Twitter, Mail, CheckCircle2, Hexagon } from "lucide-react";
+import { ArrowRight, CheckCircle2, Hexagon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { NetworkBackground } from "@/components/NetworkBackground";
+import { DynamicIcon } from "@/components/DynamicIcon";
+import { useContent, useLocalized } from "@/lib/content/useContent";
 import { CodeEditor, C, K, S, P, N, Pn, Fn } from "@/components/ui/code-window";
 
 export const Hero = () => {
   const { t } = useTranslation();
-
-  const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Mail, href: "mailto:cedric@example.com", label: "Email" },
-  ];
+  const { content } = useContent();
+  const localized = useLocalized();
+  const { profile } = content;
 
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden pt-20">
@@ -42,7 +40,7 @@ export const Hero = () => {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            ◆ Open to Work
+            ◆ {localized(profile.availability)}
           </motion.div>
 
           <div className="space-y-3">
@@ -52,7 +50,7 @@ export const Hero = () => {
               transition={{ delay: 0.3 }}
               className="font-mono text-sm text-primary"
             >
-              // {t("hero.greeting")}
+              // {localized(profile.greeting)}
             </motion.p>
 
             <motion.h1
@@ -61,7 +59,7 @@ export const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-5xl font-bold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl"
             >
-              {t("hero.name")}
+              {profile.name}
               <span className="text-primary">.</span>
             </motion.h1>
 
@@ -71,7 +69,7 @@ export const Hero = () => {
               transition={{ delay: 0.5 }}
               className="text-xl font-medium text-muted-foreground md:text-2xl"
             >
-              <span className="gradient-text font-semibold">{t("hero.title")}</span>
+              <span className="gradient-text font-semibold">{localized(profile.role)}</span>
             </motion.h2>
 
             <motion.p
@@ -80,7 +78,7 @@ export const Hero = () => {
               transition={{ delay: 0.65 }}
               className="max-w-xl text-base leading-relaxed text-muted-foreground"
             >
-              {t("hero.subtitle")}
+              {localized(profile.bio)}
             </motion.p>
           </div>
 
@@ -92,13 +90,13 @@ export const Hero = () => {
           >
             <Link to="/projects">
               <Button size="lg" className="group min-w-[180px] gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-lg shadow-primary/20 hover:opacity-90">
-                Voir mes projets
+                {t("hero.cta")}
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link to="/contact">
               <Button size="lg" variant="outline" className="min-w-[150px] border-primary/40 hover:bg-primary/10">
-                Me contacter
+                {t("nav.contact")}
               </Button>
             </Link>
           </motion.div>
@@ -109,16 +107,16 @@ export const Hero = () => {
             transition={{ delay: 0.95 }}
             className="flex gap-2 pt-2"
           >
-            {socialLinks.map((social) => (
+            {profile.socials.map((social) => (
               <a
-                key={social.label}
+                key={social.id}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="grid h-10 w-10 place-items-center rounded-lg border border-border/70 bg-card/40 text-muted-foreground backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
                 aria-label={social.label}
               >
-                <social.icon className="h-5 w-5" />
+                <DynamicIcon name={social.icon} className="h-5 w-5" />
               </a>
             ))}
           </motion.div>

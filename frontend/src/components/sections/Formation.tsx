@@ -1,27 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
+import { useContent, useLocalized } from "@/lib/content/useContent";
 import { GraduationCap, Calendar } from "lucide-react";
 
 export const Formation = () => {
   const { t } = useTranslation();
-
-  const education = [
-    {
-      key: "licence",
-      titleKey: "formation.list.licence.title",
-      schoolKey: "formation.list.licence.school",
-      periodKey: "formation.list.licence.period",
-      descKey: "formation.list.licence.description",
-    },
-    {
-      key: "gce",
-      titleKey: "formation.list.gce.title",
-      schoolKey: "formation.list.gce.school",
-      periodKey: "formation.list.gce.period",
-      descKey: "formation.list.gce.description",
-    },
-  ];
+  const { content } = useContent();
+  const localized = useLocalized();
 
   return (
     <section id="formation" className="section-padding relative overflow-hidden">
@@ -32,9 +18,9 @@ export const Formation = () => {
         </SectionHeading>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {education.map((edu, index) => (
+          {content.education.map((edu, index) => (
             <motion.div
-              key={edu.key}
+              key={edu.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -47,12 +33,12 @@ export const Formation = () => {
                 </div>
                 <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                   <Calendar className="h-3.5 w-3.5" />
-                  {t(edu.periodKey)}
+                  {localized(edu.period)}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold">{t(edu.titleKey)}</h3>
-              <p className="mt-1 text-sm font-medium text-primary">{t(edu.schoolKey)}</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t(edu.descKey)}</p>
+              <h3 className="text-lg font-semibold">{localized(edu.title)}</h3>
+              <p className="mt-1 text-sm font-medium text-primary">{edu.school}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{localized(edu.description)}</p>
             </motion.div>
           ))}
         </div>

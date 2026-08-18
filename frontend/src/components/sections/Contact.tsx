@@ -5,7 +5,9 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Github, Linkedin, Send } from "lucide-react";
+import { Send } from "lucide-react";
+import { DynamicIcon } from "@/components/DynamicIcon";
+import { useContent } from "@/lib/content/useContent";
 import { useToast } from "@/hooks/use-toast";
 import { CodeEditor, K, S, P, Pn } from "@/components/ui/code-window";
 import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
@@ -13,6 +15,7 @@ import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
 export const Contact = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { profile } = useContent().content;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,30 +70,25 @@ export const Contact = () => {
 
             <CodeEditor tabs={["contact.ts"]}>
               <K>const</K> <P>contact</P> <Pn>= {"{"}</Pn>{"\n"}
-              {"  "}<P>email</P>    <Pn>:</Pn> <S>"cedric@example.com"</S><Pn>,</Pn>{"\n"}
-              {"  "}<P>location</P> <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S><Pn>,</Pn>{"\n"}
+              {"  "}<P>email</P>    <Pn>:</Pn> <S>&quot;{profile.email}&quot;</S><Pn>,</Pn>{"\n"}
+              {"  "}<P>location</P> <Pn>:</Pn> <S>&quot;{profile.location}&quot;</S><Pn>,</Pn>{"\n"}
               {"  "}<P>chains</P>   <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Tron"</S><Pn>],</Pn>{"\n"}
               {"  "}<P>timezone</P> <Pn>:</Pn> <S>"GMT+1"</S><Pn>,</Pn>{"\n"}
               <Pn>{"}"}</Pn><Pn>;</Pn>
             </CodeEditor>
 
-            <div className="flex gap-3">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
-              >
-                <Github className="h-4 w-4" /> GitHub
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
-              >
-                <Linkedin className="h-4 w-4" /> LinkedIn
-              </a>
+            <div className="flex flex-wrap gap-3">
+              {profile.socials.map((social) => (
+                <a
+                  key={social.id}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
+                >
+                  <DynamicIcon name={social.icon} className="h-4 w-4" /> {social.label}
+                </a>
+              ))}
             </div>
           </motion.div>
 

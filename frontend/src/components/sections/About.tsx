@@ -1,16 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
+import { useContent, useLocalized } from "@/lib/content/useContent";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
 
 export const About = () => {
   const { t } = useTranslation();
+  const { content } = useContent();
+  const localized = useLocalized();
+  const { profile } = content;
 
   const stats = [
     { value: "2+", label: t("about.stats.experience") },
-    { value: "10+", label: t("about.stats.projects") },
+    { value: `${content.projects.length}+`, label: t("about.stats.projects") },
     { value: "15+", label: t("about.stats.clients") },
     { value: "3+", label: "Blockchains" },
   ];
@@ -19,7 +23,7 @@ export const About = () => {
     <section id="about" className="section-padding relative overflow-hidden">
       <div className="grid-bg absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-7xl">
-        <SectionHeading eyebrow="about me" title={t("about.title")} dot />
+        <SectionHeading eyebrow="about me" title={localized(profile.aboutTitle)} dot />
 
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
           {/* Left: description + config card + CV */}
@@ -30,9 +34,9 @@ export const About = () => {
             className="space-y-6"
           >
             <p className="text-lg leading-relaxed text-muted-foreground">
-              {t("about.description")}
+              {localized(profile.aboutDescription)}
             </p>
-            <p className="text-lg font-medium text-foreground">{t("about.highlight")}</p>
+            <p className="text-lg font-medium text-foreground">{localized(profile.aboutHighlight)}</p>
 
             <CodeEditor tabs={["contact.config.ts"]}>
               <C>{"// contact.config.ts"}</C>{"\n"}

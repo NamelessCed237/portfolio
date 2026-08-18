@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { PageLayout } from "@/components/PageLayout";
+import { ContentProvider } from "@/lib/content/ContentProvider";
 
 // Home is eager (first paint); the rest are code-split into their own chunks.
 import Index from "./pages/Index";
@@ -11,7 +12,13 @@ const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+
+// The dashboard is a separate concern from the public site: one chunk, only
+// downloaded when someone opens /admin.
+const Admin = lazy(() => import("./pages/admin/AdminRoutes"));
 
 const queryClient = new QueryClient();
 
@@ -36,25 +43,32 @@ const PageLoader = () => (
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route element={<PageLayout />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/contact" element={<Contact />} />
-              </Route>
-              {/* Standalone: the 404 has its own full-screen layout. */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ContentProvider>
+        <TooltipProvider>
+          <Sonner />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route element={<PageLayout />}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:slug" element={<BlogPost />} />
+                  <Route path="/contact" element={<Contact />} />
+                </Route>
+                {/* Dashboard: its own shell, outside the public layout. */}
+                <Route path="/admin/*" element={<Admin />} />
+
+                {/* Standalone: the 404 has its own full-screen layout. */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ContentProvider>
     </QueryClientProvider>
   );
 };

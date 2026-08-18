@@ -2,7 +2,9 @@ import type { ComponentType, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
-import { Code2, Server, Smartphone, Database, Blocks, Settings, Coins, Boxes, Network, Plug } from "lucide-react";
+import { Coins, Boxes, Network, Plug } from "lucide-react";
+import { DynamicIcon } from "@/components/DynamicIcon";
+import { useContent, useLocalized } from "@/lib/content/useContent";
 import {
   SiReact,
   SiTypescript,
@@ -40,51 +42,8 @@ const skillMeta: Record<string, { Icon: SkillIcon; color?: string }> = {
 
 export const Skills = () => {
   const { t } = useTranslation();
-
-  const skillCategories = [
-    {
-      icon: Code2,
-      category: t("skills.categories.frontend"),
-      skills: ["React", "TypeScript", "Next.js"],
-      level: "Expert",
-      percent: 95,
-    },
-    {
-      icon: Server,
-      category: t("skills.categories.backend"),
-      skills: ["NestJS", "Laravel"],
-      level: "Avancé",
-      percent: 88,
-    },
-    {
-      icon: Smartphone,
-      category: t("skills.categories.mobile"),
-      skills: ["React Native"],
-      level: "Avancé",
-      percent: 82,
-    },
-    {
-      icon: Database,
-      category: t("skills.categories.database"),
-      skills: ["MySQL", "PostgreSQL"],
-      level: "Avancé",
-      percent: 85,
-    },
-    {
-      icon: Blocks,
-      category: t("skills.categories.blockchain"),
-      skills: ["Solidity", "Web3.js", "USDT/USDC", "Tron"],
-      level: "Avancé",
-      percent: 80,
-    },
-    {
-      icon: Settings,
-      category: t("skills.categories.other"),
-      skills: ["Clean Architecture", "REST APIs", "Integrations"],
-      level: "Expert",
-      percent: 90,
-    },
-  ];
+  const { content } = useContent();
+  const localized = useLocalized();
 
   return (
     <section id="skills" className="section-padding relative overflow-hidden">
@@ -112,9 +71,9 @@ export const Skills = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {skillCategories.map((category, index) => (
+          {content.skills.map((category, index) => (
             <motion.div
-              key={category.category}
+              key={category.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -123,13 +82,13 @@ export const Skills = () => {
             >
               <div className="mb-4 flex items-center justify-between">
                 <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
-                  <category.icon className="h-6 w-6 text-primary" />
+                  <DynamicIcon name={category.icon} className="h-6 w-6 text-primary" />
                 </div>
                 <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  {category.level}
+                  {localized(category.level)}
                 </span>
               </div>
-              <h3 className="mb-3 text-xl font-semibold">{category.category}</h3>
+              <h3 className="mb-3 text-xl font-semibold">{localized(category.title)}</h3>
 
               {/* progress bar */}
               <div className="mb-4">

@@ -247,6 +247,26 @@ html {
   padding: 6rem 1rem;
 }
 
+/* Gradient tile behind a section or card icon */
+.icon-tile {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  color: hsl(var(--primary));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--secondary) / 0.15));
+}
+
+/* Monospace label above a section title */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--primary));
+}
+
 /* Pill / chip */
 .chip {
   border: 1px solid hsl(var(--primary) / 0.3);

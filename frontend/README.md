@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# Portfolio — Bike Cedric
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite + Tailwind 4 single-page portfolio, bilingual (FR/EN), with an
+admin dashboard for the blog and the site content.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev      # dev server
+npm run build    # type-check + production build
+npm run lint     # eslint
+npm run preview  # serve the build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  components/         layout, sections and the shared UI kit
+    sections/         one file per section of the public pages
+    admin/            field renderer used by every dashboard form
+    ui/               shadcn primitives actually in use
+  pages/              routed pages, admin/ holds the dashboard
+  lib/content/        editable content: model, seed, store, schema
+  i18n/               structural labels (titles, buttons, navigation)
+```
+
+## Content and the dashboard
+
+Open `/admin`. It edits everything that is not a structural label: profile,
+services, projects, skills, experience, education and blog posts. Every text is
+bilingual — each field has an FR and an EN input, and the site shows the one
+matching the current language.
+
+- **Seed** — `lib/content/defaults.ts` builds the initial content from the
+  translation files, so a fresh visitor sees exactly what the repo ships.
+- **Storage** — `lib/content/store.ts` writes to this browser's localStorage.
+  Edits are therefore local: export the JSON from the dashboard and commit it,
+  or point the store at an API.
+- **Adding a field** — add it to the type in `lib/content/types.ts` and to the
+  collection in `lib/content/schema.ts`. The list and form pages are generic;
+  no dashboard screen needs changing.
+- **Adding a collection** — same two files, plus reading it in the section that
+  displays it.
+
+### Plugging in a backend
+
+`store.ts` exposes `readContent`, `writeContent` and `clearContent`. Replacing
+those three with fetch calls (and making the provider await them) is the whole
+migration — no page or section talks to storage directly.
+
+> The dashboard has no authentication because there is no server: it only edits
+> the visitor's own copy. Whoever adds the backend has to add real auth with it.
+
+## Contact form
+
+EmailJS, configured through `.env` (see `.env.example`). Without the three keys
+the form stays disabled and says so.

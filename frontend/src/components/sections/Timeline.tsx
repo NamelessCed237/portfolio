@@ -1,31 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/SectionHeading";
+import { useContent, useLocalized } from "@/lib/content/useContent";
 import { Calendar, MapPin, Briefcase } from "lucide-react";
 
 export const Timeline = () => {
   const { t } = useTranslation();
-
-  const experiences = [
-    {
-      hash: "8afeeaf",
-      titleKey: "experience.timeline.lazer.title",
-      companyKey: "experience.timeline.lazer.company",
-      periodKey: "experience.timeline.lazer.period",
-      locationKey: "experience.timeline.lazer.location",
-      descKey: "experience.timeline.lazer.description",
-      tech: ["React", "React Native", "NestJS", "Laravel", "PostgreSQL"],
-    },
-    {
-      hash: "2bae84b",
-      titleKey: "experience.timeline.hackathon.title",
-      companyKey: "experience.timeline.hackathon.company",
-      periodKey: "experience.timeline.hackathon.period",
-      locationKey: "experience.timeline.hackathon.location",
-      descKey: "experience.timeline.hackathon.description",
-      tech: ["Blockchain", "Web3", "Smart Contracts"],
-    },
-  ];
+  const { content } = useContent();
+  const localized = useLocalized();
 
   return (
     <section id="experience" className="section-padding relative overflow-hidden">
@@ -38,9 +20,9 @@ export const Timeline = () => {
         <div className="relative pl-8 md:pl-10">
           <div className="absolute left-2 top-2 h-full w-px bg-gradient-to-b from-primary via-secondary/50 to-transparent md:left-3" />
 
-          {experiences.map((exp, index) => (
+          {content.experience.map((exp, index) => (
             <motion.div
-              key={exp.hash}
+              key={exp.id}
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -53,21 +35,21 @@ export const Timeline = () => {
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                   <span className="inline-flex items-center gap-2 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
                     <Briefcase className="h-3.5 w-3.5" />
-                    {t(exp.companyKey)}
+                    {exp.company}
                   </span>
                   <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                     <Calendar className="h-3.5 w-3.5" />
-                    {t(exp.periodKey)}
+                    {localized(exp.period)}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-semibold">{t(exp.titleKey)}</h3>
+                <h3 className="text-xl font-semibold">{localized(exp.title)}</h3>
                 <p className="mt-1 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
                   <MapPin className="h-3.5 w-3.5" />
-                  {t(exp.locationKey)}
+                  {exp.location}
                 </p>
 
-                <p className="mt-3 leading-relaxed text-muted-foreground">{t(exp.descKey)}</p>
+                <p className="mt-3 leading-relaxed text-muted-foreground">{localized(exp.description)}</p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
                   {exp.tech.map((tech) => (

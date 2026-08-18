@@ -25,6 +25,7 @@ export const Navbar = () => {
     { to: "/about", label: t("nav.about") },
     { to: "/projects", label: t("nav.projects") },
     { to: "/services", label: t("nav.services") },
+    { to: "/blog", label: t("nav.blog") },
     { to: "/contact", label: t("nav.contact") },
   ];
 
