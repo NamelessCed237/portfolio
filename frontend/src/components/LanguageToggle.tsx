@@ -1,13 +1,18 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export const LanguageToggle = () => {
   const { i18n } = useTranslation();
   const current = i18n.language?.startsWith("fr") ? "fr" : "en";
 
+  // Keep <html lang> in sync with i18next.
+  useEffect(() => {
+    document.documentElement.lang = current;
+  }, [current]);
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     localStorage.setItem("lang", lng);
-    document.documentElement.lang = lng;
   };
 
   return (

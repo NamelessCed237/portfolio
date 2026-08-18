@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Github, Linkedin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
+import { CodeEditor, K, S, P, Pn } from "@/components/ui/code-window";
 import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
 
 export const Contact = () => {
@@ -44,18 +45,12 @@ export const Contact = () => {
       <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/20" />
 
       <div className="relative mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// contact</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("contact.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("contact.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="contact"
+          title={t("contact.title")}
+          subtitle={t("contact.subtitle")}
+          dot
+        />
 
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
           {/* Left: description + contact code card + socials */}

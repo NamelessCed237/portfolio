@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Calendar, MapPin, Briefcase } from "lucide-react";
 
 export const Timeline = () => {
@@ -30,18 +31,9 @@ export const Timeline = () => {
     <section id="experience" className="section-padding relative overflow-hidden">
       <div className="glow-blob left-[-8%] top-[30%] h-72 w-72 bg-primary/30" />
       <div className="relative mx-auto max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// experience</p>
-          <h2 className="text-4xl font-bold">
-            {t("experience.title")}<span className="text-primary">.</span>
-          </h2>
+        <SectionHeading eyebrow="experience" title={t("experience.title")} dot>
           <p className="mt-3 text-muted-foreground">{t("experience.subtitle")}</p>
-        </motion.div>
+        </SectionHeading>
 
         <div className="relative pl-8 md:pl-10">
           <div className="absolute left-2 top-2 h-full w-px bg-gradient-to-b from-primary via-secondary/50 to-transparent md:left-3" />

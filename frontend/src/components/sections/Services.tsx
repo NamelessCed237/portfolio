@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { Monitor, Smartphone, Server, Blocks, Link2, Code } from "lucide-react";
 
 export const Services = () => {
@@ -41,16 +42,11 @@ export const Services = () => {
   return (
     <section id="services" className="section-padding">
       <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// what i do</p>
-          <h2 className="mb-4 text-4xl font-bold">{t("services.title")}</h2>
-          <p className="text-lg text-muted-foreground">{t("services.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="what i do"
+          title={t("services.title")}
+          subtitle={t("services.subtitle")}
+        />
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (

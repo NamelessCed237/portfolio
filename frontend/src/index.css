@@ -4,7 +4,8 @@
 /* Default theme = Dark crypto (green + cyan)     */
 /* "légèrement sombre" — deep teal-navy base      */
 /* ============================================== */
-:root {
+:root,
+.dark {
   --background: 200 33% 7%;
   --foreground: 180 25% 95%;
 
@@ -43,48 +44,9 @@
   --gradient-mid: 170 82% 47%;
   --gradient-end: 188 90% 52%;
 
-  --hero-gradient: linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-mid)) 50%, hsl(var(--gradient-end)));
-  --card-gradient: linear-gradient(145deg, hsl(var(--primary) / 0.08), hsl(var(--secondary) / 0.05));
   --glow-primary: 0 12px 40px -12px hsl(var(--primary) / 0.25);
-  --glow-secondary: 0 12px 40px -12px hsl(var(--secondary) / 0.25);
-  --glow-accent: 0 0 40px hsl(var(--accent) / 0.25);
 
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Explicit dark = same as root default */
-.dark {
-  --background: 200 33% 7%;
-  --foreground: 180 25% 95%;
-
-  --card: 200 30% 10%;
-  --card-foreground: 180 20% 96%;
-
-  --popover: 200 30% 9%;
-  --popover-foreground: 180 20% 96%;
-
-  --primary: 152 76% 45%;
-  --primary-foreground: 200 40% 6%;
-
-  --secondary: 184 85% 47%;
-  --secondary-foreground: 200 40% 6%;
-
-  --muted: 200 20% 15%;
-  --muted-foreground: 190 14% 64%;
-
-  --accent: 172 80% 46%;
-  --accent-foreground: 200 40% 6%;
-
-  --destructive: 0 72% 51%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 190 25% 17%;
-  --input: 190 25% 15%;
-  --ring: 172 80% 46%;
-
-  --gradient-start: 152 76% 45%;
-  --gradient-mid: 170 82% 47%;
-  --gradient-end: 188 90% 52%;
 }
 
 /* ------------------------------ */
@@ -124,10 +86,7 @@
   --gradient-mid: 172 54% 38%;
   --gradient-end: 192 60% 42%;
 
-  --card-gradient: linear-gradient(145deg, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.04));
   --glow-primary: 0 10px 30px -14px hsl(var(--primary) / 0.25);
-  --glow-secondary: 0 10px 30px -14px hsl(var(--secondary) / 0.25);
-  --glow-accent: 0 0 30px hsl(var(--accent) / 0.15);
 }
 
 /* Softer decorative layers in light mode (less glare) */
@@ -180,57 +139,15 @@
     from { height: var(--radix-accordion-content-height); }
     to { height: 0; }
   }
-  @keyframes fade-in {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-  @keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes glow-pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-  }
-  @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
-  --animate-fade-in: fade-in 0.6s ease-out;
-  --animate-float: float 4s ease-in-out infinite;
-  --animate-gradient: gradient-shift 6s ease infinite;
-  --animate-marquee: marquee 30s linear infinite;
-  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
-  --animate-spin-slow: spin-slow 22s linear infinite;
 }
 
-/* Fallback keyframes (outside @theme) */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
+/* Keyframes used by the utility classes below */
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
 }
 
 /* ------------------------------ */
@@ -262,10 +179,6 @@ html {
 /* ------------------------------ */
 /* Utility classes                */
 /* ------------------------------ */
-.gradient-bg {
-  background: var(--hero-gradient);
-}
-
 .gradient-text {
   background: linear-gradient(120deg, hsl(var(--gradient-start)), hsl(var(--gradient-end)));
   -webkit-background-clip: text;
@@ -311,14 +224,6 @@ html {
   opacity: 0.6;
 }
 
-.hover-glow {
-  transition: var(--transition-smooth);
-}
-.hover-glow:hover {
-  box-shadow: var(--glow-primary);
-  transform: translateY(-4px);
-}
-
 /* Subtle blockchain grid background */
 .grid-bg {
   background-image:
@@ -347,14 +252,4 @@ html {
   border: 1px solid hsl(var(--primary) / 0.3);
   background: hsl(var(--primary) / 0.08);
   color: hsl(var(--primary));
-}
-
-/* Marquee track */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-}
-.marquee-track:hover {
-  animation-play-state: paused;
 }

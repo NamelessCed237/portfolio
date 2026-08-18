@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
+import { PageLayout } from "@/components/PageLayout";
 
 // Home is eager (first paint); the rest are code-split into their own chunks.
 import Index from "./pages/Index";
@@ -41,11 +42,14 @@ const App = () => {
           <ScrollToTop />
           <Suspense fallback={<PageLoader />}>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route element={<PageLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+              </Route>
+              {/* Standalone: the 404 has its own full-screen layout. */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

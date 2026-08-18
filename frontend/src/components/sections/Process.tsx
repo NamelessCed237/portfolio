@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 
 export const Process = () => {
   const { t } = useTranslation();
@@ -9,18 +10,12 @@ export const Process = () => {
     <section className="section-padding relative overflow-hidden">
       <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/30" />
       <div className="relative mx-auto max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// workflow</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("aboutPage.process.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("aboutPage.process.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="workflow"
+          title={t("aboutPage.process.title")}
+          subtitle={t("aboutPage.process.subtitle")}
+          dot
+        />
 
         <div className="relative pl-8 md:pl-12">
           <div className="absolute left-2 top-2 h-full w-px bg-gradient-to-b from-primary via-secondary/50 to-transparent md:left-4" />

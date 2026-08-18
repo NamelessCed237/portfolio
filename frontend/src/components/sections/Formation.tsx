@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { GraduationCap, Calendar } from "lucide-react";
 
 export const Formation = () => {
@@ -26,18 +27,9 @@ export const Formation = () => {
     <section id="formation" className="section-padding relative overflow-hidden">
       <div className="grid-bg absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// education</p>
-          <h2 className="text-4xl font-bold">
-            {t("formation.title")}<span className="text-primary">.</span>
-          </h2>
+        <SectionHeading eyebrow="education" title={t("formation.title")} dot>
           <p className="mt-3 text-muted-foreground">{t("formation.subtitle")}</p>
-        </motion.div>
+        </SectionHeading>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {education.map((edu, index) => (

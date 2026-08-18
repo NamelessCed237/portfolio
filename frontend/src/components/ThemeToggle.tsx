@@ -1,32 +1,26 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+type Theme = "light" | "dark";
+
+/** Dark-first for the crypto look; the user choice is persisted. */
+const readStoredTheme = (): Theme =>
+  (localStorage.getItem("theme") as Theme | null) ?? "dark";
+
 export const ThemeToggle = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
 
-  // Apply saved / preferred theme on mount (dark-first for the crypto look)
+  // Keep <html> in sync with the current theme.
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-
-    const initialTheme = savedTheme || "dark";
-
-    setTheme(initialTheme);
     document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(initialTheme);
-  }, []);
+    document.documentElement.classList.add(theme);
+  }, [theme]);
 
-  // Toggle between light/dark
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(newTheme);
+    const next: Theme = theme === "light" ? "dark" : "light";
+    setTheme(next);
+    localStorage.setItem("theme", next);
   };
 
   return (

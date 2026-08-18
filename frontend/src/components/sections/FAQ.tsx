@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SectionHeading } from "@/components/SectionHeading";
 import { HelpCircle } from "lucide-react";
 import {
   Accordion,
@@ -16,18 +17,13 @@ export const FAQ = () => {
     <section id="faq" className="section-padding relative overflow-hidden">
       <div className="grid-bg absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-3xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// faq</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("aboutPage.faq.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("aboutPage.faq.subtitle")}</p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="faq"
+          title={t("aboutPage.faq.title")}
+          subtitle={t("aboutPage.faq.subtitle")}
+          dot
+          className="mb-12"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
