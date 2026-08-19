@@ -25,9 +25,22 @@ export const ProfileEditor = () => {
       socials: current.socials.map((social) => (social.id === id ? { ...social, ...patch } : social)),
     }));
 
-  const save = () => {
-    update((current) => ({ ...current, profile: draft }));
-    toast.success("Profil enregistré");
+  const [saving, setSaving] = useState(false);
+
+  const save = async () => {
+    setSaving(true);
+    try {
+      await update((current) => ({ ...current, profile: draft }));
+      toast.success("Profil enregistré");
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message === "unauthorized"
+          ? "Session expirée — reconnectez-vous"
+          : "Enregistrement impossible",
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -39,7 +52,7 @@ export const ProfileEditor = () => {
             Identité, textes du hero et de la section À propos.
           </p>
         </div>
-        <Button onClick={save}>
+        <Button onClick={() => void save()} disabled={saving}>
           <Save className="h-4 w-4" />
           Enregistrer
         </Button>

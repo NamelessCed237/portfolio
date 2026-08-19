@@ -22,18 +22,32 @@ export const CollectionEditor = () => {
     : undefined;
 
   const [draft, setDraft] = useState<EditableRecord>(() => existing ?? collection?.blank() ?? {});
+  const [saving, setSaving] = useState(false);
 
   if (!collection) return <Navigate to="/admin" replace />;
   if (!isNew && !existing) return <Navigate to={`/admin/${collection.key}`} replace />;
 
-  const save = () => {
-    update((current) => {
-      const list = current[collection.key] as unknown as EditableRecord[];
-      const next = isNew ? [...list, draft] : list.map((item) => (item.id === draft.id ? draft : item));
-      return { ...current, [collection.key]: next } as SiteContent;
-    });
-    toast.success(isNew ? "Entrée créée" : "Modifications enregistrées");
-    navigate(`/admin/${collection.key}`);
+  const save = async () => {
+    setSaving(true);
+    try {
+      await update((current) => {
+        const list = current[collection.key] as unknown as EditableRecord[];
+        const next = isNew
+          ? [...list, draft]
+          : list.map((item) => (item.id === draft.id ? draft : item));
+        return { ...current, [collection.key]: next } as SiteContent;
+      });
+      toast.success(isNew ? "Entrée créée" : "Modifications enregistrées");
+      navigate(`/admin/${collection.key}`);
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message === "unauthorized"
+          ? "Session expirée — reconnectez-vous"
+          : "Enregistrement impossible",
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -53,7 +67,7 @@ export const CollectionEditor = () => {
             {isNew ? "Nouvelle entrée" : "Modifier une entrée"}
           </h1>
         </div>
-        <Button onClick={save}>
+        <Button onClick={() => void save()} disabled={saving}>
           <Save className="h-4 w-4" />
           Enregistrer
         </Button>

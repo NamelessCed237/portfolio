@@ -17,15 +17,23 @@ export const CollectionList = () => {
 
   const items = content[collection.key];
 
-  const remove = (id: string) => {
-    update(
-      (current) =>
-        ({
-          ...current,
-          [collection.key]: current[collection.key].filter((item) => item.id !== id),
-        }) as SiteContent,
-    );
-    toast.success("Entrée supprimée");
+  const remove = async (id: string) => {
+    try {
+      await update(
+        (current) =>
+          ({
+            ...current,
+            [collection.key]: current[collection.key].filter((item) => item.id !== id),
+          }) as SiteContent,
+      );
+      toast.success("Entrée supprimée");
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message === "unauthorized"
+          ? "Session expirée — reconnectez-vous"
+          : "Enregistrement impossible",
+      );
+    }
   };
 
   const rowTitle = (item: Record<string, unknown>) => {
@@ -83,7 +91,7 @@ export const CollectionList = () => {
                     size="icon"
                     variant="ghost"
                     aria-label="Supprimer"
-                    onClick={() => remove(item.id)}
+                    onClick={() => void remove(item.id)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

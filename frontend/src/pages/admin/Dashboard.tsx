@@ -1,16 +1,19 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { Download, RotateCcw, Upload } from "lucide-react";
+import { useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Download, LogOut, RefreshCw, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { DynamicIcon } from "@/components/DynamicIcon";
 import { useContent } from "@/lib/content/useContent";
 import { COLLECTIONS } from "@/lib/content/schema";
-import { DynamicIcon } from "@/components/DynamicIcon";
+import { signOut } from "@/lib/content/store";
 import type { SiteContent } from "@/lib/content/types";
 
 export const Dashboard = () => {
-  const { content, update, reset } = useContent();
+  const { content, status, update, reload } = useContent();
   const fileInput = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  const navigate = useNavigate();
 
   const handleExport = () => {
     const blob = new Blob([JSON.stringify(content, null, 2)], { type: "application/json" });
@@ -23,37 +26,68 @@ export const Dashboard = () => {
   };
 
   const handleImport = async (file: File) => {
+    setBusy(true);
     try {
       const parsed = JSON.parse(await file.text()) as SiteContent;
-      update(() => parsed);
-      toast.success("Contenu importé");
+      await update(() => parsed);
+      toast.success("Contenu importé et enregistré");
     } catch {
-      toast.error("Fichier JSON invalide");
+      toast.error("Import impossible : fichier invalide ou écriture refusée");
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-semibold">Tableau de bord</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Modifiez le contenu du portfolio et rédigez les articles du blog.
-        </p>
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">Tableau de bord</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Modifiez le contenu du portfolio et rédigez les articles du blog.
+          </p>
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={async () => {
+            await signOut();
+            navigate("/");
+          }}
+        >
+          <LogOut className="h-4 w-4" />
+          Se déconnecter
+        </Button>
       </header>
 
-      <div className="glow-card border-l-4 border-l-primary p-5">
-        <p className="text-sm font-medium">Stockage local</p>
+      {status === "offline" && (
+        <div className="glow-card border-l-4 border-l-destructive p-5">
+          <p className="text-sm font-medium">Base de données injoignable</p>
+          <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+            Le contenu affiché vient des valeurs livrées avec le code. Vérifiez{" "}
+            <code>DATABASE_URL</code> avant d&apos;enregistrer, sinon vos modifications seront
+            perdues.
+          </p>
+        </div>
+      )}
+
+      <div className="glow-card p-5">
+        <p className="text-sm font-medium">Sauvegarde</p>
         <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
-          Les modifications sont enregistrées dans <strong>ce navigateur uniquement</strong> et ne
-          sont visibles par personne d&apos;autre. Exportez le JSON pour le versionner dans le
-          dépôt — ou branchez une API : seul <code>lib/content/store.ts</code> est à remplacer.
+          Le contenu est enregistré dans la base Neon à chaque modification. L&apos;export JSON
+          reste utile comme copie de secours ou pour repartir d&apos;un environnement à l&apos;autre.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Button size="sm" variant="outline" onClick={handleExport}>
             <Download className="h-4 w-4" />
             Exporter le JSON
           </Button>
-          <Button size="sm" variant="outline" onClick={() => fileInput.current?.click()}>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={busy}
+            onClick={() => fileInput.current?.click()}
+          >
             <Upload className="h-4 w-4" />
             Importer
           </Button>
@@ -71,13 +105,14 @@ export const Dashboard = () => {
           <Button
             size="sm"
             variant="ghost"
-            onClick={() => {
-              reset();
-              toast.success("Contenu réinitialisé");
+            disabled={busy}
+            onClick={async () => {
+              await reload();
+              toast.success("Contenu rechargé depuis la base");
             }}
           >
-            <RotateCcw className="h-4 w-4" />
-            Réinitialiser
+            <RefreshCw className="h-4 w-4" />
+            Recharger
           </Button>
         </div>
       </div>
@@ -86,11 +121,7 @@ export const Dashboard = () => {
         {COLLECTIONS.map((collection) => {
           const count = content[collection.key].length;
           return (
-            <Link
-              key={collection.key}
-              to={`/admin/${collection.key}`}
-              className="glow-card p-5"
-            >
+            <Link key={collection.key} to={`/admin/${collection.key}`} className="glow-card p-5">
               <span className="icon-tile">
                 <DynamicIcon name={collection.icon} className="h-5 w-5" />
               </span>
