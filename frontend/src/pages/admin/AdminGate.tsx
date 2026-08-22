@@ -15,7 +15,7 @@ import { useContent } from "@/lib/content/useContent";
 export const AdminGate = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<"checking" | "locked" | "open">("checking");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<"invalid" | "unavailable" | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const { reload } = useContent();
 
@@ -28,17 +28,25 @@ export const AdminGate = ({ children }: { children: ReactNode }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitting(true);
-    setError(false);
+    setError(null);
 
-    const ok = await signIn(password);
-    if (ok) {
-      // Drafts are only returned to an authenticated caller.
-      await reload();
+    try {
+      const result = await signIn(password);
+      if (!result.ok) {
+        setError(result.reason);
+        return;
+      }
+
+      // Drafts are only returned to an authenticated caller. A failure here
+      // means the database is down, not that the sign-in failed, so the
+      // dashboard still opens — it shows its own "unreachable" banner.
+      await reload().catch((reason) => {
+        console.warn("[admin] content reload failed after sign-in:", reason);
+      });
       setState("open");
-    } else {
-      setError(true);
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
 
   if (state === "checking") {
@@ -79,7 +87,16 @@ export const AdminGate = ({ children }: { children: ReactNode }) => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <p className="text-sm text-destructive">Mot de passe incorrect.</p>}
+          {error === "invalid" && (
+            <p className="text-sm text-destructive">Mot de passe incorrect.</p>
+          )}
+          {error === "unavailable" && (
+            <p className="text-sm text-destructive">
+              API injoignable. Vérifiez que le serveur tourne et que{" "}
+              <code>ADMIN_PASSWORD_HASH</code> et <code>SESSION_SECRET</code> sont définis dans{" "}
+              <code>.env</code>.
+            </p>
+          )}
         </div>
 
         <Button type="submit" disabled={submitting} className="w-full">

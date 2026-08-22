@@ -1,10 +1,4 @@
-import { neon } from "@neondatabase/serverless";
-
-/**
- * Neon HTTP client. One connection per invocation, no pool to manage — which
- * is what makes Neon a good fit for serverless functions.
- */
-export const sql = neon(requireEnv("DATABASE_URL"));
+import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
 
 export function requireEnv(name: string): string {
   const value = process.env[name];
@@ -13,3 +7,15 @@ export function requireEnv(name: string): string {
   }
   return value;
 }
+
+let client: NeonQueryFunction<false, false> | null = null;
+
+/**
+ * Neon HTTP client, created on first use and reused for the rest of the
+ * invocation. Building it lazily keeps endpoints that never touch the database
+ * — signing in, for one — working when DATABASE_URL is absent.
+ */
+export const getSql = (): NeonQueryFunction<false, false> => {
+  client ??= neon(requireEnv("DATABASE_URL"));
+  return client;
+};

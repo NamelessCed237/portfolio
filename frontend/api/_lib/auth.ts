@@ -21,21 +21,30 @@ export const passwordMatches = (candidate: string): boolean => {
   return expected.length === actual.length && timingSafeEqual(expected, actual);
 };
 
-export const issueSession = async (res: VercelResponse) => {
+/** localhost over plain HTTP must not get a Secure cookie. */
+const isSecureRequest = (req: VercelRequest) => {
+  const proto = req.headers["x-forwarded-proto"];
+  if (typeof proto === "string") return proto.split(",")[0].trim() === "https";
+  return false;
+};
+
+export const issueSession = async (req: VercelRequest, res: VercelResponse) => {
   const token = await new SignJWT({ role: "admin" })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime(`${MAX_AGE_SECONDS}s`)
     .sign(secret());
 
+  const secure = isSecureRequest(req) ? "; Secure" : "";
   res.setHeader(
     "Set-Cookie",
-    `${COOKIE}=${token}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${MAX_AGE_SECONDS}; Secure`,
+    `${COOKIE}=${token}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${MAX_AGE_SECONDS}${secure}`,
   );
 };
 
-export const clearSession = (res: VercelResponse) => {
-  res.setHeader("Set-Cookie", `${COOKIE}=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0; Secure`);
+export const clearSession = (req: VercelRequest, res: VercelResponse) => {
+  const secure = isSecureRequest(req) ? "; Secure" : "";
+  res.setHeader("Set-Cookie", `${COOKIE}=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0${secure}`);
 };
 
 export const hasValidSession = async (req: VercelRequest): Promise<boolean> => {

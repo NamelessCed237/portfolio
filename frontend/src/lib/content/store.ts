@@ -50,19 +50,34 @@ export const isAuthenticated = async (): Promise<boolean> => {
   }
 };
 
-/** Returns false when the password is wrong. */
-export const signIn = async (password: string): Promise<boolean> => {
+/**
+ * "unavailable" and "invalid" are kept apart on purpose: a missing API and a
+ * wrong password look identical from the outside, and reporting both as a bad
+ * password sends you hunting for the wrong bug.
+ */
+export type SignInResult = { ok: true } | { ok: false; reason: "invalid" | "unavailable" };
+
+export const signIn = async (password: string): Promise<SignInResult> => {
+  let response: Response;
   try {
-    const response = await fetch(SESSION_ENDPOINT, {
+    response = await fetch(SESSION_ENDPOINT, {
       method: "POST",
       credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
     });
-    if (!response.ok) return false;
-    return (await readJson<{ authenticated: boolean }>(response)).authenticated;
   } catch {
-    return false;
+    return { ok: false, reason: "unavailable" };
+  }
+
+  if (response.status === 401) return { ok: false, reason: "invalid" };
+  if (!response.ok) return { ok: false, reason: "unavailable" };
+
+  try {
+    const { authenticated } = await readJson<{ authenticated: boolean }>(response);
+    return authenticated ? { ok: true } : { ok: false, reason: "invalid" };
+  } catch {
+    return { ok: false, reason: "unavailable" };
   }
 };
 

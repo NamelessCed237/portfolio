@@ -18,12 +18,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Same answer whether the field is missing or simply wrong.
         return res.status(401).json({ error: "Invalid password" });
       }
-      await issueSession(res);
+      await issueSession(req, res);
       return res.status(200).json({ authenticated: true });
     }
 
     if (req.method === "DELETE") {
-      clearSession(res);
+      clearSession(req, res);
       return res.status(200).json({ authenticated: false });
     }
 

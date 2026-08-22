@@ -1,4 +1,4 @@
-import { sql } from "./db";
+import { getSql } from "./db";
 import type { SiteContent } from "../../src/lib/content/types";
 
 /**
@@ -7,6 +7,7 @@ import type { SiteContent } from "../../src/lib/content/types";
  * add latency.
  */
 export const loadContent = async (includeDrafts: boolean): Promise<SiteContent> => {
+  const sql = getSql();
   const [profile, services, projects, skills, experience, education, posts] = await Promise.all([
     sql`select * from profile where id = 1`,
     sql`select * from services order by position, id`,
@@ -94,6 +95,7 @@ export const loadContent = async (includeDrafts: boolean): Promise<SiteContent> 
  * simplest contract and free of partial-write states.
  */
 export const saveContent = async (content: SiteContent) => {
+  const sql = getSql();
   const p = content.profile;
   const json = (value: unknown) => JSON.stringify(value);
 

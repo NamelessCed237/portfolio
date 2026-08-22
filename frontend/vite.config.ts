@@ -1,20 +1,24 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
+import { devApiPlugin } from './dev-api-plugin';
 
 // https://vite.dev/config/
-/* export default defineConfig({
-  plugins: [react()],
-}) */
+export default defineConfig(({ mode }) => {
+  // Server-side variables (DATABASE_URL, ADMIN_PASSWORD_HASH, SESSION_SECRET)
+  // have no VITE_ prefix on purpose, so Vite keeps them out of the bundle. The
+  // dev-only API handlers still need them, hence loading them into process.env.
+  // Anything already set in the shell wins.
+  for (const [key, value] of Object.entries(loadEnv(mode, process.cwd(), ''))) {
+    process.env[key] ??= value;
+  }
 
-export default defineConfig(({ command, mode }) => {
-  console.log(`Vite command: ${command}, mode: ${mode}`);
   return {
-    plugins: [react(), tailwindcss()],
-    resolve:{
+    plugins: [react(), tailwindcss(), devApiPlugin()],
+    resolve: {
       alias: {
-        '@': path.resolve(__dirname, "./src"),
+        '@': path.resolve(__dirname, './src'),
       },
     },
     server: {
@@ -33,5 +37,5 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
-  }
-})
+  };
+});

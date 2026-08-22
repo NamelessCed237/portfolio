@@ -7,7 +7,7 @@ through serverless functions.
 ## Scripts
 
 ```bash
-npm run dev         # Vite dev server (front only, no /api — see below)
+npm run dev         # Vite dev server, including the api/ functions
 npm run build       # type-check every project + production build
 npm run lint        # eslint
 npm run db:migrate  # apply pending SQL migrations
@@ -70,14 +70,18 @@ carries a `position` so the dashboard controls ordering.
 
 ## Running the API locally
 
-`npm run dev` serves the front end only, so `/api/*` returns the SPA shell. The
-site detects this and falls back to the content bundled in
-`lib/content/defaults.ts` — useful for pure UI work. To exercise the real
-endpoints:
+`npm run dev` runs the functions too: `dev-api-plugin.ts` mounts everything in
+`api/` on the Vite dev server, with the same request and response shape Vercel
+provides, and reloads a handler when you edit it. The server-side variables are
+read from `.env` by the Vite config — anything already exported in your shell
+takes precedence.
 
-```bash
-npx vercel dev
-```
+If the database is unreachable, the site falls back to the content bundled in
+`lib/content/defaults.ts` and the dashboard shows a warning before you save.
+Signing in keeps working without `DATABASE_URL`, since that endpoint never
+touches the database.
+
+`npx vercel dev` remains an option if you want the real Vercel runtime.
 
 ## Content and the dashboard
 
