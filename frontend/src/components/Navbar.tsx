@@ -72,6 +72,8 @@ export const Navbar = () => {
               variant="ghost"
               size="icon"
               className="md:hidden"
+              aria-label="Menu"
+              aria-expanded={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X /> : <Menu />}

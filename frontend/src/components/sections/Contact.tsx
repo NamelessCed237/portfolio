@@ -113,12 +113,14 @@ export const Contact = () => {
               </p>
 
               <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
+                <label htmlFor="contact-name" className="font-mono text-sm text-muted-foreground">
                   name <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="contact-name"
                   type="text"
                   name="name"
+                  autoComplete="name"
                   placeholder={t("contact.form.name")}
                   required
                   className="border-border/70 bg-background/50 focus-visible:ring-primary"
@@ -126,12 +128,14 @@ export const Contact = () => {
               </div>
 
               <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
+                <label htmlFor="contact-email" className="font-mono text-sm text-muted-foreground">
                   email <span className="text-destructive">*</span>
                 </label>
                 <Input
+                  id="contact-email"
                   type="email"
                   name="email"
+                  autoComplete="email"
                   placeholder={t("contact.form.email")}
                   required
                   className="border-border/70 bg-background/50 focus-visible:ring-primary"
@@ -139,10 +143,11 @@ export const Contact = () => {
               </div>
 
               <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
+                <label htmlFor="contact-message" className="font-mono text-sm text-muted-foreground">
                   message <span className="text-destructive">*</span>
                 </label>
                 <Textarea
+                  id="contact-message"
                   name="message"
                   placeholder={t("contact.form.message")}
                   rows={5}

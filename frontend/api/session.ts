@@ -1,5 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { clearSession, hasValidSession, issueSession, passwordMatches } from "./_lib/auth";
+import {
+  clearSession,
+  hasValidSession,
+  issueSession,
+  passwordMatches,
+  penaliseFailure,
+} from "./_lib/auth";
 
 /**
  * GET    /api/session  is the current visitor signed in
@@ -15,8 +21,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === "POST") {
       const password = (req.body as { password?: string } | undefined)?.password;
       if (typeof password !== "string" || !passwordMatches(password)) {
+        await penaliseFailure();
         // Same answer whether the field is missing or simply wrong.
-        return res.status(401).json({ error: "Invalid password" });
+        return res.status(401).json({ error: "Mot de passe invalide" });
       }
       await issueSession(req, res);
       return res.status(200).json({ authenticated: true });

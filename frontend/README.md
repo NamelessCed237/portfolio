@@ -104,6 +104,21 @@ EN input, and the site shows the one matching the current language.
   HttpOnly JWT cookie. The gate in the UI only decides what to render; the
   check that matters is on every write endpoint.
 
+## Known gaps
+
+- **No automated tests.** The data layer and the dashboard have been exercised
+  by hand against a real Postgres, but nothing guards them against a
+  regression. `setSqlClient` in `api/_lib/db.ts` is the seam a test suite
+  would use to run `loadContent` / `saveContent` against a throwaway database.
+- **No CI.** `npm run build` and `npm run lint` should run on every push.
+- **Sign-in has no distributed lockout.** A failed attempt costs a fixed 500 ms,
+  which makes scripted guessing impractical, but serverless functions share no
+  memory so there is nothing to lock. Use a long random password; a persistent
+  attempt counter is the proper fix.
+- **No Content-Security-Policy.** The other security headers are set in
+  `vercel.json`; a CSP needs to be written against the deployed page and
+  verified there.
+
 ## Contact form
 
 EmailJS, configured through `.env` (see `.env.example`). Without the three keys

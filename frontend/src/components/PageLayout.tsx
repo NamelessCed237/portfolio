@@ -13,8 +13,18 @@ export const PageLayout = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* First stop for a keyboard user, ahead of the whole navigation. */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+      >
+        Aller au contenu
+      </a>
       <Navbar />
-      <main className={SELF_SPACED_ROUTES.includes(pathname) ? undefined : "pt-16"}>
+      <main
+        id="main"
+        className={SELF_SPACED_ROUTES.includes(pathname) ? undefined : "pt-16"}
+      >
         <Outlet />
       </main>
       <Footer />

@@ -6,7 +6,15 @@ import { requireEnv } from "./db";
 const COOKIE = "portfolio_session";
 const MAX_AGE_SECONDS = 60 * 60 * 12;
 
-const secret = () => new TextEncoder().encode(requireEnv("SESSION_SECRET"));
+const secret = () => {
+  const value = requireEnv("SESSION_SECRET");
+  // HS256 keys shorter than the digest are trivially brute-forced; refuse to
+  // pretend a four-character secret protects anything.
+  if (value.length < 32) {
+    throw new Error("SESSION_SECRET must be at least 32 characters");
+  }
+  return new TextEncoder().encode(value);
+};
 
 const sha256 = (value: string) => createHash("sha256").update(value).digest();
 
@@ -15,6 +23,13 @@ const sha256 = (value: string) => createHash("sha256").update(value).digest();
  * ADMIN_PASSWORD_HASH. Comparison is constant time so a wrong password cannot
  * be narrowed down by timing.
  */
+/**
+ * There is no shared store to lock an attacker out with, so a failed attempt
+ * costs a fixed delay instead: enough to make scripted guessing impractical,
+ * cheap enough that a mistyped password is barely noticed.
+ */
+export const penaliseFailure = () => new Promise((resolve) => setTimeout(resolve, 500));
+
 export const passwordMatches = (candidate: string): boolean => {
   const expected = Buffer.from(requireEnv("ADMIN_PASSWORD_HASH"), "hex");
   const actual = sha256(candidate);

@@ -1,10 +1,10 @@
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { PageLayout } from "@/components/PageLayout";
 import { ContentProvider } from "@/lib/content/ContentProvider";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Home is eager (first paint); the rest are code-split into their own chunks.
 import Index from "./pages/Index";
@@ -19,8 +19,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // The dashboard is a separate concern from the public site: one chunk, only
 // downloaded when someone opens /admin.
 const Admin = lazy(() => import("./pages/admin/AdminRoutes"));
-
-const queryClient = new QueryClient();
 
 /** Reset scroll position on every route change. */
 const ScrollToTop = () => {
@@ -42,7 +40,7 @@ const PageLoader = () => (
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
+    <ErrorBoundary>
       <ContentProvider>
         <TooltipProvider>
           <Sonner />
@@ -69,7 +67,7 @@ const App = () => {
           </BrowserRouter>
         </TooltipProvider>
       </ContentProvider>
-    </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 

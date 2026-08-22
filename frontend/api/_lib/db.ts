@@ -19,3 +19,12 @@ export const getSql = (): NeonQueryFunction<false, false> => {
   client ??= neon(requireEnv("DATABASE_URL"));
   return client;
 };
+
+/**
+ * Replaces the client, so the data layer can be exercised against something
+ * other than Neon (a recorder, a local Postgres adapter) without every caller
+ * having to thread a connection through.
+ */
+export const setSqlClient = (override: NeonQueryFunction<false, false> | null) => {
+  client = override;
+};
