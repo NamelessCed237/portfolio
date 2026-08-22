@@ -1,4 +1,5 @@
 import { getSql } from "./db";
+import { DEFAULT_CONTENT } from "../../src/lib/content/defaults";
 import type { SiteContent } from "../../src/lib/content/types";
 
 /**
@@ -6,37 +7,51 @@ import type { SiteContent } from "../../src/lib/content/types";
  * it on first paint, so splitting it into per-collection endpoints would only
  * add latency.
  */
-export const loadContent = async (includeDrafts: boolean): Promise<SiteContent> => {
+export const loadContent = async (
+  includeDrafts: boolean,
+): Promise<SiteContent> => {
   const sql = getSql();
-  const [profile, services, projects, skills, experience, education, posts] = await Promise.all([
-    sql`select * from profile where id = 1`,
-    sql`select * from services order by position, id`,
-    sql`select * from projects order by position, id`,
-    sql`select * from skills order by position, id`,
-    sql`select * from experience order by position, id`,
-    sql`select * from education order by position, id`,
-    includeDrafts
-      ? sql`select * from posts order by date desc`
-      : sql`select * from posts where published = true order by date desc`,
-  ]);
+  const [profile, services, projects, skills, experience, education, posts] =
+    await Promise.all([
+      sql`select * from profile where id = 1`,
+      sql`select * from services order by position, id`,
+      sql`select * from projects order by position, id`,
+      sql`select * from skills order by position, id`,
+      sql`select * from experience order by position, id`,
+      sql`select * from education order by position, id`,
+      includeDrafts
+        ? sql`select * from posts order by date desc`
+        : sql`select * from posts where published = true order by date desc`,
+    ]);
 
   const row = profile[0];
   const empty = { fr: "", en: "" };
 
+  // No profile row means the database was never seeded. Serving empty strings
+  // would blank the hero and the about section; the shipped values are a far
+  // better answer than nothing.
+  if (!row) {
+    console.warn(
+      "[content] no profile row — falling back to the seeded profile",
+    );
+  }
+
   return {
-    profile: {
-      name: row?.name ?? "",
-      email: row?.email ?? "",
-      location: row?.location ?? "",
-      greeting: row?.greeting ?? empty,
-      role: row?.role ?? empty,
-      bio: row?.bio ?? empty,
-      availability: row?.availability ?? empty,
-      aboutTitle: row?.about_title ?? empty,
-      aboutDescription: row?.about_description ?? empty,
-      aboutHighlight: row?.about_highlight ?? empty,
-      socials: row?.socials ?? [],
-    },
+    profile: !row
+      ? DEFAULT_CONTENT.profile
+      : {
+          name: row.name ?? "",
+          email: row.email ?? "",
+          location: row.location ?? "",
+          greeting: row.greeting ?? empty,
+          role: row.role ?? empty,
+          bio: row.bio ?? empty,
+          availability: row.availability ?? empty,
+          aboutTitle: row.about_title ?? empty,
+          aboutDescription: row.about_description ?? empty,
+          aboutHighlight: row.about_highlight ?? empty,
+          socials: row.socials ?? [],
+        },
     services: services.map((s) => ({
       id: s.id,
       icon: s.icon,
@@ -83,7 +98,10 @@ export const loadContent = async (includeDrafts: boolean): Promise<SiteContent> 
       body: p.body,
       cover: p.cover,
       tags: p.tags,
-      date: typeof p.date === "string" ? p.date : new Date(p.date).toISOString().slice(0, 10),
+      date:
+        typeof p.date === "string"
+          ? p.date
+          : new Date(p.date).toISOString().slice(0, 10),
       published: p.published,
     })),
   } as SiteContent;

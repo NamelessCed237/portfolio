@@ -38,8 +38,11 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const update = useCallback(
     async (mutate: (current: SiteContent) => SiteContent) => {
       const next = mutate(content);
-      setContent(next);
+      // Write first. Showing the change before the database accepted it made a
+      // failed save look successful: the dashboard held the new value while the
+      // site kept serving the old one.
       await writeContent(next);
+      setContent(next);
     },
     [content],
   );

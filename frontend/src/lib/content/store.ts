@@ -36,8 +36,18 @@ export const writeContent = async (content: SiteContent): Promise<void> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(content),
   });
+
+  if (response.ok) return;
   if (response.status === 401) throw new Error("unauthorized");
-  if (!response.ok) throw new Error(`Failed to save content (${response.status})`);
+
+  // The database message (a failed constraint, a missing table) is the only
+  // thing that makes a failed save actionable, so it is carried to the toast.
+  const detail = await response
+    .json()
+    .then((payload: { error?: string; details?: string }) => payload.details || payload.error)
+    .catch(() => null);
+
+  throw new Error(detail || `Échec de l enregistrement (${response.status})`);
 };
 
 export const isAuthenticated = async (): Promise<boolean> => {
