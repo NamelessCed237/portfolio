@@ -1,72 +1,42 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Monitor, Smartphone, Server, Blocks, Link2, Code } from "lucide-react";
+import { Monitor, Smartphone, Server, Blocks, Plug, Rocket } from "lucide-react";
+import { SectionHeader } from "@/components/SectionHeader";
+
+const SERVICES = [
+  { icon: Monitor, key: "web" },
+  { icon: Smartphone, key: "mobile" },
+  { icon: Server, key: "backend" },
+  { icon: Blocks, key: "web3" },
+  { icon: Plug, key: "integrations" },
+  { icon: Rocket, key: "architecture" },
+];
 
 export const Services = () => {
   const { t } = useTranslation();
 
-  const services = [
-    {
-      icon: Monitor,
-      titleKey: "services.list.web.title",
-      descKey: "services.list.web.description",
-    },
-    {
-      icon: Smartphone,
-      titleKey: "services.list.mobile.title",
-      descKey: "services.list.mobile.description",
-    },
-    {
-      icon: Server,
-      titleKey: "services.list.backend.title",
-      descKey: "services.list.backend.description",
-    },
-    {
-      icon: Blocks,
-      titleKey: "services.list.web3.title",
-      descKey: "services.list.web3.description",
-    },
-    {
-      icon: Link2,
-      titleKey: "services.list.integrations.title",
-      descKey: "services.list.integrations.description",
-    },
-    {
-      icon: Code,
-      titleKey: "services.list.architecture.title",
-      descKey: "services.list.architecture.description",
-    },
-  ];
-
   return (
-    <section id="services" className="section-padding">
-      <div className="mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// what i do</p>
-          <h2 className="mb-4 text-4xl font-bold">{t("services.title")}</h2>
-          <p className="text-lg text-muted-foreground">{t("services.subtitle")}</p>
-        </motion.div>
+    <section id="services" className="section">
+      <div className="container-px mx-auto max-w-6xl">
+        <SectionHeader eyebrow={t("home.why.title")} title={t("services.title")} subtitle={t("services.subtitle")} />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((s, i) => (
             <motion.div
-              key={service.titleKey}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="glow-card group p-8"
+              key={s.key}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
+              className="card-surface p-6"
             >
-              <div className="mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/15 transition-transform group-hover:scale-110">
-                <service.icon className="h-7 w-7 text-primary" />
+              <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 text-primary">
+                <s.icon className="h-6 w-6" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold">{t(service.titleKey)}</h3>
-              <p className="text-muted-foreground">{t(service.descKey)}</p>
+              <h3 className="mt-4 text-lg font-semibold">{t(`services.list.${s.key}.title`)}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t(`services.list.${s.key}.description`)}
+              </p>
             </motion.div>
           ))}
         </div>

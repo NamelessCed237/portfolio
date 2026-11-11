@@ -1,94 +1,61 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
+import { MapPin, Briefcase } from "lucide-react";
+import { Counter } from "@/components/Counter";
+import { SectionHeader } from "@/components/SectionHeader";
 
 export const About = () => {
   const { t } = useTranslation();
 
   const stats = [
-    { value: "2+", label: t("about.stats.experience") },
-    { value: "10+", label: t("about.stats.projects") },
-    { value: "15+", label: t("about.stats.clients") },
-    { value: "3+", label: "Blockchains" },
+    { to: 3, suffix: "+", label: t("home.stats.years") },
+    { to: 10, suffix: "+", label: t("home.stats.projects") },
+    { to: 15, suffix: "+", label: t("home.stats.tech") },
   ];
 
   return (
-    <section id="about" className="section-padding relative overflow-hidden">
-      <div className="grid-bg absolute inset-0 opacity-30" />
-      <div className="relative mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// about me</p>
-          <h2 className="text-4xl font-bold">
-            {t("about.title")}<span className="text-primary">.</span>
-          </h2>
-        </motion.div>
+    <section id="about" className="section">
+      <div className="container-px mx-auto max-w-5xl">
+        <SectionHeader eyebrow={t("nav.about")} title={t("about.title")} />
 
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
-          {/* Left: description + config card + CV */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            transition={{ duration: 0.5 }}
+            className="card-surface p-7 lg:col-span-3"
           >
-            <p className="text-lg leading-relaxed text-muted-foreground">
-              {t("about.description")}
-            </p>
-            <p className="text-lg font-medium text-foreground">{t("about.highlight")}</p>
+            <p className="text-base leading-relaxed text-muted-foreground">{t("about.description")}</p>
+            <p className="mt-4 text-base font-medium leading-relaxed">{t("about.highlight")}</p>
 
-            <CodeEditor tabs={["contact.config.ts"]}>
-              <C>{"// contact.config.ts"}</C>{"\n"}
-              <P>location</P>  <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S>{"\n"}
-              <P>email</P>     <Pn>:</Pn> <S>"cedric@example.com"</S>{"\n"}
-              <P>chains</P>    <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Tron"</S><Pn>]</Pn>{"\n"}
-              <P>available</P> <Pn>:</Pn> <K>true</K>
-            </CodeEditor>
-
-            <Button className="gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90">
-              <Download className="h-4 w-4" />
-              Télécharger mon CV
-            </Button>
-          </motion.div>
-
-          {/* Right: stats JSON + stat cards */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <CodeEditor tabs={["developer.stats.json"]}>
-              <K>const</K> <P>stats</P> <Pn>= {"{"}</Pn>{"\n"}
-              {"  "}<P>yearsXp</P><Pn>:</Pn> <S>"2+"</S><Pn>,</Pn>   <C>{"// Années d'expérience"}</C>{"\n"}
-              {"  "}<P>projects</P><Pn>:</Pn> <S>"20+"</S><Pn>,</Pn> <C>{"// Projets réalisés"}</C>{"\n"}
-              {"  "}<P>clients</P><Pn>:</Pn> <S>"15+"</S><Pn>,</Pn>  <C>{"// Clients satisfaits"}</C>{"\n"}
-              {"  "}<P>chains</P><Pn>:</Pn> <S>"3+"</S><Pn>,</Pn>    <C>{"// Blockchains"}</C>{"\n"}
-              <Pn>{"}"}</Pn>
-            </CodeEditor>
-
-            <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="glow-card p-6 text-center"
-                >
-                  <div className="gradient-text mb-1 text-3xl font-bold">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </motion.div>
-              ))}
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <span className="chip-soft px-3 py-1.5 text-sm">
+                <MapPin className="h-4 w-4 text-primary" /> Bafoussam, Cameroun
+              </span>
+              <span className="chip-soft px-3 py-1.5 text-sm">
+                <Briefcase className="h-4 w-4 text-primary" /> Lazer SARL
+              </span>
             </div>
           </motion.div>
+
+          <div className="grid grid-cols-3 gap-4 lg:col-span-2 lg:grid-cols-1">
+            {stats.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="card-surface flex flex-col justify-center p-5 text-center lg:flex-row lg:items-baseline lg:justify-between lg:text-left"
+              >
+                <div className="font-display text-3xl font-bold text-primary sm:text-4xl">
+                  <Counter to={s.to} suffix={s.suffix} />
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground lg:mt-0 lg:text-sm">{s.label}</div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Github, Linkedin, Send } from "lucide-react";
+import { Mail, MapPin, Send, Github, Linkedin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { CodeEditor, C, K, S, P, Pn } from "@/components/ui/code-window";
+import { SectionHeader } from "@/components/SectionHeader";
 import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
+
+const EMAIL = "contact@bikecedric.dev";
 
 export const Contact = () => {
   const { t } = useTranslation();
@@ -19,13 +21,9 @@ export const Contact = () => {
     const form = e.currentTarget;
 
     if (!isEmailConfigured) {
-      toast({
-        title: t("contact.form.error"),
-        description: "EmailJS n'est pas configuré (voir .env.example).",
-      });
+      toast({ title: t("contact.form.error"), description: "EmailJS n'est pas configuré (voir .env.example)." });
       return;
     }
-
     setIsSubmitting(true);
     try {
       await sendContactEmail(form);
@@ -39,143 +37,61 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden">
-      <div className="grid-bg absolute inset-0 opacity-30" />
-      <div className="glow-blob right-[-8%] top-[20%] h-72 w-72 bg-secondary/20" />
+    <section id="contact" className="section">
+      <div className="container-px mx-auto max-w-5xl">
+        <SectionHeader eyebrow={t("nav.contact")} title={t("contact.title")} subtitle={t("contact.subtitle")} />
 
-      <div className="relative mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// contact</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("contact.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("contact.subtitle")}</p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2">
-          {/* Left: description + contact code card + socials */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <p className="text-lg leading-relaxed text-muted-foreground">
-              Disponible pour des opportunités Fullstack, SaaS, Mobile, Backend, FinTech
-              ou développement de produits Web3 & blockchain.
-            </p>
-
-            <CodeEditor tabs={["contact.ts"]}>
-              <K>const</K> <P>contact</P> <Pn>= {"{"}</Pn>{"\n"}
-              {"  "}<P>email</P>    <Pn>:</Pn> <S>"cedric@example.com"</S><Pn>,</Pn>{"\n"}
-              {"  "}<P>location</P> <Pn>:</Pn> <S>"Bafoussam, Cameroun"</S><Pn>,</Pn>{"\n"}
-              {"  "}<P>chains</P>   <Pn>:</Pn> <Pn>[</Pn><S>"Ethereum"</S><Pn>,</Pn> <S>"Tron"</S><Pn>],</Pn>{"\n"}
-              {"  "}<P>timezone</P> <Pn>:</Pn> <S>"GMT+1"</S><Pn>,</Pn>{"\n"}
-              <Pn>{"}"}</Pn><Pn>;</Pn>
-            </CodeEditor>
-
-            <div className="flex gap-3">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
-              >
-                <Github className="h-4 w-4" /> GitHub
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/40 px-4 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
-              >
-                <Linkedin className="h-4 w-4" /> LinkedIn
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Right: code-editor styled form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="overflow-hidden rounded-xl border border-border/70 bg-card/60 shadow-2xl backdrop-blur"
-          >
-            <div className="flex items-center gap-2 border-b border-border/60 bg-[hsl(200_30%_9%)]/80 px-4 py-2.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-              <span className="font-mono text-xs text-foreground">sendMessage.ts</span>
-              <span className="ml-auto font-mono text-[11px] text-muted-foreground">Ctrl+Enter to send</span>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5 p-6">
-              <p className="font-mono text-sm">
-                <span className="text-secondary">await</span>{" "}
-                <span className="text-[#7aa2f7]">sendMessage</span>
-                <span className="text-muted-foreground">({"{"}</span>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+          {/* Info */}
+          <div className="flex flex-col gap-4 lg:col-span-2">
+            <div className="card-surface p-6">
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Disponible pour des missions Full-Stack, mobile et blockchain (Web3, paiements, Mobile Money).
               </p>
-
-              <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
-                  name <span className="text-destructive">*</span>
-                </label>
-                <Input
-                  type="text"
-                  name="name"
-                  placeholder={t("contact.form.name")}
-                  required
-                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
-                />
+              <div className="mt-5 space-y-3">
+                <a href={`mailto:${EMAIL}`} className="flex items-center gap-3 text-sm link-accent">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary"><Mail className="h-4 w-4" /></span>
+                  {EMAIL}
+                </a>
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary"><MapPin className="h-4 w-4" /></span>
+                  Bafoussam, Cameroun
+                </div>
               </div>
-
-              <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
-                  email <span className="text-destructive">*</span>
-                </label>
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder={t("contact.form.email")}
-                  required
-                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
-                />
+              <div className="mt-6 flex gap-2">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-10 w-10 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Github className="h-[18px] w-[18px]" /></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-10 w-10 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Linkedin className="h-[18px] w-[18px]" /></a>
               </div>
+            </div>
+          </div>
 
-              <div className="space-y-2 pl-4">
-                <label className="font-mono text-sm text-muted-foreground">
-                  message <span className="text-destructive">*</span>
-                </label>
-                <Textarea
-                  name="message"
-                  placeholder={t("contact.form.message")}
-                  rows={5}
-                  required
-                  className="border-border/70 bg-background/50 focus-visible:ring-primary"
-                />
+          {/* Form */}
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="card-surface space-y-4 p-6 lg:col-span-3"
+          >
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">{t("contact.form.name")}</label>
+                <Input name="name" required placeholder={t("contact.form.name")} className="bg-background" />
               </div>
-
-              <p className="font-mono text-sm text-muted-foreground">{"});"}</p>
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90"
-              >
-                {isSubmitting ? (
-                  t("contact.form.sending")
-                ) : (
-                  <>
-                    <Send className="h-4 w-4" />
-                    {t("contact.form.send")}
-                  </>
-                )}
-              </Button>
-            </form>
-          </motion.div>
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium">{t("contact.form.email")}</label>
+                <Input type="email" name="email" required placeholder="you@example.com" className="bg-background" />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium">{t("contact.form.message")}</label>
+              <Textarea name="message" required rows={5} placeholder={t("contact.form.message")} className="bg-background" />
+            </div>
+            <Button type="submit" disabled={isSubmitting} className="w-full gap-2 sm:w-auto">
+              {isSubmitting ? t("contact.form.sending") : <><Send className="h-4 w-4" /> {t("contact.form.send")}</>}
+            </Button>
+          </motion.form>
         </div>
       </div>
     </section>
