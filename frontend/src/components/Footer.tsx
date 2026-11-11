@@ -1,53 +1,47 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { Github, Linkedin, Twitter, ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   const { t } = useTranslation();
 
-  return (
-    <footer className="relative border-t border-border bg-card/40">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-xl font-bold gradient-text mb-4">Bike Cedric</h3>
-            <p className="text-muted-foreground">{t("footer.tagline")}</p>
-          </div>
+  const links = [
+    { label: t("nav.about"), href: "/#about" },
+    { label: t("nav.projects"), href: "/#projects" },
+    { label: t("nav.services"), href: "/#services" },
+    { label: t("nav.contact"), href: "/#contact" },
+  ];
 
-          <div>
-            <h4 className="font-semibold mb-4">{t("contact.info.social")}</h4>
-            <div className="flex space-x-4">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
+  return (
+    <footer className="border-t border-border">
+      <div className="container-px mx-auto max-w-6xl py-12">
+        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-xs">
+            <Link to="/" className="flex items-center gap-2.5">
+              <img src="/logo.png" alt="Bike Cedric" className="h-9 w-9 rounded-lg" />
+              <span className="text-base font-semibold">Bike Cedric</span>
+            </Link>
+            <p className="mt-3 text-sm text-muted-foreground">{t("footer.tagline")}</p>
+            <div className="mt-4 flex gap-2">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Github className="h-[18px] w-[18px]" /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Linkedin className="h-[18px] w-[18px]" /></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Twitter className="h-[18px] w-[18px]" /></a>
             </div>
           </div>
 
-          <div>
-            <p className="text-sm text-muted-foreground">{t("footer.copyright")}</p>
-            <p className="text-sm text-muted-foreground mt-2">{t("footer.built")}</p>
-          </div>
+          <nav className="flex flex-col gap-2.5">
+            {links.map((l) => (
+              <a key={l.href} href={l.href} className="text-sm link-accent">{l.label}</a>
+            ))}
+          </nav>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+          <p className="text-xs text-muted-foreground">{t("footer.copyright")}</p>
+          <p className="text-xs text-muted-foreground">Bafoussam, Cameroun</p>
+          <a href="#top" className="inline-flex items-center gap-1.5 text-xs font-medium link-accent">
+            Haut de page <ArrowUp className="h-3.5 w-3.5" />
+          </a>
         </div>
       </div>
     </footer>
