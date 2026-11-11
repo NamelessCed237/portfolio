@@ -14,6 +14,35 @@
       "cta": "View my projects",
       "downloadCV": "Download CV"
     },
+    "home": {
+      "role": "Full-Stack & Blockchain Developer",
+      "available": "Available for new projects",
+      "tagline": "Who turns coffee into smart contracts.",
+      "statement": {
+        "lead": "I build web, mobile and blockchain applications that help ideas scale",
+        "highlight": "and earn trust",
+        "body": "By combining engineering, design and Web3, I turn ideas into reliable digital products: money transfers, USDT/USDC payments and Mobile Money integrations. Fast, robust work built for real-world use."
+      },
+      "stats": {
+        "projects": "Projects delivered",
+        "years": "Years of experience",
+        "tech": "Technologies mastered"
+      },
+      "works": {
+        "title": "Selected work",
+        "cta": "View projects",
+        "viewAll": "See all on GitHub"
+      },
+      "why": {
+        "title": "What I do",
+        "body": "From front-end to deployment, I cover the whole value chain of a digital product — built to last."
+      },
+      "cta": {
+        "title": "Let's work together",
+        "body": "Got a web, mobile or blockchain project in mind? Let's talk and bring it to life.",
+        "button": "Start a project"
+      }
+    },
     "about": {
       "title": "About Me",
       "description": "Full-Stack Developer based in Bafoussam, Cameroon, specialized in web, mobile and blockchain applications. I build useful, robust products ready for real-world use — from money transfers to stablecoin payments (USDT/USDC).",

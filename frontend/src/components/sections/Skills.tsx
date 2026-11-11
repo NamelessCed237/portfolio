@@ -3,22 +3,14 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Code2, Server, Smartphone, Database, Blocks, Settings, Coins, Boxes, Network, Plug } from "lucide-react";
 import {
-  SiReact,
-  SiTypescript,
-  SiNextdotjs,
-  SiNestjs,
-  SiLaravel,
-  SiMysql,
-  SiPostgresql,
-  SiSolidity,
-  SiWeb3Dotjs,
-  SiTether,
+  SiReact, SiTypescript, SiNextdotjs, SiNestjs, SiLaravel,
+  SiMysql, SiPostgresql, SiSolidity, SiWeb3Dotjs, SiTether,
 } from "react-icons/si";
+import { SectionHeader } from "@/components/SectionHeader";
 
 type SkillIcon = ComponentType<{ className?: string; style?: CSSProperties }>;
 
-// Single source of truth for skill logos (DRY). `color` is the brand color;
-// omit it to inherit the theme text color (e.g. dark-on-dark brands).
+// Single source of truth for skill logos (DRY).
 const skillMeta: Record<string, { Icon: SkillIcon; color?: string }> = {
   React: { Icon: SiReact, color: "#61DAFB" },
   TypeScript: { Icon: SiTypescript, color: "#3178C6" },
@@ -40,129 +32,43 @@ const skillMeta: Record<string, { Icon: SkillIcon; color?: string }> = {
 export const Skills = () => {
   const { t } = useTranslation();
 
-  const skillCategories = [
-    {
-      icon: Code2,
-      category: t("skills.categories.frontend"),
-      skills: ["React", "TypeScript", "Next.js"],
-      level: "Expert",
-      percent: 95,
-    },
-    {
-      icon: Server,
-      category: t("skills.categories.backend"),
-      skills: ["NestJS", "Laravel"],
-      level: "Avancé",
-      percent: 88,
-    },
-    {
-      icon: Smartphone,
-      category: t("skills.categories.mobile"),
-      skills: ["React Native"],
-      level: "Avancé",
-      percent: 82,
-    },
-    {
-      icon: Database,
-      category: t("skills.categories.database"),
-      skills: ["MySQL", "PostgreSQL"],
-      level: "Avancé",
-      percent: 85,
-    },
-    {
-      icon: Blocks,
-      category: t("skills.categories.blockchain"),
-      skills: ["Solidity", "Web3.js", "USDT/USDC", "Tron"],
-      level: "Avancé",
-      percent: 80,
-    },
-    {
-      icon: Settings,
-      category: t("skills.categories.other"),
-      skills: ["Clean Architecture", "REST APIs", "Integrations"],
-      level: "Expert",
-      percent: 90,
-    },
+  const categories = [
+    { icon: Code2, category: t("skills.categories.frontend"), skills: ["React", "TypeScript", "Next.js"] },
+    { icon: Server, category: t("skills.categories.backend"), skills: ["NestJS", "Laravel"] },
+    { icon: Smartphone, category: t("skills.categories.mobile"), skills: ["React Native"] },
+    { icon: Database, category: t("skills.categories.database"), skills: ["MySQL", "PostgreSQL"] },
+    { icon: Blocks, category: t("skills.categories.blockchain"), skills: ["Solidity", "Web3.js", "USDT/USDC", "Tron"] },
+    { icon: Settings, category: t("skills.categories.other"), skills: ["Clean Architecture", "REST APIs", "Integrations"] },
   ];
 
   return (
-    <section id="skills" className="section-padding relative overflow-hidden">
-      <div className="grid-bg absolute inset-0 opacity-40" />
-      <div className="relative mx-auto max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-10 text-center"
-        >
-          <p className="mb-3 font-mono text-sm uppercase tracking-widest text-primary">// tech stack</p>
-          <h2 className="mb-4 text-4xl font-bold">
-            {t("skills.title")}<span className="text-primary">.</span>
-          </h2>
-          <p className="text-lg text-muted-foreground">{t("skills.subtitle")}</p>
-        </motion.div>
+    <section id="skills" className="section">
+      <div className="container-px mx-auto max-w-6xl">
+        <SectionHeader eyebrow={t("skills.subtitle")} title={t("skills.title")} />
 
-        {/* Solidity import line */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-10 overflow-x-auto rounded-lg border border-border/70 bg-card/50 px-4 py-3 font-mono text-sm"
-        >
-          <span className="text-secondary">import</span>{" "}
-          <span className="text-primary">"@bikecedric/stack/FullStack.sol"</span>
-          <span className="text-muted-foreground">;</span>
-          <span className="ml-1 inline-block h-4 w-2 animate-pulse bg-primary align-middle" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {skillCategories.map((category, index) => (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((cat, i) => (
             <motion.div
-              key={category.category}
-              initial={{ opacity: 0, y: 20 }}
+              key={cat.category}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className="glow-card p-6"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.4, delay: (i % 3) * 0.08 }}
+              className="card-surface p-6"
             >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
-                  <category.icon className="h-6 w-6 text-primary" />
+              <div className="mb-4 flex items-center gap-3">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
+                  <cat.icon className="h-5 w-5" />
                 </div>
-                <span className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                  {category.level}
-                </span>
+                <h3 className="text-lg font-semibold">{cat.category}</h3>
               </div>
-              <h3 className="mb-3 text-xl font-semibold">{category.category}</h3>
-
-              {/* progress bar */}
-              <div className="mb-4">
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${category.percent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: index * 0.08 }}
-                    className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
-                  />
-                </div>
-              </div>
-
               <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => {
+                {cat.skills.map((skill) => {
                   const meta = skillMeta[skill];
                   const Icon = meta?.Icon;
                   return (
-                    <span
-                      key={skill}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-card/40 px-2.5 py-1 text-sm text-foreground/80"
-                    >
-                      {Icon && (
-                        <Icon
-                          className="h-4 w-4"
-                          style={meta.color ? { color: meta.color } : undefined}
-                        />
-                      )}
+                    <span key={skill} className="chip-soft px-2.5 py-1 text-sm">
+                      {Icon && <Icon className="h-4 w-4" style={meta.color ? { color: meta.color } : undefined} />}
                       {skill}
                     </span>
                   );
