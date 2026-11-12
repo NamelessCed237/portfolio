@@ -1,17 +1,14 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SplitText } from "@/components/anim/SplitText";
-
-const PROJECTS = [
-  { key: "transfergratis", year: "2024", tags: ["React", "NestJS", "Mobile Money"], href: "https://transfergratis.com", image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=800&h=600&fit=crop" },
-  { key: "portfolio", year: "2025", tags: ["React", "TypeScript", "Tailwind"], href: "/", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" },
-  { key: "tulivu", year: "2025", tags: ["USDT/USDC", "Ethereum", "Tron"], href: "#", image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop" },
-];
+import { projects } from "@/data/projects";
 
 export const Projects = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language?.startsWith("fr") ? "fr" : "en";
   const [active, setActive] = useState<number | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -34,7 +31,7 @@ export const Projects = () => {
             <SplitText text={t("projects.title")} />
           </h2>
           <span className="hidden shrink-0 pb-2 text-sm text-muted-foreground md:block">
-            {String(PROJECTS.length).padStart(2, "0")}&nbsp;&nbsp;{t("home.works.title")}
+            {String(projects.length).padStart(2, "0")}&nbsp;&nbsp;{t("home.works.title")}
           </span>
         </div>
 
@@ -50,10 +47,10 @@ export const Projects = () => {
                 style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%" }}
                 className="pointer-events-none absolute left-0 top-0 z-20 hidden h-56 w-80 overflow-hidden rounded-xl border border-border shadow-2xl md:block"
               >
-                {PROJECTS.map((p, i) => (
+                {projects.map((p, i) => (
                   <img
-                    key={p.key}
-                    src={p.image}
+                    key={p.slug}
+                    src={p.cover}
                     alt=""
                     className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${active === i ? "opacity-100" : "opacity-0"}`}
                   />
@@ -63,41 +60,38 @@ export const Projects = () => {
           </AnimatePresence>
 
           <ul>
-            {PROJECTS.map((p, i) => (
-              <li key={p.key}>
-                <a
-                  href={p.href}
-                  target={p.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
+            {projects.map((p, i) => (
+              <li key={p.slug}>
+                <Link
+                  to={`/projects/${p.slug}`}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(null)}
-                  className="group grid grid-cols-12 items-center gap-3 border-b border-border py-6 transition-colors md:py-8"
+                  className="group grid grid-cols-12 items-center gap-4 border-b border-border py-6 transition-colors md:py-8"
                 >
                   <span className="col-span-2 text-sm text-muted-foreground md:col-span-1">
                     {String(i).padStart(2, "0")}
                   </span>
 
                   <h3 className="col-span-8 text-2xl font-semibold tracking-tight transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary md:col-span-5 md:text-4xl">
-                    {t(`projects.list.${p.key}.title`)}
+                    {p.title}
                   </h3>
 
-                  {/* inline image on mobile */}
                   <img
-                    src={p.image}
+                    src={p.cover}
                     alt=""
                     loading="lazy"
                     className="col-span-2 h-12 w-16 rounded-md object-cover md:hidden"
                   />
 
                   <p className="col-span-12 col-start-3 mt-1 text-sm text-muted-foreground md:col-span-4 md:col-start-auto md:mt-0">
-                    {t(`projects.list.${p.key}.description`)}
+                    {p.tagline[lang]}
                   </p>
 
                   <div className="col-span-12 col-start-3 flex items-center justify-between gap-4 md:col-span-2 md:col-start-auto md:justify-end">
                     <span className="hidden text-sm text-muted-foreground lg:block">{p.year}</span>
                     <ArrowUpRight className="h-6 w-6 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-primary" />
                   </div>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
