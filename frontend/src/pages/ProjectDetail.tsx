@@ -1,19 +1,34 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Github, Check, Calendar, User, Tag } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SplitText } from "@/components/anim/SplitText";
-import { projects, getProject } from "@/data/projects";
+import { projects as staticProjects } from "@/data/projects";
+import { useApiData } from "@/lib/useApiData";
 
 const ProjectDetail = () => {
   const { slug = "" } = useParams();
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith("fr") ? "fr" : "en";
-  const project = getProject(slug);
+  const projects = useApiData("/projects", staticProjects);
+  const project = projects.find((p) => p.slug === slug);
 
-  if (!project) return <Navigate to="/#projects" replace />;
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main className="container-px mx-auto flex min-h-[60vh] max-w-5xl flex-col items-center justify-center pt-28 text-center">
+          <p className="text-lg text-muted-foreground">{lang === "fr" ? "Chargement…" : "Loading…"}</p>
+          <Link to="/#projects" className="mt-4 inline-flex items-center gap-2 text-sm link-accent">
+            <ArrowLeft className="h-4 w-4" /> {lang === "fr" ? "Tous les projets" : "All projects"}
+          </Link>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const index = projects.findIndex((p) => p.slug === slug);
   const next = projects[(index + 1) % projects.length];

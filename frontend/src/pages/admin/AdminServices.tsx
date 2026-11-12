@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/lib/api";
 import { Field, BiField, type Bi } from "./fields";
+import { FileUpload } from "./FileUpload";
 
 interface Service {
   id: string;
@@ -76,7 +77,7 @@ const AdminServices = () => {
         <div className="space-y-5">
           <BiField label="Titre" value={e.title} onChange={(v) => set({ title: v })} />
           <BiField label="Description" value={e.description} onChange={(v) => set({ description: v })} textarea />
-          <Field label="Image (URL, optionnel)"><Input value={e.image ?? ""} onChange={(ev) => set({ image: ev.target.value })} /></Field>
+          <Field label="Image (optionnel)"><FileUpload value={e.image ?? ""} onChange={(url) => set({ image: url })} /></Field>
           <div className="flex flex-wrap items-center gap-6">
             <Field label="Ordre"><Input type="number" className="w-24" value={e.order} onChange={(ev) => set({ order: Number(ev.target.value) })} /></Field>
             <label className="flex items-center gap-2 text-sm font-medium">

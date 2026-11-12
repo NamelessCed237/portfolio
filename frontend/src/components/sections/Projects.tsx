@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SplitText } from "@/components/anim/SplitText";
-import { projects } from "@/data/projects";
+import { projects as staticProjects } from "@/data/projects";
+import { useApiData } from "@/lib/useApiData";
 
 export const Projects = () => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language?.startsWith("fr") ? "fr" : "en";
+  const projects = useApiData("/projects", staticProjects);
   const [active, setActive] = useState<number | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);

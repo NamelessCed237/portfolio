@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { FolderKanban, Cpu, LayoutGrid, Briefcase, Newspaper, Inbox, LogOut, ExternalLink } from "lucide-react";
+import { FolderKanban, Cpu, LayoutGrid, Briefcase, Newspaper, Inbox, Settings, LogOut, ExternalLink } from "lucide-react";
 import { getToken, setToken } from "@/lib/api";
 
 const nav = [
@@ -9,6 +9,7 @@ const nav = [
   { to: "/admin/experience", label: "Expérience", icon: Briefcase },
   { to: "/admin/blog", label: "Blog", icon: Newspaper },
   { to: "/admin/messages", label: "Messages", icon: Inbox },
+  { to: "/admin/settings", label: "Paramètres", icon: Settings },
 ];
 
 export const AdminLayout = () => {

@@ -1,14 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Mail, ArrowUp } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, ArrowUp, FileDown } from "lucide-react";
+import { useApiData } from "@/lib/useApiData";
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const settings = useApiData<Record<string, string>>("/settings", {});
+  const cvUrl = settings.cvUrl;
 
   const links = [
     { label: t("nav.about"), href: "/#about" },
     { label: t("nav.projects"), href: "/#projects" },
     { label: t("nav.services"), href: "/#services" },
+    { label: "Blog", href: "/blog" },
     { label: t("nav.contact"), href: "/#contact" },
   ];
 
@@ -29,6 +33,16 @@ export const Footer = () => {
               <span className="text-base font-semibold tracking-tight">Bike Cedric</span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t("footer.tagline")}</p>
+            {cvUrl && (
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary"
+              >
+                <FileDown className="h-4 w-4" /> {t("hero.downloadCV")}
+              </a>
+            )}
             <div className="mt-4 flex gap-2">
               {socials.map((s) => (
                 <a

@@ -50,3 +50,17 @@ export const api = {
   put: <T>(path: string, body: unknown) => request<T>(path, { method: "PUT", body: JSON.stringify(body) }),
   del: <T>(path: string) => request<T>(path, { method: "DELETE" }),
 };
+
+/** Upload a file (multipart) and get back its public URL. */
+export async function uploadFile(file: File): Promise<{ url: string; name: string }> {
+  const token = getToken();
+  const form = new FormData();
+  form.append("file", file);
+  const res = await fetch(`${API_URL}/uploads`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: form,
+  });
+  if (!res.ok) throw new Error("Upload impossible");
+  return res.json();
+}

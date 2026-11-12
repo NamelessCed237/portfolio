@@ -11,6 +11,8 @@ const Projects = lazy(() => import("./pages/Projects"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
 const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Admin (CMS)
@@ -22,6 +24,7 @@ const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
 const AdminExperience = lazy(() => import("./pages/admin/AdminExperience"));
 const AdminBlog = lazy(() => import("./pages/admin/AdminBlog"));
 const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
+const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
 
 const queryClient = new QueryClient();
 
@@ -58,6 +61,8 @@ const App = () => {
               <Route path="/projects/:slug" element={<ProjectDetail />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminProjects />} />
@@ -67,6 +72,7 @@ const App = () => {
                 <Route path="experience" element={<AdminExperience />} />
                 <Route path="blog" element={<AdminBlog />} />
                 <Route path="messages" element={<AdminMessages />} />
+                <Route path="settings" element={<AdminSettings />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
