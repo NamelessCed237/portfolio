@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/lib/api";
+import { FileUpload } from "./FileUpload";
 
 interface Bi { fr: string; en: string }
 interface BiList { fr: string[]; en: string[] }
@@ -136,8 +137,8 @@ const AdminProjects = () => {
           </Field>
 
           <Field label="Stack — séparé par des virgules"><Input value={e.stack.join(", ")} onChange={(ev) => set({ stack: ev.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} /></Field>
-          <Field label="Image de couverture (URL)"><Input value={e.cover} onChange={(ev) => set({ cover: ev.target.value })} /></Field>
-          <Field label="Galerie — une URL par ligne"><Textarea rows={3} value={e.gallery.join("\n")} onChange={(ev) => set({ gallery: ev.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })} /></Field>
+          <Field label="Image de couverture"><FileUpload value={e.cover} onChange={(url) => set({ cover: url })} /></Field>
+          <Field label="Galerie — une URL par ligne (ou téléversez puis collez)"><Textarea rows={3} value={e.gallery.join("\n")} onChange={(ev) => set({ gallery: ev.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })} /></Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Lien du site (optionnel)"><Input value={e.liveUrl ?? ""} onChange={(ev) => set({ liveUrl: ev.target.value })} /></Field>

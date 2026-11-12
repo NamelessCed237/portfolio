@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/lib/api";
 import { Field, BiField, type Bi } from "./fields";
+import { FileUpload } from "./FileUpload";
 
 interface Post {
   id: string;
@@ -83,7 +84,7 @@ const AdminBlog = () => {
           <BiField label="Titre" value={e.title} onChange={(v) => set({ title: v })} />
           <BiField label="Extrait" value={e.excerpt} onChange={(v) => set({ excerpt: v })} textarea />
           <BiField label="Contenu (Markdown / HTML)" value={e.content} onChange={(v) => set({ content: v })} textarea />
-          <Field label="Image de couverture (URL)"><Input value={e.cover ?? ""} onChange={(ev) => set({ cover: ev.target.value })} /></Field>
+          <Field label="Image de couverture"><FileUpload value={e.cover ?? ""} onChange={(url) => set({ cover: url })} /></Field>
           <Field label="Tags — séparés par des virgules"><Input value={e.tags.join(", ")} onChange={(ev) => set({ tags: ev.target.value.split(",").map((t) => t.trim()).filter(Boolean) })} /></Field>
           <label className="flex items-center gap-2 text-sm font-medium">
             <input type="checkbox" checked={e.published} onChange={(ev) => set({ published: ev.target.checked })} /> Publié

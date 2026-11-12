@@ -1,18 +1,36 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SplitText } from "@/components/anim/SplitText";
+import { useApiData } from "@/lib/useApiData";
 
-const SERVICES = [
-  { key: "web", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640&h=440&fit=crop" },
-  { key: "mobile", image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=640&h=440&fit=crop" },
-  { key: "backend", image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=440&fit=crop" },
-  { key: "web3", image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=640&h=440&fit=crop" },
-  { key: "integrations", image: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=640&h=440&fit=crop" },
-  { key: "architecture", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=640&h=440&fit=crop" },
+const KEYS = ["web", "mobile", "backend", "web3", "integrations", "architecture"];
+const IMAGES = [
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640&h=440&fit=crop",
+  "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=640&h=440&fit=crop",
+  "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=440&fit=crop",
+  "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=640&h=440&fit=crop",
+  "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=640&h=440&fit=crop",
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=640&h=440&fit=crop",
 ];
 
+interface Bi { fr: string; en: string }
+interface Service { id?: string; title: Bi; description: Bi; image?: string | null }
+
 export const Services = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language?.startsWith("fr") ? "fr" : "en";
+  const tf = i18n.getFixedT("fr");
+  const te = i18n.getFixedT("en");
+
+  // Fallback built from the current translations (no duplication).
+  const fallback: Service[] = KEYS.map((key, i) => ({
+    id: key,
+    image: IMAGES[i],
+    title: { fr: tf(`services.list.${key}.title`), en: te(`services.list.${key}.title`) },
+    description: { fr: tf(`services.list.${key}.description`), en: te(`services.list.${key}.description`) },
+  }));
+
+  const services = useApiData<Service[]>("/services", fallback);
 
   return (
     <section id="services" className="section bg-secondary/30">
@@ -28,31 +46,31 @@ export const Services = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s, i) => (
+          {services.map((s, i) => (
             <motion.div
-              key={s.key}
+              key={s.id ?? i}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
               className="card-surface group overflow-hidden"
             >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                  src={s.image}
-                  alt={t(`services.list.${s.key}.title`)}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute left-3 top-3 rounded-full bg-background/80 px-2.5 py-1 font-mono text-xs backdrop-blur">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
+              {s.image && (
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={s.image}
+                    alt={s.title[lang]}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3 top-3 rounded-full bg-background/80 px-2.5 py-1 font-mono text-xs backdrop-blur">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+              )}
               <div className="p-5">
-                <h3 className="text-lg font-semibold tracking-tight">{t(`services.list.${s.key}.title`)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {t(`services.list.${s.key}.description`)}
-                </p>
+                <h3 className="text-lg font-semibold tracking-tight">{s.title[lang]}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.description[lang]}</p>
               </div>
             </motion.div>
           ))}

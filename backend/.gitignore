@@ -4,3 +4,7 @@ dist
 .env.*
 !.env.example
 *.log
+
+# uploaded files (keep the folder, ignore contents)
+uploads/*
+!uploads/.gitkeep
