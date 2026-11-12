@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SplitText } from "@/components/anim/SplitText";
 import { Magnetic } from "@/components/anim/Magnetic";
 import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
+import { api } from "@/lib/api";
 
 const EMAIL = "contact@bikecedric.dev";
 
@@ -20,20 +21,45 @@ export const Contact = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (!isEmailConfigured) {
-      toast({ title: t("contact.form.error"), description: "EmailJS n'est pas configuré (voir .env.example)." });
-      return;
-    }
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      message: String(data.get("message") ?? ""),
+    };
+
     setIsSubmitting(true);
+    let stored = false;
+    let emailed = false;
+
+    // Save to the admin inbox (best-effort — ignore if the API is down)
     try {
-      await sendContactEmail(form);
+      await api.post("/messages", payload);
+      stored = true;
+    } catch {
+      /* backend may be offline */
+    }
+
+    // Send the email via EmailJS if configured
+    if (isEmailConfigured) {
+      try {
+        await sendContactEmail(form);
+        emailed = true;
+      } catch {
+        /* ignore */
+      }
+    }
+
+    if (stored || emailed) {
       toast({ title: t("contact.form.success") });
       form.reset();
-    } catch {
-      toast({ title: t("contact.form.error") });
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      toast({
+        title: t("contact.form.error"),
+        description: "Configurez EmailJS (.env) ou lancez l'API backend.",
+      });
     }
+    setIsSubmitting(false);
   };
 
   return (
