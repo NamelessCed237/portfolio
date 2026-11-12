@@ -23,7 +23,7 @@ export const Process = () => {
         </motion.div>
 
         <div className="relative pl-8 md:pl-12">
-          <div className="absolute left-2 top-2 h-full w-px bg-gradient-to-b from-primary via-secondary/50 to-transparent md:left-4" />
+          <div className="absolute left-2 top-2 h-full w-px bg-border md:left-4" />
 
           {steps.map((step, index) => (
             <motion.div
@@ -34,7 +34,7 @@ export const Process = () => {
               transition={{ delay: index * 0.1 }}
               className="relative mb-8 last:mb-0"
             >
-              <div className="absolute -left-[26px] top-1 grid h-7 w-7 place-items-center rounded-full border-2 border-background bg-gradient-to-br from-primary to-secondary font-mono text-xs font-bold text-primary-foreground md:-left-[38px]">
+              <div className="absolute -left-[26px] top-1 grid h-7 w-7 place-items-center rounded-full border-2 border-background bg-primary font-mono text-xs font-bold text-primary-foreground md:-left-[38px]">
                 {index + 1}
               </div>
               <div className="glow-card p-6">

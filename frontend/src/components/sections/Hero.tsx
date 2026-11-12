@@ -1,7 +1,13 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, Download, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { ArrowDownRight, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { SplitText } from "@/components/anim/SplitText";
+import { RotatingText } from "@/components/anim/RotatingText";
+import { Magnetic } from "@/components/anim/Magnetic";
+import { Marquee } from "@/components/anim/Marquee";
+import { Hero3D } from "@/components/three/Hero3D";
 
 const socials = [
   { icon: Github, href: "https://github.com", label: "GitHub" },
@@ -10,109 +16,108 @@ const socials = [
   { icon: Mail, href: "mailto:contact@bikecedric.dev", label: "Email" },
 ];
 
+const MARQUEE = ["WEB3", "BLOCKCHAIN", "DEFI", "FULL-STACK", "MOBILE", "SMART CONTRACTS"];
+
 export const Hero = () => {
   const { t } = useTranslation();
+  const rotating = t("home.rotating", { returnObjects: true }) as string[];
+
+  // Only mount the (heavy) 3D scene on desktop so mobile never loads three.js.
+  const [is3D, setIs3D] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIs3D(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   return (
-    <section id="top" className="relative overflow-hidden">
+    <section id="top" className="relative flex min-h-screen flex-col justify-between overflow-hidden pt-28">
       <div className="dotted-grid pointer-events-none absolute inset-0" />
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{ background: "var(--hero-glow)" }}
-      />
+      {is3D && (
+        <Hero3D className="absolute right-[-6%] top-1/2 z-0 h-[70%] w-[55%] -translate-y-1/2 opacity-90 lg:right-0" />
+      )}
 
-      <div className="container-px relative mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center text-center">
-        <motion.img
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+      <div className="container-px relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          src="/logo.png"
-          alt="Bike Cedric"
-          className="mb-8 h-20 w-20 rounded-2xl border border-border shadow-[var(--shadow)]"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="chip-soft px-3.5 py-1.5 text-sm font-medium"
+          className="mb-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-          </span>
-          {t("home.available")}
+          <span>{t("home.role")}</span>
+          <span className="hidden sm:inline">Bafoussam, Cameroun</span>
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="mt-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl"
-        >
-          {t("hero.name")}
-        </motion.h1>
+        <h1 className="headline text-[clamp(3rem,13vw,11rem)]">
+          <SplitText text="Bike Cedric" immediate />
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-4 text-xl font-semibold sm:text-2xl"
-        >
-          <span className="gradient-text">{t("home.role")}</span>
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
-        >
-          {t("hero.subtitle")}
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.45 }}
-          className="mt-9 flex flex-col items-center gap-3 sm:flex-row"
-        >
-          <Link
-            to="/contact"
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+        <div className="mt-6 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="max-w-xl"
           >
-            {t("home.cta.button")}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-          <a
-            href="#projects"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold transition-colors hover:border-primary/50"
-          >
-            <Download className="h-4 w-4" />
-            {t("hero.downloadCV")}
-          </a>
-        </motion.div>
+            <p className="text-2xl font-medium leading-tight sm:text-3xl">
+              {t("home.build")}{" "}
+              <RotatingText words={rotating} className="font-semibold text-primary" />
+            </p>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
+              {t("hero.subtitle")}
+            </p>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="mt-10 flex items-center gap-2"
-        >
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-              className="grid h-10 w-10 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-            >
-              <s.icon className="h-[18px] w-[18px]" />
-            </a>
-          ))}
-        </motion.div>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Magnetic>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground"
+                >
+                  {t("home.cta.button")}
+                  <ArrowDownRight className="h-4 w-4" />
+                </Link>
+              </Magnetic>
+              <div className="flex items-center gap-1.5">
+                {socials.map((s) => (
+                  <Magnetic key={s.label} strength={0.5}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                    >
+                      <s.icon className="h-[18px] w-[18px]" />
+                    </a>
+                  </Magnetic>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.a
+            href="#about"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            className="hidden items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground md:inline-flex"
+          >
+            <span className="h-10 w-px bg-border" />
+            {t("home.scroll")}
+          </motion.a>
+        </div>
       </div>
+
+      <Marquee className="mt-10 border-y border-border py-5" duration={24}>
+        {MARQUEE.map((w) => (
+          <span key={w} className="headline mx-5 flex items-center gap-10 text-4xl text-foreground/90 md:text-6xl">
+            {w}
+            <span className="text-primary">✦</span>
+          </span>
+        ))}
+      </Marquee>
     </section>
   );
 };

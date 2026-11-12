@@ -153,7 +153,26 @@ h1, h2, h3, h4, .font-display {
 /* ------------------------------ */
 .container-px { padding-left: 1.25rem; padding-right: 1.25rem; }
 
-.section { padding-top: 6rem; padding-bottom: 6rem; }
+.section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+
+/* Editorial headline */
+.headline {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Marquee */
+@keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes marquee-right { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+.marquee-l { animation: marquee-left var(--marquee-duration, 26s) linear infinite; }
+.marquee-r { animation: marquee-right var(--marquee-duration, 26s) linear infinite; }
+.marquee-wrap { white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-l, .marquee-r { animation: none; }
+}
 
 .eyebrow {
   display: inline-flex;
@@ -172,10 +191,7 @@ h1, h2, h3, h4, .font-display {
 }
 
 .gradient-text {
-  background: linear-gradient(120deg, hsl(var(--primary)), hsl(152 70% 62%));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: hsl(var(--primary));
 }
 
 /* Clean surface card */

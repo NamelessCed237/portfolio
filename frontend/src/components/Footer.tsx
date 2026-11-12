@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, ArrowUp } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, ArrowUp } from "lucide-react";
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -12,35 +12,52 @@ export const Footer = () => {
     { label: t("nav.contact"), href: "/#contact" },
   ];
 
+  const socials = [
+    { icon: Github, href: "https://github.com", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Mail, href: "mailto:contact@bikecedric.dev", label: "Email" },
+  ];
+
   return (
     <footer className="border-t border-border">
       <div className="container-px mx-auto max-w-6xl py-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div className="max-w-xs">
+          <div className="max-w-sm">
             <Link to="/" className="flex items-center gap-2.5">
               <img src="/logo.png" alt="Bike Cedric" className="h-9 w-9 rounded-lg" />
-              <span className="text-base font-semibold">Bike Cedric</span>
+              <span className="text-base font-semibold tracking-tight">Bike Cedric</span>
             </Link>
-            <p className="mt-3 text-sm text-muted-foreground">{t("footer.tagline")}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t("footer.tagline")}</p>
             <div className="mt-4 flex gap-2">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Github className="h-[18px] w-[18px]" /></a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Linkedin className="h-[18px] w-[18px]" /></a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"><Twitter className="h-[18px] w-[18px]" /></a>
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="grid h-9 w-9 place-items-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                >
+                  <s.icon className="h-[17px] w-[17px]" />
+                </a>
+              ))}
             </div>
           </div>
 
           <nav className="flex flex-col gap-2.5">
+            <span className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Navigation</span>
             {links.map((l) => (
               <a key={l.href} href={l.href} className="text-sm link-accent">{l.label}</a>
             ))}
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">{t("footer.copyright")}</p>
           <p className="text-xs text-muted-foreground">Bafoussam, Cameroun</p>
           <a href="#top" className="inline-flex items-center gap-1.5 text-xs font-medium link-accent">
-            Haut de page <ArrowUp className="h-3.5 w-3.5" />
+            {t("home.scroll")} <ArrowUp className="h-3.5 w-3.5" />
           </a>
         </div>
       </div>

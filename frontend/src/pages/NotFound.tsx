@@ -30,7 +30,7 @@ const NotFound = () => {
         </CodeEditor>
 
         <Link to="/">
-          <Button className="gap-2 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90">
+          <Button className="gap-2 bg-primary text-primary-foreground hover:opacity-90">
             <Home className="h-4 w-4" />
             Retour à l'accueil
           </Button>
