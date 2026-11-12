@@ -20,6 +20,8 @@ const AdminProjects = lazy(() => import("./pages/admin/AdminProjects"));
 const AdminSkills = lazy(() => import("./pages/admin/AdminSkills"));
 const AdminServices = lazy(() => import("./pages/admin/AdminServices"));
 const AdminExperience = lazy(() => import("./pages/admin/AdminExperience"));
+const AdminBlog = lazy(() => import("./pages/admin/AdminBlog"));
+const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
 
 const queryClient = new QueryClient();
 
@@ -63,6 +65,8 @@ const App = () => {
                 <Route path="skills" element={<AdminSkills />} />
                 <Route path="services" element={<AdminServices />} />
                 <Route path="experience" element={<AdminExperience />} />
+                <Route path="blog" element={<AdminBlog />} />
+                <Route path="messages" element={<AdminMessages />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
