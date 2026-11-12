@@ -159,7 +159,7 @@ h1, h2, h3, h4, .font-display {
 .headline {
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 0.98;
   letter-spacing: -0.03em;
 }
 
@@ -178,16 +178,11 @@ h1, h2, h3, h4, .font-display {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: hsl(var(--primary));
-}
-.eyebrow::before {
-  content: "";
-  width: 1.75rem;
-  height: 1px;
-  background: hsl(var(--primary));
 }
 
 .gradient-text {
