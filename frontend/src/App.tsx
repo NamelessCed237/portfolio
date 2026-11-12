@@ -13,6 +13,11 @@ const Services = lazy(() => import("./pages/Services"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Admin (CMS)
+import { AdminLayout } from "./pages/admin/AdminLayout";
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminProjects = lazy(() => import("./pages/admin/AdminProjects"));
+
 const queryClient = new QueryClient();
 
 /** Reset scroll position on every route change. */
@@ -48,6 +53,11 @@ const App = () => {
               <Route path="/projects/:slug" element={<ProjectDetail />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminProjects />} />
+                <Route path="projects" element={<AdminProjects />} />
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
