@@ -41,7 +41,7 @@ export const Strengths = () => {
               transition={{ delay: index * 0.08 }}
               className="glow-card p-7"
             >
-              <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
+              <div className="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-primary/10">
                 <item.icon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="mb-2 text-lg font-semibold">

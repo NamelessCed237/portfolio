@@ -10,13 +10,16 @@
       "greeting": "Hi, I'm",
       "name": "Bike Cedric",
       "title": "Full-Stack & Blockchain Developer",
-      "subtitle": "I build robust web, mobile and blockchain applications — money transfers, USDT/USDC payments and Mobile Money integrations.",
+      "subtitle": "I build robust web, mobile and blockchain applications, money transfers, USDT/USDC payments and Mobile Money integrations.",
       "cta": "View my projects",
       "downloadCV": "Download CV"
     },
     "home": {
       "role": "Full-Stack & Blockchain Developer",
       "available": "Available for new projects",
+      "build": "I build",
+      "rotating": ["dApps", "smart contracts", "mobile apps", "Web3 platforms"],
+      "scroll": "Scroll",
       "tagline": "Who turns coffee into smart contracts.",
       "statement": {
         "lead": "I build web, mobile and blockchain applications that help ideas scale",
@@ -35,7 +38,7 @@
       },
       "why": {
         "title": "What I do",
-        "body": "From front-end to deployment, I cover the whole value chain of a digital product — built to last."
+        "body": "From front-end to deployment, I cover the whole value chain of a digital product, built to last."
       },
       "cta": {
         "title": "Let's work together",
@@ -45,7 +48,7 @@
     },
     "about": {
       "title": "About Me",
-      "description": "Full-Stack Developer based in Bafoussam, Cameroon, specialized in web, mobile and blockchain applications. I build useful, robust products ready for real-world use — from money transfers to stablecoin payments (USDT/USDC).",
+      "description": "Full-Stack Developer based in Bafoussam, Cameroon, specialized in web, mobile and blockchain applications. I build useful, robust products ready for real-world use, from money transfers to stablecoin payments (USDT/USDC).",
       "highlight": "My approach: clean architecture, reliable integrations (Mobile Money, blockchain) and delivery all the way to production.",
       "stats": {
         "experience": "Years of experience",
@@ -106,7 +109,7 @@
         },
         "portfolio": {
           "title": "BikeCedric.dev",
-          "description": "This portfolio — a showcase of my skills, projects and my world as a Full-Stack & Blockchain developer."
+          "description": "This portfolio, a showcase of my skills, projects and my world as a Full-Stack & Blockchain developer."
         },
         "tulivu": {
           "title": "Tulivu",
@@ -121,7 +124,7 @@
         "lazer": {
           "title": "Full-Stack Developer",
           "company": "Lazer SARL",
-          "period": "Dec. 2023 — Present",
+          "period": "Dec. 2023 - Present",
           "location": "Bafoussam, Cameroon",
           "description": "Designing and building complete web and mobile applications: front, back, payment integrations and production deployment."
         },
@@ -142,10 +145,10 @@
           "title": "Bachelor's Degree in Computer Science",
           "school": "University",
           "period": "2023",
-          "description": "Bachelor's degree in computer science — software development, algorithms and databases."
+          "description": "Bachelor's degree in computer science, software development, algorithms and databases."
         },
         "gce": {
-          "title": "GCE Advanced Level — Science",
+          "title": "GCE Advanced Level, Science",
           "school": "GCE Board",
           "period": "2019",
           "description": "Scientific high-school diploma (GCE A Level, Science stream)."
@@ -158,7 +161,7 @@
         "title": "Who I am",
         "lead": "Full-Stack & Blockchain Developer based in Bafoussam, Cameroon.",
         "p1": "I design and build web, mobile and blockchain applications end to end. I love turning real needs into reliable products: money transfers, stablecoin payments (USDT/USDC), Mobile Money integrations and business tools.",
-        "p2": "At Lazer SARL, I've been working as a Full-Stack developer since December 2023, delivering complete applications — from front-end to deployment. Curious and rigorous, I always aim for clean, maintainable, production-ready code."
+        "p2": "At Lazer SARL, I've been working as a Full-Stack developer since December 2023, delivering complete applications, from front-end to deployment. Curious and rigorous, I always aim for clean, maintainable, production-ready code."
       },
       "strengths": {
         "title": "What I do well",
@@ -230,7 +233,7 @@
           },
           "q3": {
             "question": "Can you take over an already-started project?",
-            "answer": "Yes. I can take over an existing codebase. I first analyze the architecture and technical debt, then stabilize, document and evolve the project cleanly — without needlessly rewriting everything."
+            "answer": "Yes. I can take over an existing codebase. I first analyze the architecture and technical debt, then stabilize, document and evolve the project cleanly, without needlessly rewriting everything."
           },
           "q4": {
             "question": "Do you deliver deployment too?",
@@ -258,7 +261,7 @@
       }
     },
     "footer": {
-      "tagline": "Full-Stack & Blockchain Developer — Bafoussam, Cameroon",
+      "tagline": "Full-Stack & Blockchain Developer, Bafoussam, Cameroon",
       "copyright": "© 2025 Bike Cedric. All rights reserved.",
       "built": "Built with React & TypeScript"
     }

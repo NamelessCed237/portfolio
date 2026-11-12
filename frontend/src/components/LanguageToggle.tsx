@@ -18,7 +18,7 @@ export const LanguageToggle = () => {
           onClick={() => changeLanguage(lng)}
           className={`rounded-md px-2.5 py-1 uppercase transition-colors ${
             current === lng
-              ? "bg-gradient-to-r from-primary to-secondary text-primary-foreground"
+              ? "bg-primary text-primary-foreground"
               : "text-muted-foreground hover:text-foreground"
           }`}
           aria-label={`Switch to ${lng.toUpperCase()}`}

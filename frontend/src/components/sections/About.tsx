@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { MapPin, Briefcase } from "lucide-react";
 import { Counter } from "@/components/Counter";
-import { SectionHeader } from "@/components/SectionHeader";
+import { SplitText } from "@/components/anim/SplitText";
 
 export const About = () => {
   const { t } = useTranslation();
@@ -15,44 +14,41 @@ export const About = () => {
 
   return (
     <section id="about" className="section">
-      <div className="container-px mx-auto max-w-5xl">
-        <SectionHeader eyebrow={t("nav.about")} title={t("about.title")} />
+      <div className="container-px mx-auto max-w-6xl">
+        <span className="eyebrow mb-6">(01) {t("nav.about")}</span>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
+        <h2 className="headline max-w-5xl text-[clamp(1.8rem,5vw,4rem)]">
+          <SplitText text={t("home.statement.lead")} />{" "}
+          <span className="text-primary">
+            <SplitText text={t("home.statement.highlight")} delay={0.2} />
+          </span>
+        </h2>
+
+        <div className="mt-11 grid grid-cols-1 gap-8 border-t border-border pt-8 md:grid-cols-12">
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="card-surface p-7 lg:col-span-3"
+            transition={{ duration: 0.6 }}
+            className="text-lg leading-relaxed text-muted-foreground md:col-span-5"
           >
-            <p className="text-base leading-relaxed text-muted-foreground">{t("about.description")}</p>
-            <p className="mt-4 text-base font-medium leading-relaxed">{t("about.highlight")}</p>
+            {t("home.statement.body")}
+          </motion.p>
 
-            <div className="mt-6 flex flex-wrap gap-2.5">
-              <span className="chip-soft px-3 py-1.5 text-sm">
-                <MapPin className="h-4 w-4 text-primary" /> Bafoussam, Cameroun
-              </span>
-              <span className="chip-soft px-3 py-1.5 text-sm">
-                <Briefcase className="h-4 w-4 text-primary" /> Lazer SARL
-              </span>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-3 gap-4 lg:col-span-2 lg:grid-cols-1">
+          <div className="grid grid-cols-3 gap-6 md:col-span-6 md:col-start-7">
             {stats.map((s, i) => (
               <motion.div
                 key={s.label}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="card-surface flex flex-col justify-center p-5 text-center lg:flex-row lg:items-baseline lg:justify-between lg:text-left"
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="border-t-2 border-primary/40 pt-4"
               >
-                <div className="font-display text-3xl font-bold text-primary sm:text-4xl">
+                <div className="headline text-[clamp(2.2rem,5vw,3.75rem)] text-foreground">
                   <Counter to={s.to} suffix={s.suffix} />
                 </div>
-                <div className="mt-1 text-xs text-muted-foreground lg:mt-0 lg:text-sm">{s.label}</div>
+                <p className="mt-2 text-sm text-muted-foreground">{s.label}</p>
               </motion.div>
             ))}
           </div>
