@@ -35,7 +35,9 @@ export class UploadsController {
   )
   upload(@UploadedFile() file: Express.Multer.File) {
     if (!file) throw new BadRequestException('Aucun fichier');
-    const base = process.env.PUBLIC_API_URL ?? 'http://localhost:4000';
-    return { url: `${base}/uploads/${file.filename}`, name: file.originalname };
+    // PUBLIC_API_URL explicitly, else Render's injected URL, else localhost.
+    const base =
+      process.env.PUBLIC_API_URL ?? process.env.RENDER_EXTERNAL_URL ?? 'http://localhost:4000';
+    return { url: `${base.replace(/\/$/, '')}/uploads/${file.filename}`, name: file.originalname };
   }
 }

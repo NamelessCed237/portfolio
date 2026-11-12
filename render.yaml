@@ -1,0 +1,38 @@
+# Render Blueprint — NestJS API (backend/)
+# Database is Neon (external), set DATABASE_URL in the dashboard.
+services:
+  - type: web
+    name: portfolio-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npx prisma generate && npm run build
+    preDeployCommand: npx prisma migrate deploy
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # --- secrets: set these in the Render dashboard (sync: false) ---
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      # URL of the deployed frontend (CORS). e.g. https://bikecedric.vercel.app
+      - key: FRONTEND_ORIGIN
+        sync: false
+      # --- generated / fixed ---
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: NODE_VERSION
+        value: "20"
+    # PORT and RENDER_EXTERNAL_URL are injected by Render automatically.
+    # Uploaded files (uploads/) are ephemeral on the free plan — add a
+    # persistent disk (paid) or use external storage for production:
+    # disk:
+    #   name: uploads
+    #   mountPath: /opt/render/project/src/backend/uploads
+    #   sizeGB: 1
