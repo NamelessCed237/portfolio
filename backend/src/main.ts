@@ -8,6 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api');
+  // Alias root /health to /api/health
+  app.getHttpAdapter().getInstance().get('/health', (_req: any, res: any) => {
+    res.redirect('/api/health');
+  });
   // Serve uploaded files at /uploads/<file>
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads/' });
 
