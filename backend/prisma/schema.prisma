@@ -94,3 +94,13 @@ model Setting {
   key   String @unique
   value Json
 }
+
+model UploadedFile {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  size      Int
+  data      Bytes
+  createdAt DateTime @default(now())
+}
+
