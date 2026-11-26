@@ -7,6 +7,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.set('trust proxy', 1);
   app.setGlobalPrefix('api');
   // Alias root /health to /api/health
   app.getHttpAdapter().getInstance().get('/health', (_req: any, res: any) => {
@@ -15,8 +16,13 @@ async function bootstrap() {
   // Serve uploaded files at /uploads/<file>
   app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads/' });
 
+  const allowedOrigins = (process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000')
+    .split(',')
+    .map((o) => o.trim().replace(/\/+$/, ''))
+    .filter(Boolean);
+
   app.enableCors({
-    origin: (process.env.FRONTEND_ORIGIN ?? 'http://localhost:3000').split(','),
+    origin: allowedOrigins,
     credentials: true,
   });
   app.useGlobalPipes(
