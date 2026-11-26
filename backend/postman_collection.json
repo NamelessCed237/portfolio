@@ -1,0 +1,902 @@
+{
+  "info": {
+    "name": "Portfolio Backend API",
+    "description": "Collection Postman complète pour l'API NestJS du portfolio (publique & admin JWT).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "adminEmail", "value": "admin@bikecedric.dev", "type": "string" },
+    { "key": "adminPassword", "value": "change-me-strong-password", "type": "string" },
+    { "key": "projectId", "value": "", "type": "string" },
+    { "key": "projectSlug", "value": "example-project", "type": "string" },
+    { "key": "skillId", "value": "", "type": "string" },
+    { "key": "serviceId", "value": "", "type": "string" },
+    { "key": "experienceId", "value": "", "type": "string" },
+    { "key": "blogId", "value": "", "type": "string" },
+    { "key": "blogSlug", "value": "example-post", "type": "string" },
+    { "key": "messageId", "value": "", "type": "string" },
+    { "key": "uploadId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            }
+          }
+        },
+        {
+          "name": "Health Redirect (/health)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.token) {",
+                  "    pm.collectionVariables.set('token', data.token);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Verify Token (Me)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "List Public Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Get Project by Slug (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/slug/{{projectSlug}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "slug", "{{projectSlug}}"]
+            }
+          }
+        },
+        {
+          "name": "List All Projects (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Project by ID (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/admin/{{projectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "admin", "{{projectId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Project (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('projectId', data.id);",
+                  "  if (data.slug) pm.collectionVariables.set('projectSlug', data.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"example-project\",\n  \"title\": \"Example Project\",\n  \"year\": \"2026\",\n  \"category\": { \"fr\": \"Web3\", \"en\": \"Web3\" },\n  \"role\": { \"fr\": \"Lead Dev\", \"en\": \"Lead Dev\" },\n  \"tagline\": { \"fr\": \"Résumé court\", \"en\": \"Short tagline\" },\n  \"description\": { \"fr\": \"Description détaillée\", \"en\": \"Detailed description\" },\n  \"highlights\": { \"fr\": [\"Point fort 1\"], \"en\": [\"Highlight 1\"] },\n  \"stack\": [\"TypeScript\", \"NestJS\", \"React\"],\n  \"liveUrl\": \"https://example.com\",\n  \"githubUrl\": \"https://github.com/example/repo\",\n  \"cover\": \"https://example.com/cover.png\",\n  \"gallery\": [\"https://example.com/1.png\"],\n  \"order\": 0,\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects"]
+            }
+          }
+        },
+        {
+          "name": "Update Project (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"example-project\",\n  \"title\": \"Example Project (Updated)\",\n  \"year\": \"2026\",\n  \"category\": { \"fr\": \"Web3\", \"en\": \"Web3\" },\n  \"role\": { \"fr\": \"Lead Dev\", \"en\": \"Lead Dev\" },\n  \"tagline\": { \"fr\": \"Résumé court\", \"en\": \"Short tagline\" },\n  \"description\": { \"fr\": \"Description mise à jour\", \"en\": \"Updated description\" },\n  \"highlights\": { \"fr\": [\"Point fort 1\"], \"en\": [\"Highlight 1\"] },\n  \"stack\": [\"TypeScript\", \"NestJS\", \"React\"],\n  \"liveUrl\": \"https://example.com\",\n  \"githubUrl\": \"https://github.com/example/repo\",\n  \"cover\": \"https://example.com/cover.png\",\n  \"gallery\": [\"https://example.com/1.png\"],\n  \"order\": 0,\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/{{projectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "{{projectId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Project (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/projects/{{projectId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "projects", "{{projectId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Skills",
+      "item": [
+        {
+          "name": "List Public Skills",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills"]
+            }
+          }
+        },
+        {
+          "name": "List All Skills (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/skills/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Create Skill (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('skillId', data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TypeScript\",\n  \"category\": \"Backend\",\n  \"icon\": \"code\",\n  \"level\": 90,\n  \"order\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/skills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills"]
+            }
+          }
+        },
+        {
+          "name": "Update Skill (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TypeScript\",\n  \"category\": \"Backend\",\n  \"icon\": \"code\",\n  \"level\": 95,\n  \"order\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/skills/{{skillId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills", "{{skillId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Skill (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/skills/{{skillId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "skills", "{{skillId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "List Public Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "services"]
+            }
+          }
+        },
+        {
+          "name": "List All Services (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/services/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "services", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Create Service (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('serviceId', data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": { \"fr\": \"Développement Full-Stack\", \"en\": \"Full-Stack Development\" },\n  \"description\": { \"fr\": \"Applications web et APIs\", \"en\": \"Web apps and APIs\" },\n  \"image\": \"\",\n  \"order\": 0,\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/services",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "services"]
+            }
+          }
+        },
+        {
+          "name": "Update Service (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": { \"fr\": \"Développement Full-Stack\", \"en\": \"Full-Stack Development\" },\n  \"description\": { \"fr\": \"Applications web, mobile et APIs\", \"en\": \"Web, mobile apps and APIs\" },\n  \"image\": \"\",\n  \"order\": 0,\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "services", "{{serviceId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Service (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/services/{{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "services", "{{serviceId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Experience",
+      "item": [
+        {
+          "name": "List Public Experience",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/experience",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "experience"]
+            }
+          }
+        },
+        {
+          "name": "List All Experience (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/experience/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "experience", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Create Experience (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('experienceId', data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kind\": \"work\",\n  \"title\": { \"fr\": \"Ingénieur Full-Stack\", \"en\": \"Full-Stack Engineer\" },\n  \"company\": \"Acme Corp\",\n  \"location\": \"Bafoussam, Cameroun\",\n  \"period\": \"2024 - 2026\",\n  \"description\": { \"fr\": \"Développement de solutions Web3\", \"en\": \"Building Web3 solutions\" },\n  \"tags\": [\"NestJS\", \"React\"],\n  \"order\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/experience",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "experience"]
+            }
+          }
+        },
+        {
+          "name": "Update Experience (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kind\": \"work\",\n  \"title\": { \"fr\": \"Senior Full-Stack Engineer\", \"en\": \"Senior Full-Stack Engineer\" },\n  \"company\": \"Acme Corp\",\n  \"location\": \"Bafoussam, Cameroun\",\n  \"period\": \"2024 - 2026\",\n  \"description\": { \"fr\": \"Architecture et développement\", \"en\": \"Architecture and development\" },\n  \"tags\": [\"NestJS\", \"React\", \"Prisma\"],\n  \"order\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/experience/{{experienceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "experience", "{{experienceId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Experience (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/experience/{{experienceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "experience", "{{experienceId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "item": [
+        {
+          "name": "List Public Blog Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blog",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog"]
+            }
+          }
+        },
+        {
+          "name": "Get Blog Post by Slug (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/slug/{{blogSlug}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "slug", "{{blogSlug}}"]
+            }
+          }
+        },
+        {
+          "name": "List All Blog Posts (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Create Blog Post (Admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('blogId', data.id);",
+                  "  if (data.slug) pm.collectionVariables.set('blogSlug', data.slug);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"example-post\",\n  \"title\": { \"fr\": \"Article exemple\", \"en\": \"Example post\" },\n  \"excerpt\": { \"fr\": \"Résumé court\", \"en\": \"Short excerpt\" },\n  \"content\": { \"fr\": \"# Contenu markdown\", \"en\": \"# Markdown content\" },\n  \"cover\": \"\",\n  \"tags\": [\"web3\", \"nestjs\"],\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/blog",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog"]
+            }
+          }
+        },
+        {
+          "name": "Update Blog Post (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"example-post\",\n  \"title\": { \"fr\": \"Article modifié\", \"en\": \"Updated post\" },\n  \"excerpt\": { \"fr\": \"Résumé modifié\", \"en\": \"Updated excerpt\" },\n  \"content\": { \"fr\": \"# Contenu modifié\", \"en\": \"# Updated content\" },\n  \"cover\": \"\",\n  \"tags\": [\"web3\", \"nestjs\"],\n  \"published\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/{{blogId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "{{blogId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Blog Post (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/blog/{{blogId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blog", "{{blogId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "Send Contact Message (Public)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.id) pm.collectionVariables.set('messageId', data.id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jean Dupont\",\n  \"email\": \"jean@example.com\",\n  \"message\": \"Bonjour, je souhaite discuter d'un projet.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "messages"]
+            }
+          }
+        },
+        {
+          "name": "List All Messages (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/messages/admin/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "messages", "admin", "all"]
+            }
+          }
+        },
+        {
+          "name": "Mark Message Read/Unread (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"read\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/messages/{{messageId}}/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "messages", "{{messageId}}", "read"]
+            }
+          }
+        },
+        {
+          "name": "Delete Message (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/messages/{{messageId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "messages", "{{messageId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get All Settings (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Get Setting by Key (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/settings/cvUrl",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings", "cvUrl"]
+            }
+          }
+        },
+        {
+          "name": "Update Setting (Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"value\": \"{{baseUrl}}/api/uploads/{{uploadId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/settings/cvUrl",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "settings", "cvUrl"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "Upload File (Admin - PDF or Image)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "  const data = pm.response.json();",
+                  "  if (data.url) {",
+                  "    const parts = data.url.split('/');",
+                  "    pm.collectionVariables.set('uploadId', parts[parts.length - 1]);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/uploads",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "uploads"]
+            }
+          }
+        },
+        {
+          "name": "View Uploaded File (Public - Inline)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/uploads/{{uploadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "uploads", "{{uploadId}}"]
+            }
+          }
+        },
+        {
+          "name": "Download Uploaded File (Public - Attachment)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/uploads/{{uploadId}}?download=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "uploads", "{{uploadId}}"],
+              "query": [
+                { "key": "download", "value": "1" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
