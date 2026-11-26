@@ -7,6 +7,12 @@ export const Footer = () => {
   const { t } = useTranslation();
   const settings = useApiData<Record<string, string>>("/settings", {});
   const cvUrl = settings.cvUrl;
+  const isManagedUpload = Boolean(cvUrl && cvUrl.includes("/api/uploads/"));
+  const cvDownloadUrl = cvUrl
+    ? isManagedUpload
+      ? `${cvUrl}${cvUrl.includes("?") ? "&" : "?"}download=1`
+      : cvUrl
+    : "";
 
   const links = [
     { label: t("nav.about"), href: "/#about" },
@@ -35,9 +41,9 @@ export const Footer = () => {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t("footer.tagline")}</p>
             {cvUrl && (
               <a
-                href={cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={cvDownloadUrl}
+                download
+                {...(!isManagedUpload ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="mt-4 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary"
               >
                 <FileDown className="h-4 w-4" /> {t("hero.downloadCV")}
