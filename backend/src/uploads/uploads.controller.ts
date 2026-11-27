@@ -29,7 +29,13 @@ export class UploadsController {
       storage: memoryStorage(),
       limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
       fileFilter: (_req, file, cb) => {
-        const ok = /^(image\/(png|jpe?g|webp|gif|svg\+xml)|application\/pdf)$/.test(file.mimetype);
+        const mimeOk = /^(image\/(png|jpe?g|pjpeg|webp|gif|svg\+xml|avif|heic|heif|bmp|x-icon|vnd\.microsoft\.icon)|application\/pdf)$/i.test(
+          file.mimetype,
+        );
+        const extOk = /\.(png|jpe?g|webp|gif|svg|avif|heic|heif|bmp|ico|pdf)$/i.test(
+          file.originalname || '',
+        );
+        const ok = mimeOk || (file.mimetype === 'application/octet-stream' && extOk);
         cb(ok ? null : new BadRequestException('Type de fichier non autorisé'), ok);
       },
     }),
@@ -48,12 +54,13 @@ export class UploadsController {
     });
 
     // PUBLIC_API_URL explicitly, else Render's injected URL, else current request host.
-    const base =
-      process.env.PUBLIC_API_URL ??
-      process.env.RENDER_EXTERNAL_URL ??
+    const rawBase =
+      process.env.PUBLIC_API_URL?.trim() ||
+      process.env.RENDER_EXTERNAL_URL?.trim() ||
       `${req.protocol}://${req.get('host')}`;
+    const base = rawBase.replace(/\/+$/, '');
     return {
-      url: `${base.replace(/\/$/, '')}/api/uploads/${saved.id}`,
+      url: `${base}/api/uploads/${saved.id}`,
       name: saved.filename,
     };
   }
@@ -65,7 +72,7 @@ export class UploadsController {
     @Res() res: Response,
   ) {
     const file = await this.prisma.uploadedFile.findUnique({ where: { id } });
-    if (!file) throw new NotFoundException('Fichier introuvable');
+    if (!file || !file.data) throw new NotFoundException('Fichier introuvable');
 
     const safeName = file.filename.replace(/[\r\n"]/g, '_').trim() || 'file';
     const isDownload = download === '1' || download === 'true';
@@ -73,6 +80,8 @@ export class UploadsController {
     res.setHeader('Content-Type', file.mimeType);
     res.setHeader('Content-Length', String(file.size));
     res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     res.setHeader(
       'Content-Disposition',
       `${isDownload ? 'attachment' : 'inline'}; filename="${safeName}"`,

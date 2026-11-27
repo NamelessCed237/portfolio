@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SplitText } from "@/components/anim/SplitText";
-import { api } from "@/lib/api";
+import { api, resolveMediaUrl } from "@/lib/api";
 
 interface Bi { fr: string; en: string }
 interface Post {
@@ -59,7 +59,7 @@ const BlogPost = () => {
               </p>
             )}
             {post.cover && (
-              <img src={post.cover} alt="" className="mt-8 aspect-[16/9] w-full rounded-2xl border border-border object-cover" />
+              <img src={resolveMediaUrl(post.cover)} alt="" className="mt-8 aspect-[16/9] w-full rounded-2xl border border-border object-cover" />
             )}
             <div className="mt-8 whitespace-pre-wrap text-base leading-relaxed text-foreground/90">
               {post.content[lang]}

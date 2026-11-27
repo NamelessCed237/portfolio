@@ -3,7 +3,7 @@ import { Plus, Pencil, Trash2, Save, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { api } from "@/lib/api";
+import { api, resolveMediaUrl, uploadFile } from "@/lib/api";
 import { FileUpload } from "./FileUpload";
 
 interface Bi { fr: string; en: string }
@@ -110,8 +110,8 @@ const AdminProjects = () => {
     const set = (patch: Partial<Project>) => setEditing({ ...e, ...patch });
     return (
       <div className="mx-auto max-w-3xl">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">{e.id ? "Modifier le projet" : "Nouveau projet"}</h1>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-bold sm:text-2xl">{e.id ? "Modifier le projet" : "Nouveau projet"}</h1>
           <Button variant="ghost" onClick={() => setEditing(null)} className="gap-2"><X className="h-4 w-4" /> Annuler</Button>
         </div>
 
@@ -138,7 +138,51 @@ const AdminProjects = () => {
 
           <Field label="Stack — séparé par des virgules"><Input value={e.stack.join(", ")} onChange={(ev) => set({ stack: ev.target.value.split(",").map((s) => s.trim()).filter(Boolean) })} /></Field>
           <Field label="Image de couverture"><FileUpload value={e.cover} onChange={(url) => set({ cover: url })} /></Field>
-          <Field label="Galerie — une URL par ligne (ou téléversez puis collez)"><Textarea rows={3} value={e.gallery.join("\n")} onChange={(ev) => set({ gallery: ev.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })} /></Field>
+          <Field label="Galerie — une URL par ligne">
+            <div className="space-y-2">
+              <Textarea rows={3} value={e.gallery.join("\n")} onChange={(ev) => set({ gallery: ev.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })} />
+              <div className="flex flex-wrap items-center gap-2">
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-input bg-background px-3 py-1.5 text-xs font-medium hover:bg-secondary">
+                  <Plus className="h-3.5 w-3.5" /> Ajouter des images
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={async (ev) => {
+                      const files = Array.from(ev.target.files ?? []);
+                      ev.target.value = "";
+                      if (files.length === 0) return;
+                      setError("");
+                      try {
+                        const uploaded = await Promise.all(files.map((f) => uploadFile(f)));
+                        set({ gallery: [...e.gallery, ...uploaded.map((u) => u.url)] });
+                      } catch (err) {
+                        setError(err instanceof Error ? err.message : "Upload galerie impossible");
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              {e.gallery.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {e.gallery.map((g, i) => (
+                    <div key={`${g}-${i}`} className="group relative">
+                      <img src={resolveMediaUrl(g)} alt="" className="h-14 w-20 rounded-md border border-border object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => set({ gallery: e.gallery.filter((_, idx) => idx !== i) })}
+                        aria-label="Retirer l'image"
+                        className="absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-destructive text-destructive-foreground shadow"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Lien du site (optionnel)"><Input value={e.liveUrl ?? ""} onChange={(ev) => set({ liveUrl: ev.target.value })} /></Field>
@@ -163,9 +207,9 @@ const AdminProjects = () => {
   // ---- List ----
   return (
     <div className="mx-auto max-w-4xl">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Projets</h1>
+          <h1 className="text-xl font-bold sm:text-2xl">Projets</h1>
           <p className="text-sm text-muted-foreground">{list.length} projet(s)</p>
         </div>
         <Button onClick={() => setEditing(empty())} className="gap-2"><Plus className="h-4 w-4" /> Nouveau</Button>
@@ -179,14 +223,20 @@ const AdminProjects = () => {
       ) : (
         <div className="space-y-2">
           {list.map((p) => (
-            <div key={p.id} className="card-surface flex items-center gap-4 p-3">
-              <img src={p.cover} alt="" className="h-12 w-16 shrink-0 rounded-md object-cover" />
+            <div key={p.id} className="card-surface flex items-center gap-3 p-3">
+              {p.cover ? (
+                <img src={resolveMediaUrl(p.cover)} alt="" className="h-12 w-16 shrink-0 rounded-md object-cover" />
+              ) : (
+                <div className="h-12 w-16 shrink-0 rounded-md bg-secondary" />
+              )}
               <div className="min-w-0 flex-1">
                 <p className="truncate font-semibold">{p.title}</p>
                 <p className="truncate text-xs text-muted-foreground">/{p.slug} · {p.year} · {p.published ? "publié" : "brouillon"}</p>
               </div>
-              <button onClick={() => setEditing(p)} className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label="Modifier"><Pencil className="h-4 w-4" /></button>
-              <button onClick={() => remove(p)} className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive" aria-label="Supprimer"><Trash2 className="h-4 w-4" /></button>
+              <div className="flex shrink-0 items-center gap-1">
+                <button onClick={() => setEditing(p)} className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground" aria-label="Modifier"><Pencil className="h-4 w-4" /></button>
+                <button onClick={() => remove(p)} className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive" aria-label="Supprimer"><Trash2 className="h-4 w-4" /></button>
+              </div>
             </div>
           ))}
         </div>

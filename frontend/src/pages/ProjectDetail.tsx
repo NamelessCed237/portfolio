@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SplitText } from "@/components/anim/SplitText";
 import { projects as staticProjects } from "@/data/projects";
+import { resolveMediaUrl } from "@/lib/api";
 import { useApiData } from "@/lib/useApiData";
 
 const ProjectDetail = () => {
@@ -87,7 +88,7 @@ const ProjectDetail = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 overflow-hidden rounded-2xl border border-border"
         >
-          <img src={project.cover} alt={project.title} className="aspect-[16/9] w-full object-cover" />
+          <img src={resolveMediaUrl(project.cover)} alt={project.title} className="aspect-[16/9] w-full object-cover" />
         </motion.div>
 
         {/* meta + description */}
@@ -134,7 +135,7 @@ const ProjectDetail = () => {
             {project.gallery.map((g, i) => (
               <motion.img
                 key={i}
-                src={g}
+                src={resolveMediaUrl(g)}
                 alt=""
                 loading="lazy"
                 initial={{ opacity: 0, y: 16 }}
