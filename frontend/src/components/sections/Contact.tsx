@@ -10,13 +10,21 @@ import { SplitText } from "@/components/anim/SplitText";
 import { Magnetic } from "@/components/anim/Magnetic";
 import { sendContactEmail, isEmailConfigured } from "@/lib/emailjs";
 import { api } from "@/lib/api";
+import { useApiData } from "@/lib/useApiData";
 
-const EMAIL = "contact@bikecedric.dev";
+const DEFAULT_EMAIL = "contact@bikecedric.dev";
 
 export const Contact = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const settings = useApiData<Record<string, string>>("/settings", {});
+  const email = settings.email?.trim() || DEFAULT_EMAIL;
+  const socials = [
+    { l: "GitHub", h: settings.githubUrl?.trim() || "https://github.com" },
+    { l: "LinkedIn", h: settings.linkedinUrl?.trim() || "https://linkedin.com" },
+    { l: "Twitter / X", h: settings.twitterUrl?.trim() || "https://twitter.com" },
+  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,15 +84,15 @@ export const Contact = () => {
 
             <Magnetic strength={0.25}>
               <a
-                href={`mailto:${EMAIL}`}
-                className="mt-8 inline-block text-xl font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-8 transition-colors hover:text-primary sm:text-2xl"
+                href={`mailto:${email}`}
+                className="mt-8 inline-block break-all text-xl font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-8 transition-colors hover:text-primary sm:text-2xl"
               >
-                {EMAIL}
+                {email}
               </a>
             </Magnetic>
 
-            <div className="mt-8 flex gap-6">
-              {[{ l: "GitHub", h: "https://github.com" }, { l: "LinkedIn", h: "https://linkedin.com" }, { l: "Twitter / X", h: "https://twitter.com" }].map((s) => (
+            <div className="mt-8 flex flex-wrap gap-6">
+              {socials.map((s) => (
                 <a key={s.l} href={s.h} target="_blank" rel="noopener noreferrer" className="text-sm font-medium link-accent">{s.l}</a>
               ))}
             </div>
