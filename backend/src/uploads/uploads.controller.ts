@@ -54,11 +54,14 @@ export class UploadsController {
     });
 
     // PUBLIC_API_URL explicitly, else Render's injected URL, else current request host.
-    const rawBase =
+    let rawBase =
       process.env.PUBLIC_API_URL?.trim() ||
       process.env.RENDER_EXTERNAL_URL?.trim() ||
       `${req.protocol}://${req.get('host')}`;
-    const base = rawBase.replace(/\/+$/, '');
+    if (!/^https?:\/\//i.test(rawBase)) {
+      rawBase = `${req.protocol}://${rawBase}`;
+    }
+    const base = rawBase.replace(/\/+$/, '').replace(/\/api$/i, '');
     return {
       url: `${base}/api/uploads/${saved.id}`,
       name: saved.filename,

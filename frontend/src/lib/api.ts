@@ -4,20 +4,26 @@ const API_URL = (
 const API_ORIGIN = API_URL.replace(/\/api$/, "");
 const TOKEN_KEY = "admin_token";
 
-/** Normalize relative `/api/uploads/...` or stale localhost upload URLs to the active API origin. */
+/** Normalize relative `/api/uploads/...`, malformed, or stale localhost upload URLs to the active API origin. */
 export function resolveMediaUrl(url?: string | null): string {
   if (!url) return "";
   const trimmed = url.trim();
   if (!trimmed) return "";
-  if (trimmed.startsWith("/api/uploads/")) {
-    return `${API_ORIGIN}${trimmed}`;
+
+  const uploadMatch = trimmed.match(/\/api\/uploads\/([^/?#]+(?:\?.*)?)$/i);
+  if (uploadMatch) {
+    const isAbsolute = /^https?:\/\//i.test(trimmed);
+    const isLocalUrl = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(trimmed);
+    const isLocalHost =
+      typeof window !== "undefined" &&
+      (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+    const hasDoubleApi = /\/api\/api\/uploads\//i.test(trimmed);
+
+    if (!isAbsolute || hasDoubleApi || (!isLocalHost && isLocalUrl)) {
+      return `${API_ORIGIN}/api/uploads/${uploadMatch[1]}`;
+    }
   }
-  const isLocalHost =
-    typeof window !== "undefined" &&
-    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-  if (!isLocalHost && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/api\/uploads\//i.test(trimmed)) {
-    return trimmed.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, API_ORIGIN);
-  }
+
   return trimmed;
 }
 
