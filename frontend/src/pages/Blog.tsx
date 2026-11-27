@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SplitText } from "@/components/anim/SplitText";
+import { resolveMediaUrl } from "@/lib/api";
 import { useApiData } from "@/lib/useApiData";
 
 interface Bi { fr: string; en: string }
@@ -41,7 +42,7 @@ const Blog = () => {
               <Link key={p.id} to={`/blog/${p.slug}`} className="card-surface group overflow-hidden">
                 {p.cover && (
                   <div className="aspect-[16/9] overflow-hidden">
-                    <img src={p.cover} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <img src={resolveMediaUrl(p.cover)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   </div>
                 )}
                 <div className="p-5">

@@ -66,8 +66,8 @@ const AdminSkills = () => {
     const set = (patch: Partial<Skill>) => setEditing({ ...e, ...patch });
     return (
       <div className="mx-auto max-w-lg">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">{e.id ? "Modifier" : "Nouvelle compétence"}</h1>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-bold sm:text-2xl">{e.id ? "Modifier" : "Nouvelle compétence"}</h1>
           <Button variant="ghost" onClick={() => setEditing(null)} className="gap-2"><X className="h-4 w-4" /> Annuler</Button>
         </div>
         {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
@@ -85,9 +85,9 @@ const AdminSkills = () => {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Compétences</h1>
+          <h1 className="text-xl font-bold sm:text-2xl">Compétences</h1>
           <p className="text-sm text-muted-foreground">{list.length} compétence(s)</p>
         </div>
         <Button onClick={() => setEditing(empty())} className="gap-2"><Plus className="h-4 w-4" /> Nouvelle</Button>

@@ -65,15 +65,15 @@ const AdminMessages = () => {
         <div className="space-y-2">
           {list.map((m) => (
             <div key={m.id} className={`card-surface p-4 ${m.read ? "" : "border-primary/40"}`}>
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
                   <p className="flex items-center gap-2 font-semibold">
                     {!m.read && <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />}
-                    {m.name}
+                    <span className="truncate">{m.name}</span>
                   </p>
-                  <a href={`mailto:${m.email}`} className="text-sm link-accent">{m.email}</a>
+                  <a href={`mailto:${m.email}`} className="break-all text-sm link-accent">{m.email}</a>
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex shrink-0 items-center gap-1">
                   <span className="mr-1 text-xs text-muted-foreground">{new Date(m.createdAt).toLocaleDateString()}</span>
                   <button onClick={() => toggleRead(m)} title={m.read ? "Marquer non lu" : "Marquer lu"} className="grid h-9 w-9 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground">
                     {m.read ? <MailOpen className="h-4 w-4" /> : <Mail className="h-4 w-4" />}

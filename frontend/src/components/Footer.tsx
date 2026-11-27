@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Twitter, Mail, ArrowUp, FileDown } from "lucide-react";
+import { resolveMediaUrl } from "@/lib/api";
 import { useApiData } from "@/lib/useApiData";
 
 export const Footer = () => {
   const { t } = useTranslation();
   const settings = useApiData<Record<string, string>>("/settings", {});
-  const cvUrl = settings.cvUrl;
+  const cvUrl = resolveMediaUrl(settings.cvUrl);
   const isManagedUpload = Boolean(cvUrl && cvUrl.includes("/api/uploads/"));
   const cvDownloadUrl = cvUrl
     ? isManagedUpload
@@ -22,11 +23,14 @@ export const Footer = () => {
     { label: t("nav.contact"), href: "/#contact" },
   ];
 
+  const email = settings.email?.trim() || "contact@bikecedric.dev";
+  const location = settings.location?.trim() || "Bafoussam, Cameroun";
+
   const socials = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-    { icon: Mail, href: "mailto:contact@bikecedric.dev", label: "Email" },
+    { icon: Github, href: settings.githubUrl?.trim() || "https://github.com", label: "GitHub" },
+    { icon: Linkedin, href: settings.linkedinUrl?.trim() || "https://linkedin.com", label: "LinkedIn" },
+    { icon: Twitter, href: settings.twitterUrl?.trim() || "https://twitter.com", label: "Twitter" },
+    { icon: Mail, href: `mailto:${email}`, label: "Email" },
   ];
 
   return (
@@ -75,7 +79,7 @@ export const Footer = () => {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">{t("footer.copyright")}</p>
-          <p className="text-xs text-muted-foreground">Bafoussam, Cameroun</p>
+          <p className="text-xs text-muted-foreground">{location}</p>
           <a href="#top" className="inline-flex items-center gap-1.5 text-xs font-medium link-accent">
             {t("home.scroll")} <ArrowUp className="h-3.5 w-3.5" />
           </a>

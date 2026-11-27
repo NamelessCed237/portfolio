@@ -1,7 +1,25 @@
 const API_URL = (
   (import.meta.env.VITE_API_URL as string | undefined) ?? "http://localhost:4000/api"
 ).replace(/\/+$/, "");
+const API_ORIGIN = API_URL.replace(/\/api$/, "");
 const TOKEN_KEY = "admin_token";
+
+/** Normalize relative `/api/uploads/...` or stale localhost upload URLs to the active API origin. */
+export function resolveMediaUrl(url?: string | null): string {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (!trimmed) return "";
+  if (trimmed.startsWith("/api/uploads/")) {
+    return `${API_ORIGIN}${trimmed}`;
+  }
+  const isLocalHost =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  if (!isLocalHost && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/api\/uploads\//i.test(trimmed)) {
+    return trimmed.replace(/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i, API_ORIGIN);
+  }
+  return trimmed;
+}
 
 export const getToken = () => {
   try {
@@ -63,6 +81,18 @@ export async function uploadFile(file: File): Promise<{ url: string; name: strin
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: form,
   });
-  if (!res.ok) throw new Error("Upload impossible");
-  return res.json();
+  if (!res.ok) {
+    let message = `Upload impossible (${res.status})`;
+    try {
+      const body = await res.json();
+      if (body?.message) {
+        message = Array.isArray(body.message) ? body.message.join(", ") : String(body.message);
+      }
+    } catch {
+      /* ignore */
+    }
+    throw new Error(message);
+  }
+  const data = (await res.json()) as { url: string; name: string };
+  return { ...data, url: resolveMediaUrl(data.url) };
 }
